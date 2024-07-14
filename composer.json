@@ -1,0 +1,45 @@
+{
+  "name": "sumedia-webdesign/winestro-api-sw6v2",
+  "description": "Winestro API",
+  "license": "proprietary",
+  "version": "2.0.0",
+  "type": "shopware-platform-plugin",
+  "authors": [
+    {
+      "name": "Sven Ullmann <kontakt@sumedia-webdesign.de>"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Sumedia\\WinestroAPI\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Sumedia\\WinestroAPI\\Test\\": "tests/"
+    }
+  },
+  "require": {
+    "shopware/core": "^6.4 || ^6.5 || ^6.6"
+  },
+  "extra": {
+    "shopware-plugin-class": "Sumedia\\WinestroAPI\\SumediaWinestroAPI",
+    "plugin-icon": "src/Resources/config/plugin.png",
+    "label": {
+      "de-DE": "Winestro API",
+      "en-GB": "Winestro API"
+    },
+    "description": {
+      "de-DE": "Verwenden Sie Winestro als Warenwirtschaftssystem, können Sie die Produktdaten, Bestellungen und weiteres mit Shopware 6 abgleichen.",
+      "en-GB": "If you use Winestro as a merchandise management system, you can compare product data, orders and more with Shopware 6."
+    },
+    "manufacturerLink": {
+      "de-DE": "https://www.sumedia-webdesign.de",
+      "en-GB": "https://www.sumedia-webdesign.de"
+    },
+    "supportLink": {
+      "de-DE": "https://www.sumedia-webdesign.de/sumedia-wbo/artikelnummer.html",
+      "en-GB": "https://www.sumedia-webdesign.de/sumedia-wbo/artikelnummer.html"
+    }
+  }
+}
