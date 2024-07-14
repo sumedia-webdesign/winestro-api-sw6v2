@@ -1,6 +1,6 @@
-# Winestro API Schnittstelle für Shopware 6
+# Winestro API für Shopware 6
 
-## API Schnittstelle URL
+## API URL
 
 Bis Version 1.1.26: https://nephele-s5.de/xml/v16
 
