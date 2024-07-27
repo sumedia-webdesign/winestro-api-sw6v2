@@ -159,7 +159,7 @@ class ProductExtensionSubscriber implements EventSubscriberInterface
         )->first()->getLocale();
     }
 
-    private function getManufacturer(string $manufacturerId, Context $context): string
+    private function getManufacturer(string $manufacturerId, Context $context): mixed
     {
         $manufacturer = $this->repositoryManager->search('product_manufacturer',
             (new Criteria([$manufacturerId])),
