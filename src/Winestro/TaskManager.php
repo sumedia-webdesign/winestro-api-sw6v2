@@ -27,7 +27,7 @@ class TaskManager implements TaskManagerInterface
         private Container $container,
         private Config $config
     ){
-        $this->taskConfig = $this->config->get('tasks');
+        $this->taskConfig = $this->config->get('tasks') ?? [];
     }
 
     public function getTaskConfig(): array

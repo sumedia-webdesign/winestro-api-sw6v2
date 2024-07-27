@@ -21,7 +21,7 @@ abstract class AbstractCron extends ScheduledTaskHandler
         protected ConfigInterface $config
     ){
         parent::__construct($scheduledTaskRepository, $logManager->getErrorLogger());
-        $this->crons = $this->config->get('cron');
+        $this->crons = $this->config->get('cron') ?? [];
     }
 
     public function _run(string $time) {

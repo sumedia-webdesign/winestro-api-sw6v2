@@ -31,12 +31,13 @@ class ExecuteCronHandler extends AbstractCron
             foreach ($taskIds as $taskId) {
                 $this->logManager->logCron('[cron] run task ' . $taskId);
                 $this->taskManager->getTask($taskId)->execute();
-                $this->logManager->logCron('[cron] success task ' . $taskId);
             }
-            $this->logManager->logCron('[cron success]' . $taskId);
+            $this->logManager->logCron('[cron success]');
         } catch (\Exception $e) {
             $this->logManager->logException($e);
-            $this->logManager->logCron('[cron] ' . $e->getMessage());
+            $this->logManager->logCron('[cron message] ' .
+                $e->getMessage() . ' in ' . $e->getFile() . ' on ' . $e->getLine() . ': ' . $e->getTraceAsString()
+            );
             $this->logManager->logCron('[cron failed]');
         }
     }

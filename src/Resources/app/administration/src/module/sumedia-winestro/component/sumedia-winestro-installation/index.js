@@ -733,7 +733,7 @@ Component.register('sumedia-winestro-installation', {
             tasks[this.tasks.tasks.newsletterReceiverImportTask.id] = {
                 ...this.tasks.tasks.newsletterReceiverImportTask,
                 winestroConnectionId: this.connection.formData.id,
-                salesChannelId: this.salesChannel.formData.id,
+                salesChannelId: this.salesChannel.formData.salesChannelId,
                 enabled: {
                     enabled: this.tasks.formData.newsletterReceiver
                 }

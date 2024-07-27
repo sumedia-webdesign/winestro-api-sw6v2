@@ -81,17 +81,16 @@ abstract class AbstractTask implements TaskInterface, \ArrayAccess
                 $this->taskManager->removeParameter('executedTasks');
             }
 
-            $running = $this->config->get('running') ?? [];
-            if (isset($running[$this['id']])) {
-                unset($running[$this['id']]);
-            }
-            $this->config->set('running', $running);
-
             $this->logManager->logTask('[task successful]');
         } catch (\Exception $e) {
             $this->logManager->logTask('[task failed]');
             throw $e;
         } finally {
+            $running = $this->config->get('running') ?? [];
+            if (isset($running[$this['id']])) {
+                unset($running[$this['id']]);
+            }
+            $this->config->set('running', $running);
             $this->logManager->setTaskId($lastLogTaskId);
         }
     }

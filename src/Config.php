@@ -10,8 +10,6 @@ class Config implements ConfigInterface
 {
     const CONFIG_PREFIX = 'SumediaWinestroApi';
 
-    private array $data = [];
-
     public function __construct(private SystemConfigService $systemConfigService){}
 
     public function set(string $key, mixed $value): void
