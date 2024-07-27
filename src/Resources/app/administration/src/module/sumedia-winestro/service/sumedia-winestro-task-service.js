@@ -12,7 +12,7 @@ export default class SumediaWinestroTaskService {
             winestroConnectionId: null,
             articleNumberFormat: '[articlenumber+year+bottling]',
             articleNumberYearSeparator: '+',
-            bottlingSeparator: '+',
+            articleNumberBottlingSeparator: '+',
             defaultManufacturer: null,
             tax: null,
             reducedTax: null,

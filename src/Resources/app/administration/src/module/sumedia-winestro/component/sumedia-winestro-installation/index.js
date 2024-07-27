@@ -121,10 +121,6 @@ Component.register('sumedia-winestro-installation', {
                     articleNumberYearSeparator: '+',
                     articleNumberBottlingSeparator: '+',
 
-                    visibleInSalesChannelsIds: [],
-                    productsFromWinestroConnectionIds: [],
-                    productsFromSalesChannelsIds: [],
-
                     categoryIdentifier: 'Winestro',
 
                     productimport: false,
@@ -247,10 +243,7 @@ Component.register('sumedia-winestro-installation', {
         },
         isTasksComplete() {
             return !Object.values(this.tasks.formData).includes(null) &&
-                '' !== this.tasks.formData.categoryIdentifier &&
-                this.tasks.formData.visibleInSalesChannelsIds.length &&
-                this.tasks.formData.productsFromSalesChannelsIds.length &&
-                this.tasks.formData.productsFromWinestroConnectionIds.length
+                '' !== this.tasks.formData.categoryIdentifier;
         },
         salesChannelRepository() {
             return this.repositoryFactory.create('sales_channel');
@@ -674,7 +667,7 @@ Component.register('sumedia-winestro-installation', {
                 tax: this.tasks.formData.tax,
                 reducedTax: this.tasks.formData.reducedTax,
                 deliveryTime: this.tasks.formData.deliveryTime,
-                visibleInSalesChannelsIds: [this.salesChannel.formData.id],
+                visibleInSalesChannelsIds: [this.salesChannel.formData.salesChannelId],
                 enabled: {
                     enabled: this.tasks.formData.productimport,
                     activestatus: this.tasks.formData.activestatus,
@@ -721,8 +714,8 @@ Component.register('sumedia-winestro-installation', {
             tasks[this.tasks.tasks.orderExportTask.id] = {
                 ...this.tasks.tasks.orderExportTask,
                 winestroConnectionId: this.connection.formData.id,
-                productsFromWinestroConnectionIds: [this.salesChannel.formData.id],
-                productsFromSalesChannelsIds: [this.connection.formData.id],
+                productsFromWinestroConnectionIds: [this.connection.formData.id],
+                productsFromSalesChannelsIds: [this.salesChannel.formData.salesChannelId],
                 enabled: {
                     enabled: this.tasks.formData.newsletterReceiver,
                     sendWinestroEmail: this.tasks.formData.sendWinestroEmail
