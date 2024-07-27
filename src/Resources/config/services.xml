@@ -33,6 +33,11 @@
             <tag name="kernel.event_subscriber"/>
         </service>
 
+        <service id="Sumedia\WinestroApi\Subscriber\ProductExtensionSubscriber">
+            <argument type="service" id="Sumedia\WinestroApi\RepositoryManager" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+
         <!--
 
             Controller
