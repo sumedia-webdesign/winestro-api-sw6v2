@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Request;
+namespace Sumedia\WinestroApi\Service\Wbo\Request;
 
-use Sumedia\WinestroAPI\Service\Wbo\Response\GetWineGroups as GetWineGroupsResponse;
+use Sumedia\WinestroApi\Service\Wbo\Response\GetWineGroups as GetWineGroupsResponse;
 
 class GetWineGroups extends RequestAbstract
 {

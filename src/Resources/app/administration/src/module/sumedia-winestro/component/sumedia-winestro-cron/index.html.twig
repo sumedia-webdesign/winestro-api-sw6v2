@@ -1,0 +1,69 @@
+{% block sumedia_winestro_connections %}
+
+    <h2>{{ $tc('sumedia-winestro.cron.title') }}</h2>
+
+    <sw-button-group class="sumedia-winestro-cron-actions">
+        <sw-button
+                @click="openConfig()"
+                variant="primary"
+        >
+            {{ $tc('sumedia-winestro.cron.add') }}
+        </sw-button>
+    </sw-button-group>
+    <br />
+
+    <sw-data-grid :showSelection="false" class="sumedia-winestro-cron-grid" :dataSource="data" :columns="columns" :full-page="true">
+        <template #actions="{ item }">
+            <sw-context-menu-item
+                    @click="openConfig(item.id)"
+            >
+                {{ $tc('sumedia-winestro.edit') }}
+            </sw-context-menu-item><br />
+            <br />
+            <sw-context-menu-item
+                    variant="danger"
+                    @click="openDelete(item.id)"
+            >
+                {{ $tc('sumedia-winestro.delete') }}
+            </sw-context-menu-item>
+        </template>
+    </sw-data-grid>
+
+    <sw-confirm-modal
+        v-if="this.delete.isOpen"
+        type="delete"
+        :text="$tc('sumedia-winestro.cron.delete.confirm')"
+        @confirm="deleteCron()"
+        @close="closeDelete()"
+        @cancel="closeDelete()">
+    </sw-confirm-modal>
+
+    <sw-modal v-if="config.isOpen" @modalClose="closeConfig()" :title="$tc('sumedia-winestro.cron.title')">
+
+        <sw-select-field
+                :label="$tc('sumedia-winestro.cron.form.task')"
+                :disabled="formData.taskId"
+                v-model:value="formData.taskId"
+                :options="tasksOptions" required></sw-select-field>
+
+        <sw-select-field
+                :label="$tc('sumedia-winestro.cron.form.times')"
+                v-model:value="formData.times"
+                :options="timesOptions" required></sw-select-field>
+
+        <sw-text-field :label="$tc('sumedia-winestro.cron.form.name')" v-model:value="formData.name" required />
+
+        <sw-switch-field :label="$tc('sumedia-winestro.cron.form.enabled.enabled')"
+                         v-model:value="formData.enabled.enabled" />
+
+        <template #modal-footer>
+
+            <sw-button :disabled="!isCronComplete" variant="primary" @click="saveCron()">
+                {{ $tc('sumedia-winestro.save')}}
+            </sw-button>
+
+        </template>
+
+    </sw-modal>
+
+{% endblock %}

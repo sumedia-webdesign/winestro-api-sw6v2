@@ -1,0 +1,76 @@
+{% block sumedia_winestro_connections %}
+
+    <h2>{{ $tc('sumedia-winestro.tasks-extensions.title') }}</h2>
+
+    <sw-button-group class="sumedia-winestro-tasks-extensions-actions">
+        <sw-button
+                @click="openConfig()"
+                variant="primary"
+        >
+            {{ $tc('sumedia-winestro.tasks-extensions.add') }}
+        </sw-button>
+    </sw-button-group>
+    <br />
+
+    <sw-data-grid :showSelection="false" class="sumedia-winestro-tasks-extensions-grid" :dataSource="data" :columns="columns" :full-page="true">
+        <template #actions="{ item }">
+            <sw-context-menu-item
+                    @click="openConfig(item.id)"
+            >
+                {{ $tc('sumedia-winestro.edit') }}
+            </sw-context-menu-item><br />
+            <br />
+            <sw-context-menu-item
+                    variant="danger"
+                    @click="openDelete(item.id)"
+            >
+                {{ $tc('sumedia-winestro.delete') }}
+            </sw-context-menu-item>
+        </template>
+    </sw-data-grid>
+
+    <sw-confirm-modal
+        v-if="this.delete.isOpen"
+        type="delete"
+        :text="$tc('sumedia-winestro.tasks-extensions.delete.confirm')"
+        @confirm="deleteExtension()"
+        @close="closeDelete()"
+        @cancel="closeDelete()">
+    </sw-confirm-modal>
+
+    <sw-modal v-if="config.isOpen" @modalClose="closeConfig()" :title="$tc('sumedia-winestro.tasks-extensions.config.title')">
+
+        <sw-select-field
+                :label="$tc('sumedia-winestro.tasks-extensions.form.type')"
+                :disabled="this.formData.type"
+                v-model:value="formData.type"
+                :options="extensionsOptions"></sw-select-field>
+
+        <div v-if="formData.type === 'productStockAdder'">
+            <sw-select-field
+                    :label="$tc('sumedia-winestro.tasks-extensions.form.task')"
+                    :disabled="this.formData.productStockAdder.taskId"
+                    v-model:value="formData.productStockAdder.taskId"
+                    :options="tasksOptions"></sw-select-field>
+            <sw-select-field
+                    :label="$tc('sumedia-winestro.tasks.form.winestroShopName')"
+                    :disabled="this.formData.productStockAdder.winestroConnectionId"
+                    v-model:value="formData.productStockAdder.winestroConnectionId"
+                    :options="winestroConnectionsOptions"></sw-select-field>
+            <sw-text-field :label="$tc('sumedia-winestro.tasks-extensions.form.name')"
+                           v-model:value="formData.productStockAdder.name" required></sw-text-field>
+            <sw-switch-field :label="$tc('sumedia-winestro.tasks-extensions.form.active')"
+                             v-model:value="formData.productStockAdder.enabled.enabled" />
+        </div>
+
+        <template #modal-footer>
+
+            <sw-button :disabled="!isExtensionComplete" variant="primary" @click="saveExtension(this.formData.type)">
+                {{ $tc('sumedia-winestro.save')}}
+            </sw-button>
+
+        </template>
+
+    </sw-modal>
+
+{% endblock %}

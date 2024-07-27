@@ -1,0 +1,111 @@
+{% block sumedia_winestro_connections %}
+
+    <h2>{{ $tc('sumedia-winestro.connections.title') }}</h2>
+
+    <sw-button-group class="sumedia-winestro-connections-actions">
+        <sw-button
+            @click="openCreate()"
+            variant="primary"
+        >
+            {{ $tc('sumedia-winestro.connections.add') }}
+        </sw-button>
+    </sw-button-group>
+    <br />
+
+    <sw-modal v-if="create.isOpen" @modalClose="create.isOpen = false" :title="$tc('sumedia-winestro.connections.create.title')">
+
+        <sw-text-field :label="$tc('sumedia-winestro.connections.form.name')"
+                       :placeholder="$tc('sumedia-winestro.connections.form.fillsAutomatically')"
+                       v-model:value="formData.name" required />
+
+        <sw-url-field :label="$tc('sumedia-winestro.connections.form.url')"
+                      v-model:value="formData.url" required />
+
+        <sw-number-field :label="$tc('sumedia-winestro.connections.form.userId')"
+                         v-model:value="formData.userId" required />
+
+        <sw-number-field :label="$tc('sumedia-winestro.connections.form.shopId')"
+                         v-model:value="formData.shopId" required />
+
+        <sw-text-field :label="$tc('sumedia-winestro.connections.form.secretId')"
+                       v-model:value="formData.secretId" required />
+
+        <sw-password-field :label="$tc('sumedia-winestro.connections.form.secretCode')"
+                           v-model:value="formData.secretCode" required />
+
+        <template #modal-footer>
+
+            <sw-button @click="checkConnection">
+                {{ $tc('sumedia-winestro.connections.checkConnection.button') }}
+            </sw-button>
+
+            <sw-button :disabled="!connectionCheckSuccessful" variant="primary" @click="setConnection">
+                {{ $tc('sumedia-winestro.save')}}
+            </sw-button>
+
+        </template>
+
+    </sw-modal>
+
+    <sw-modal v-if="edit.isOpen" @modalClose="edit.isOpen = false" :title="$tc('sumedia-winestro.connections.edit.title')">
+
+        <sw-text-field :label="$tc('sumedia-winestro.connections.form.name')"
+                       :placeholder="$tc('sumedia-winestro.connections.form.fillsAutomatically')"
+                       v-model:value="formData.name" required />
+
+        <sw-url-field :label="$tc('sumedia-winestro.connections.form.url')"
+                      v-model:value="formData.url" required />
+
+        <sw-number-field :label="$tc('sumedia-winestro.connections.form.userId')"
+                         v-model:value="formData.userId" required />
+
+        <sw-number-field :label="$tc('sumedia-winestro.connections.form.shopId')"
+                         v-model:value="formData.shopId" required />
+
+        <sw-text-field :label="$tc('sumedia-winestro.connections.form.secretId')"
+                       v-model:value="formData.secretId" required />
+
+        <sw-password-field :label="$tc('sumedia-winestro.connections.form.secretCode')"
+                           v-model:value="formData.secretCode" required />
+
+        <template #modal-footer>
+
+            <sw-button @click="checkConnection">
+                {{ $tc('sumedia-winestro.connections.checkConnection.button') }}
+            </sw-button>
+
+            <sw-button :disabled="!connectionCheckSuccessful" variant="primary" @click="setConnection">
+                {{ $tc('sumedia-winestro.save')}}
+            </sw-button>
+
+        </template>
+
+    </sw-modal>
+
+    <sw-confirm-modal
+        v-if="this.delete.isOpen"
+        type="delete"
+        :text="$tc('sumedia-winestro.connections.delete.confirm')"
+        @confirm="deleteConnection()"
+        @close="closeDelete()"
+        @cancel="closeDelete()">
+    </sw-confirm-modal>
+
+    <sw-data-grid :showSelection="false" class="sumedia-winestro-connections-grid" :dataSource="data" :columns="columns" :full-page="true">
+        <template #actions="{ item }">
+            <sw-context-menu-item
+                @click="openEdit(item.id)"
+            >
+                {{ $tc('sumedia-winestro.edit') }}
+            </sw-context-menu-item><br />
+            <br />
+            <sw-context-menu-item
+                variant="danger"
+                @click="openDelete(item.id)"
+            >
+                {{ $tc('sumedia-winestro.delete') }}
+            </sw-context-menu-item>
+        </template>
+    </sw-data-grid>
+
+{% endblock %}

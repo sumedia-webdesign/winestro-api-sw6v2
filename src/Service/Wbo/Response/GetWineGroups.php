@@ -4,9 +4,9 @@
  * @copyright Sven Ullmann <kontakt@sumedia-webdesign.de>
  */
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Response;
+namespace Sumedia\WinestroApi\Service\Wbo\Response;
 
-use Sumedia\WinestroAPI\Service\Wbo\Response\GetWineGroups\Item;
+use Sumedia\WinestroApi\Service\Wbo\Response\GetWineGroups\Item;
 
 class GetWineGroups extends ResponseAbstract
 {

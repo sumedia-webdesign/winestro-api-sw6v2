@@ -2,10 +2,8 @@
 <routes xmlns="http://symfony.com/schema/routing"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://symfony.com/schema/routing
-                            http://symfony.com/schema/routing/routing-1.0.xsd">
+        https://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="sumedia_wbo_check_connection" path="/api/sumedia-wbo/checkConnection" methods="POST"
-           controller="Sumedia\WinestroAPI\Controller\SumediaWboApiTestController::checkConnection" >
-    </route>
+    <import resource="../../Controller/*Controller.php" type="attribute" />
 
 </routes>

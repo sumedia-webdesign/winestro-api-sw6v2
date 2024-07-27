@@ -1,0 +1,69 @@
+.sumedia-winestro-menu {
+  float: left;
+  margin: 1rem;
+  width: 200px;
+  padding-top: 3rem;
+}
+
+.sumedia-winestro-router-view {
+  float: left;
+  width: calc(100% - 200px - 2rem);
+}
+
+.sumedia-winestro-title {
+  max-width: 83rem;
+  margin: 0 auto;
+}
+
+.sumedia-winestro-router-view h2 {
+  float: left;
+  padding-top: 1rem;
+}
+
+.sumedia-winestro-router-view:after {
+  clear: both;
+}
+
+.sumedia-winestro-router-view .clear {
+  clear: both;
+}
+
+.sumedia-winestro-router-view .right {
+  float: right;
+}
+
+.sumedia-winestro-router-view .left {
+  float: left;
+}
+
+.sumedia-winestro-router-view .sw-data-grid {
+  position: relative;
+}
+
+.sumedia-winestro-table {
+  width: 100%;
+  border-spacing: 0;
+
+}
+
+.sumedia-winestro-table th {
+  text-align: left;
+}
+
+.sumedia-winestro-table th,
+.sumedia-winestro-table td {
+  padding: .6rem;
+}
+
+.sumedia-winestro-table tr:nth-child(2n) td {
+  background:#f0f0f0;
+}
+
+.sumedia-winestro-table .sw-field {
+  margin: 0;
+}
+
+.sumedia-winestro-task-switches {
+  float: left;
+  width: 50%;
+}

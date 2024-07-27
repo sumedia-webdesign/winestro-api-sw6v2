@@ -4,7 +4,7 @@
  * @copyright Sven Ullmann <kontakt@sumedia-webdesign.de>
  */
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles;
+namespace Sumedia\WinestroApi\Service\Wbo\Command\SetArticles;
 
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
@@ -12,8 +12,8 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\ContainsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
-use Sumedia\WinestroAPI\Config\WboConfig;
-use Sumedia\WinestroAPI\Service\Wbo\ArticleNumberParser;
+use Sumedia\WinestroApi\Config\WboConfig;
+use Sumedia\WinestroApi\Service\Wbo\ArticleNumberParser;
 
 class DeactivateOutOfStockBundles
 {

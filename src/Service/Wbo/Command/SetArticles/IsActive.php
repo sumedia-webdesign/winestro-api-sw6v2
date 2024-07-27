@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles;
+namespace Sumedia\WinestroApi\Service\Wbo\Command\SetArticles;
 
 use Psr\Log\LoggerInterface;
-use Sumedia\WinestroAPI\Service\Wbo\Response\GetArticle\Article;
+use Sumedia\WinestroApi\Service\Wbo\Response\GetArticle\Article;
 
 class IsActive
 {

@@ -4,7 +4,7 @@
  * @copyright Sven Ullmann <kontakt@sumedia-webdesign.de>
  */
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Url;
+namespace Sumedia\WinestroApi\Service\Wbo\Url;
 
 interface UrlInterface
 {

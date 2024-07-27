@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Delivery;
+namespace Sumedia\WinestroApi\Service\Wbo\Delivery;
 
 use Shopware\Core\Checkout\Cart\Delivery\Struct\DeliveryPosition;
 use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
-use Sumedia\WinestroAPI\Config\WboConfig;
-use Sumedia\WinestroAPI\Entity\WboArticlesEntity;
-use Sumedia\WinestroAPI\Service\Context;
+use Sumedia\WinestroApi\Config\WboConfig;
+use Sumedia\WinestroApi\Entity\WboArticlesEntity;
+use Sumedia\WinestroApi\Service\Context;
 use Symfony\Component\DependencyInjection\Container;
 
 class DeliveryQuantityFetcher
@@ -36,7 +36,7 @@ class DeliveryQuantityFetcher
     public static function getInstance()
     {
         if (!isset(self::$instance)) {
-            self::$instance = self::$container->get('Sumedia\WinestroAPI\Service\Wbo\Delivery\DeliveryQuantityFetcher');
+            self::$instance = self::$container->get('Sumedia\WinestroApi\Service\Wbo\Delivery\DeliveryQuantityFetcher');
         }
         return self::$instance;
     }

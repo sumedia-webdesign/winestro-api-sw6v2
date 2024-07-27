@@ -1,0 +1,101 @@
+{% block sumedia_winestro_connections %}
+
+    <h2>{{ $tc('sumedia-winestro.salesChannels.title') }}</h2>
+
+    <sw-button-group class="sumedia-winestro-salechannels-actions">
+        <sw-button
+            @click="openConfig()"
+            variant="primary"
+        >
+            {{ $tc('sumedia-winestro.salesChannels.config') }}
+        </sw-button>
+    </sw-button-group>
+    <br />
+
+    <sw-modal v-if="config.isOpen" @modalClose="closeConfig()" :title="$tc('sumedia-winestro.salesChannels.edit')">
+
+        <sw-entity-single-select :label="$tc('sumedia-winestro.salesChannels.form.salesChannel')"
+            v-model:value="formData.salesChannelId"
+            :disabled="formData.salesChannelId"
+            entity="sales_channel" required />
+
+        <sw-select-field :label="$tc('sumedia-winestro.salesChannels.form.winestroConnectionName')"
+                         :disabled="formData.winestroConnectionId"
+            v-model:value="formData.winestroConnectionId" :options="winestroConnectionOptions" required />
+
+        <div v-if="isConfigReady">
+
+            <table class="sumedia-winestro-table">
+                <tr>
+                    <th>{{ $tc('sumedia-winestro.payment.paymentMapping.payment') }}</th>
+                    <th>{{ $tc('sumedia-winestro.payment.paymentMapping.winestro') }}</th>
+                </tr>
+                <template v-for="(payment, id) in this.paymentMapping">
+                    <tr>
+                        <td>{{ payment.name }}</td>
+                        <td>
+                            <sw-select-field
+                                    v-model:value="this.formData.paymentMapping[payment.id]"
+                                    :options="winestroPaymentMappingOptions"></sw-select-field>
+                        </td>
+                    </tr>
+                </template>
+            </table>
+
+            <table class="sumedia-winestro-table">
+                <tr>
+                    <th>{{ $tc('sumedia-winestro.shipping.shippingMapping.shipping') }}</th>
+                    <th>{{ $tc('sumedia-winestro.shipping.shippingMapping.winestro') }}</th>
+                </tr>
+                <template v-for="(shipping, id) in this.shippingMapping">
+                    <tr>
+                        <td>{{ shipping.name }}</td>
+                        <td>
+                            <sw-select-field v-model:value="this.formData.shippingMapping[shipping.id]"
+                                             :options="winestroShippingMappingOptions"></sw-select-field>
+                        </td>
+                    </tr>
+                </template>
+            </table>
+
+        </div>
+
+        <template #modal-footer>
+
+            <sw-button variant="primary"
+                       :disabled="!isCompleted"
+                       @click="configSalesChannel()">
+                {{ $tc('sumedia-winestro.save')}}
+            </sw-button>
+
+        </template>
+
+    </sw-modal>
+
+    <sw-confirm-modal
+        v-if="this.delete.isOpen"
+        type="delete"
+        :text="$tc('sumedia-winestro.salesChannels.delete.confirm')"
+        @confirm="deleteDo()"
+        @close="closeDelete()"
+        @cancel="closeDelete()">
+    </sw-confirm-modal>
+
+    <sw-data-grid :showSelection="false" class="sumedia-winestro-salesChannels-grid" :dataSource="data" :columns="columns" :full-page="true">
+        <template #actions="{ item }">
+            <sw-context-menu-item
+                    @click="openEdit(item.id)"
+            >
+                {{ $tc('sumedia-winestro.edit') }}
+            </sw-context-menu-item><br />
+            <br />
+            <sw-context-menu-item
+                    variant="danger"
+                    @click="openDelete(item.id)"
+            >
+                {{ $tc('sumedia-winestro.delete') }}
+            </sw-context-menu-item>
+        </template>
+    </sw-data-grid>
+
+{% endblock %}

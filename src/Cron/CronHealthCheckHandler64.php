@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Cron;
+namespace Sumedia\WinestroApi\Cron;
 
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Psr\Log\LoggerInterface;
-use Sumedia\WinestroAPI\Service\Wbo\Command\CronHealthCheck as CronHealthCheckCommand;
+use Sumedia\WinestroApi\Service\Wbo\Command\CronHealthCheck as CronHealthCheckCommand;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 

@@ -6,15 +6,15 @@
 
 declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Setting\Service;
+namespace Sumedia\WinestroApi\Setting\Service;
 
 use Shopware\Core\System\SystemConfig\SystemConfigService;
-use Sumedia\WinestroAPI\Setting\SumediaWboSettingStruct;
-use Sumedia\WinestroAPI\Setting\SumediaWboSettingStructValidator;
+use Sumedia\WinestroApi\Setting\SumediaWboSettingStruct;
+use Sumedia\WinestroApi\Setting\SumediaWboSettingStructValidator;
 
 class SettingsService implements SettingsServiceInterface
 {
-    public const SYSTEM_CONFIG_DOMAIN = 'SumediaWinestroAPI.settings.';
+    public const SYSTEM_CONFIG_DOMAIN = 'SumediaWinestroApi.settings.';
     private SystemConfigService $systemConfigService;
 
     public function __construct(SystemConfigService $systemConfigService)

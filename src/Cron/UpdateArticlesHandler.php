@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Cron;
+namespace Sumedia\WinestroApi\Cron;
 
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Psr\Log\LoggerInterface;
-use Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles;
+use Sumedia\WinestroApi\Service\Wbo\Command\SetArticles;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 

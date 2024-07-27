@@ -1,0 +1,45 @@
+.sumedia-winestro-connections-actions {
+    display: block;
+    text-align: right;
+    margin: 1rem 1rem 0 0;
+}
+
+.sumedia-winestro-connections-grid {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.sumedia-winestro-overview-execute-button {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #fcfcfc;
+    margin: 1rem 0;
+    padding: 1rem;
+}
+
+.sumedia-winestro-overview-execute-button .left:first-child {
+    width: calc(30% - 1rem);
+}
+
+.sumedia-winestro-overview-execute-button .left:nth-child(2) {
+    width: 70%;
+}
+
+.sumedia-winestro-overview-log {
+    border: 1px solid #f0f0f0;
+    border-radius: 5px;
+    margin: .5rem;
+    padding: .5rem;
+}
+
+.sumedia-winestro-overview-log.success {
+    background: #c9f2a7;
+}
+
+.sumedia-winestro-overview-log.failed {
+    background: #ffc8ca;
+}
+
+.sumedia-winestro-overview-log.unknown {
+    background: #fff2ab;
+}

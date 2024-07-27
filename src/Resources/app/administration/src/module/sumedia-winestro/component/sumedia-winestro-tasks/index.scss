@@ -1,0 +1,37 @@
+.sumedia-winestro-tasks-actions {
+    display: block;
+    text-align: right;
+    margin: 1rem 1rem 0 0;
+}
+
+.sumedia-winestro-tasks-execute .executes {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #f0f0f0;
+    padding: .8rem;
+    margin: .5rem 0;
+}
+
+.sumedia-winestro-tasks-execute .clear {
+    clear: both;
+}
+
+.sumedia-winestro-tasks-execute .right {
+    float: right;
+}
+
+.sumedia-winestro-tasks-execute .left {
+    float: left;
+}
+
+.sumedia-winestro-tasks-execute .executes .left {
+    padding-top: .6rem;
+}
+
+.sumedia-winestro-tasks-execute .execute-add {
+    margin-top: 1.5rem;
+}
+
+.sumedia-winestro-tasks-execute .execute-add .left {
+    width: 65%;
+}

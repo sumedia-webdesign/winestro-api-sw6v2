@@ -6,46 +6,92 @@
 
     <services>
 
-        <service id="Sumedia\WinestroAPI\LoggerFactory">
+        <!--
+
+            Defaults
+
+        -->
+
+        <service id="Sumedia\WinestroApi\DefaultContext" />
+
+        <service id="Sumedia\WinestroApi\Config">
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService" />
+        </service>
+
+        <service id="Sumedia\WinestroApi\CustomFieldService">
+            <argument type="service" id="Sumedia\WinestroApi\RepositoryManager" />
+        </service>
+
+        <service id="Sumedia\WinestroApi\RepositoryManager">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="Sumedia\WinestroApi\DefaultContext" />
+        </service>
+
+
+        <service id="Sumedia\WinestroApi\Winestro\Subscriber\DisableEmailsSubscriber">
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\TaskManager" />
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <!--
+
+            Controller
+
+        -->
+
+        <service id="Sumedia\Winestro\Controller\ApiTestController" public="true">
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
+        <service id="Sumedia\Winestro\Controller\WinestroApiController" public="true">
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
+        <!--
+
+            Logger
+
+        -->
+
+        <service id="Sumedia\WinestroApi\LoggerFactory">
             <argument type="string">%kernel.logs_dir%/%%s_%kernel.environment%.log</argument>
             <argument>%shopware.logger.file_rotation_count%</argument>
         </service>
 
-        <service id="Sumedia\WinestroAPI\DebugLogger" class="Monolog\Logger">
-            <factory service="Sumedia\WinestroAPI\LoggerFactory" method="createRotating"/>
-            <argument type="string">sumedia_wbo</argument>
+        <service id="Sumedia\WinestroApi\DebugLogger" class="Monolog\Logger">
+            <factory service="Sumedia\WinestroApi\LoggerFactory" method="createRotating"/>
+            <argument type="string">sumedia_winestro</argument>
         </service>
 
-        <service id="Sumedia\WinestroAPI\ErrorLogger" class="Monolog\Logger">
-            <factory service="Sumedia\WinestroAPI\LoggerFactory" method="createRotating"/>
-            <argument type="string">sumedia_wbo_error</argument>
+        <service id="Sumedia\WinestroApi\ErrorLogger" class="Monolog\Logger">
+            <factory service="Sumedia\WinestroApi\LoggerFactory" method="createRotating"/>
+            <argument type="string">sumedia_winestro_error</argument>
         </service>
 
-        <service id="Sumedia\WinestroAPI\Config\WboConfig" public="true">
-            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService" />
+        <service id="Sumedia\WinestroApi\DebugLogger" class="Monolog\Logger">
+            <factory service="Sumedia\WinestroApi\LoggerFactory" method="createRotating"/>
+            <argument type="string">sumedia_winestro_debug</argument>
         </service>
 
-        <service id="Sumedia\WinestroAPI\Context" class="Sumedia\WinestroAPI\Service\Context" public="true" />
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Connector" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Credentials" />
-            <argument type="string">DE</argument>
-            <argument type="string">utf-8</argument>
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
-            <argument type="service" id="Sumedia\WinestroAPI\DebugLogger" />
+        <service id="Sumedia\WinestroApi\TaskLogger" class="Monolog\Logger">
+            <factory service="Sumedia\WinestroApi\LoggerFactory" method="createRotating"/>
+            <argument type="string">sumedia_winestro_tasks</argument>
         </service>
 
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Credentials" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
+        <service id="Sumedia\WinestroApi\CronLogger" class="Monolog\Logger">
+            <factory service="Sumedia\WinestroApi\LoggerFactory" method="createRotating"/>
+            <argument type="string">sumedia_winestro_crons</argument>
         </service>
 
-        <service id="Sumedia\WinestroAPI\Service\Wbo\ArticleNumberParser" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Entity\ProductExtensionSubscriber">
-            <argument type="service" id="wbo_articles.repository" />
-            <tag name="kernel.event_subscriber" />
+        <service id="Sumedia\WinestroApi\Winestro\LogManager">
+            <argument type="service" id="Sumedia\WinestroApi\DebugLogger" />
+            <argument type="service" id="Sumedia\WinestroApi\ErrorLogger" />
+            <argument type="service" id="Sumedia\WinestroApi\TaskLogger" />
+            <argument type="service" id="Sumedia\WinestroApi\CronLogger" />
         </service>
 
         <!--
@@ -54,241 +100,9 @@
 
         -->
 
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\Cli\SetArticles" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles" />
+        <service id="Sumedia\WinestroApi\Winestro\Cli\ExecuteTask" public="true">
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\TaskManager" />
             <tag name="console.command" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\Cli\CronHealthCheck" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Command\CronHealthCheck" />
-            <tag name="console.command" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\Cli\ExportOrders" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Command\ExportOrders" />
-            <tag name="console.command" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\Cli\SetWineGroups" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Command\SetWineGroups" />
-            <tag name="console.command" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\Cli\CheckOrderStatus" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Command\CheckOrderStatus" />
-            <tag name="console.command" />
-        </service>
-
-        <!--
-
-            Commands
-
-        -->
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\DeactivateOutOfStockBundles" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
-            <argument type="service" id="wbo_articles.repository" />
-            <argument type="service" id="product.repository" />
-            <argument type="service" id="Sumedia\WinestroAPI\Context" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\SetWineGroups" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\DebugLogger" />
-            <argument type="service" id="Sumedia\WinestroAPI\ErrorLogger" />
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
-            <argument type="service" id="wbo_wine_groups.repository" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Request\GetWineGroups" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Connector" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\CheckOrderStatus" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\DebugLogger" />
-            <argument type="service" id="Sumedia\WinestroAPI\ErrorLogger" />
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Connector" />
-            <argument type="service" id="Sumedia\WinestroAPI\Context" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Request\CheckOrderStatus" />
-            <argument type="service" id="order.repository" />
-            <argument type="service" id="order_delivery.repository" />
-            <argument type="service" id="Shopware\Core\System\StateMachine\StateMachineRegistry"/>
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\Images" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\ErrorLogger" />
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
-            <argument type="service" id="product.repository" />
-            <argument type="service" id="media.repository" />
-            <argument type="service" id="media_folder.repository" />
-            <argument type="service" id="product_media.repository" />
-            <argument type="service" id="Shopware\Core\Content\Media\File\FileFetcher" />
-            <argument type="service" id="Shopware\Core\Content\Media\File\FileSaver" />
-            <argument type="service" id="Shopware\Core\Content\Media\MediaService"/>
-            <argument type="service" id="Sumedia\WinestroAPI\Context" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\Price" public="true">
-            <argument type="service" id="currency.repository" />
-            <argument type="service" id="product.repository" />
-            <argument type="service" id="Sumedia\WinestroAPI\Context" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\Quality" public="true">
-            <argument type="service" id="property_group_option.repository" />
-            <argument type="service" id="property_group.repository" />
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
-            <argument type="service" id="Sumedia\WinestroAPI\DebugLogger" />
-            <argument type="service" id="Sumedia\WinestroAPI\Context" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\Grape" public="true">
-            <argument type="service" id="property_group_option.repository" />
-            <argument type="service" id="property_group.repository" />
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
-            <argument type="service" id="Sumedia\WinestroAPI\DebugLogger" />
-            <argument type="service" id="Sumedia\WinestroAPI\Context" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\Unit" public="true">
-            <argument type="service" id="unit.repository" />
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
-            <argument type="service" id="Sumedia\WinestroAPI\DebugLogger" />
-            <argument type="service" id="Sumedia\WinestroAPI\Context" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\Cultivation" public="true">
-            <argument type="service" id="property_group_option.repository" />
-            <argument type="service" id="property_group.repository" />
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
-            <argument type="service" id="Sumedia\WinestroAPI\DebugLogger" />
-            <argument type="service" id="Sumedia\WinestroAPI\Context" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\Taste" public="true">
-            <argument type="service" id="property_group_option.repository" />
-            <argument type="service" id="property_group.repository" />
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
-            <argument type="service" id="Sumedia\WinestroAPI\DebugLogger" />
-            <argument type="service" id="Sumedia\WinestroAPI\Context" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\Year" public="true">
-            <argument type="service" id="property_group_option.repository" />
-            <argument type="service" id="property_group.repository" />
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
-            <argument type="service" id="Sumedia\WinestroAPI\DebugLogger" />
-            <argument type="service" id="Sumedia\WinestroAPI\Context" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\Category" public="true">
-            <argument type="service" id="property_group_option.repository" />
-            <argument type="service" id="property_group.repository" />
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
-            <argument type="service" id="Sumedia\WinestroAPI\DebugLogger" />
-            <argument type="service" id="Sumedia\WinestroAPI\Context" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\FreeShipping" public="true" />
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\Manufacturer" public="true">
-            <argument type="service" id="product_manufacturer.repository" />
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
-            <argument type="service" id="Sumedia\WinestroAPI\Context" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\Stock" public="true">
-            <argument type="service" id="wbo_articles.repository" />
-            <argument type="service" id="product.repository" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Request\GetBestand" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Connector" />
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
-            <argument type="service" id="Sumedia\WinestroAPI\Context" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\DeliveryTime" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\IsActive" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\DebugLogger" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\SalesChannel" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
-            <argument type="service" id="product_visibility.repository" />
-            <argument type="service" id="Sumedia\WinestroAPI\Context" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\SetCategories" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
-            <argument type="service" id="category_translation.repository" />
-            <argument type="service" id="product_category.repository" />
-            <argument type="service" id="Sumedia\WinestroAPI\Context" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\FilterCollection" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\Stock" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\Images" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\Price" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\Quality" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\Grape" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\Unit" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\Cultivation" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\FreeShipping" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\IsActive" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\Taste" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\Year" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\Category" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\Manufacturer" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\DeliveryTime" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\SalesChannel" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\SetCategories" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles"
-                 public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\DebugLogger" />
-            <argument type="service" id="Sumedia\WinestroAPI\ErrorLogger" />
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
-            <argument type="service" id="wbo_articles.repository" />
-            <argument type="service" id="wbo_products.repository" />
-            <argument type="service" id="product.repository" />
-            <argument type="service" id="tax.repository" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Request\GetArticles" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Connector" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\ArticleNumberParser" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\FilterCollection" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\DeactivateOutOfStockBundles" />
-            <argument type="service" id="Sumedia\WinestroAPI\Context" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\CronHealthCheck" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\DebugLogger" />
-            <argument type="service" id="Sumedia\WinestroAPI\ErrorLogger" />
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
-            <argument type="service" id="Sumedia\WinestroAPI\Context" />
-            <argument type="service" id="scheduled_task.repository" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Command\ExportOrders" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\DebugLogger" />
-            <argument type="service" id="Sumedia\WinestroAPI\ErrorLogger" />
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Connector" />
-            <argument type="service" id="Sumedia\WinestroAPI\Context" />
-            <argument type="service" id="Sumedia\WinestroAPI\Service\Wbo\Request\ExportOrders" />
-            <argument type="service" id="plugin.repository" />
-            <argument type="service" id="order.repository" />
-            <argument type="service" id="order_address.repository" />
-            <argument type="service" id="order_delivery.repository" />
-            <argument type="service" id="order_transaction.repository" />
-            <argument type="service" id="payment_method.repository" />
-            <argument type="service" id="shipping_method.repository" />
-            <argument type="service" id="order_line_item.repository" />
-            <argument type="service" id="customer.repository" />
-            <argument type="service" id="salutation.repository" />
-            <argument type="service" id="country.repository" />
-            <argument type="service" id="wbo_articles.repository" />
-            <argument type="service" id="product.repository" />
         </service>
 
         <!--
@@ -297,80 +111,284 @@
 
         -->
 
-        <service id="Sumedia\WinestroAPI\Cron\UpdateWineGroups">
+        <service id="Sumedia\WinestroApi\Winestro\CronManager">
+            <argument type="service" id="Sumedia\WinestroApi\Config" />
+        </service>
+
+        <service id="Sumedia\WinestroApi\Winestro\Cron\ExecuteCronHandler">
+            <argument type="service" id="scheduled_task.repository" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\LogManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\CronManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\TaskManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Config" />
+            <tag name="messenger.message_handler" />
+        </service>
+        <service id="Sumedia\WinestroApi\Winestro\Cron\ExecuteCron">
             <tag name="shopware.scheduled.task" />
         </service>
 
-        <service id="Sumedia\WinestroAPI\Cron\UpdateArticles">
+        <service id="Sumedia\WinestroApi\Winestro\Cron\Cron5MinutesHandler">
+            <argument type="service" id="scheduled_task.repository" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\LogManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\CronManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\TaskManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Config" />
+            <tag name="messenger.message_handler" />
+        </service>
+        <service id="Sumedia\WinestroApi\Winestro\Cron\Cron5Minutes">
             <tag name="shopware.scheduled.task" />
         </service>
 
-        <service id="Sumedia\WinestroAPI\Cron\ExportOrders">
+        <service id="Sumedia\WinestroApi\Winestro\Cron\Cron15MinutesHandler">
+            <argument type="service" id="scheduled_task.repository" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\LogManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\CronManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\TaskManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Config" />
+            <tag name="messenger.message_handler" />
+        </service>
+        <service id="Sumedia\WinestroApi\Winestro\Cron\Cron15Minutes">
             <tag name="shopware.scheduled.task" />
         </service>
 
-        <service id="Sumedia\WinestroAPI\Cron\CronHealthCheck">
+        <service id="Sumedia\WinestroApi\Winestro\Cron\Cron30MinutesHandler">
+            <argument type="service" id="scheduled_task.repository" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\LogManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\CronManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\TaskManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Config" />
+            <tag name="messenger.message_handler" />
+        </service>
+        <service id="Sumedia\WinestroApi\Winestro\Cron\Cron30Minutes">
             <tag name="shopware.scheduled.task" />
         </service>
 
-        <service id="Sumedia\WinestroAPI\Cron\CheckOrderStatus">
+        <service id="Sumedia\WinestroApi\Winestro\Cron\Cron1HourHandler">
+            <argument type="service" id="scheduled_task.repository" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\LogManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\CronManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\TaskManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Config" />
+            <tag name="messenger.message_handler" />
+        </service>
+        <service id="Sumedia\WinestroApi\Winestro\Cron\Cron1Hour">
             <tag name="shopware.scheduled.task" />
         </service>
 
+        <service id="Sumedia\WinestroApi\Winestro\Cron\Cron6HourHandler">
+            <argument type="service" id="scheduled_task.repository" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\LogManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\CronManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\TaskManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Config" />
+            <tag name="messenger.message_handler" />
+        </service>
+        <service id="Sumedia\WinestroApi\Winestro\Cron\Cron6Hour">
+            <tag name="shopware.scheduled.task" />
+        </service>
 
+        <service id="Sumedia\WinestroApi\Winestro\Cron\Cron12HourHandler">
+            <argument type="service" id="scheduled_task.repository" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\LogManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\CronManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\TaskManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Config" />
+            <tag name="messenger.message_handler" />
+        </service>
+        <service id="Sumedia\WinestroApi\Winestro\Cron\Cron12Hour">
+            <tag name="shopware.scheduled.task" />
+        </service>
+
+        <service id="Sumedia\WinestroApi\Winestro\Cron\Cron1DayHandler">
+            <argument type="service" id="scheduled_task.repository" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\LogManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\CronManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\TaskManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Config" />
+            <tag name="messenger.message_handler" />
+        </service>
+        <service id="Sumedia\WinestroApi\Winestro\Cron\Cron1Day">
+            <tag name="shopware.scheduled.task" />
+        </service>
+
+        <service id="Sumedia\WinestroApi\Winestro\Cron\Cron1WeekHandler">
+            <argument type="service" id="scheduled_task.repository" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\LogManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\CronManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\TaskManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Config" />
+            <tag name="messenger.message_handler" />
+        </service>
+        <service id="Sumedia\WinestroApi\Winestro\Cron\Cron1Week">
+            <tag name="shopware.scheduled.task" />
+        </service>
+
+        <service id="Sumedia\WinestroApi\Winestro\Cron\Cron1MonthHandler">
+            <argument type="service" id="scheduled_task.repository" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\LogManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\CronManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\TaskManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Config" />
+            <tag name="messenger.message_handler" />
+        </service>
+        <service id="Sumedia\WinestroApi\Winestro\Cron\Cron1Month">
+            <tag name="shopware.scheduled.task" />
+        </service>
 
         <!--
 
-            Definition
+            DataMapper
 
         -->
 
-        <service id="Sumedia\WinestroAPI\Entity\WboWineGroupsDefinition">
-            <tag name="shopware.entity.definition" entity="wbo_wine_groups" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Entity\WboArticlesDefinition">
-            <tag name="shopware.entity.definition" entity="wbo_articles" />
-        </service>
-
-        <service id="Sumedia\WinestroAPI\Entity\WboProductsDefinition">
-            <tag name="shopware.entity.definition" entity="wbo_products" />
-        </service>
+            <service id="Sumedia\WinestroApi\Winestro\DataMapper\ConfigMapper" />
+            <service id="Sumedia\WinestroApi\Winestro\DataMapper\PaymentConfigMapper" />
+            <service id="Sumedia\WinestroApi\Winestro\DataMapper\ShippingConfigMapper" />
+            <service id="Sumedia\WinestroApi\Winestro\DataMapper\WinestroArticleDataMapper" />
 
         <!--
 
-            Request
+            Winestro API
 
         -->
 
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Request\GetEinstellungen" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
+        <service id="Sumedia\WinestroApi\Winestro\RequestManager">
+            <argument type="service" id="service_container" />
         </service>
 
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Request\GetWineGroups" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
+        <service id="Sumedia\WinestroApi\Winestro\Connection" shared="false" public="true">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\LogManager" />
         </service>
 
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Request\GetArticles" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
+        <service id="Sumedia\WinestroApi\Winestro\Request\GetArticlesFromWinestroRequest" shared="false" public="true" />
+        <service id="Sumedia\WinestroApi\Winestro\Response\GetArticlesFromWinestroResponse" shared="false" public="true">
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\LogManager" />
         </service>
 
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Request\GetBestand" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
+        <service id="Sumedia\WinestroApi\Winestro\Request\GetStockFromWinestroRequest" shared="false" public="true" />
+        <service id="Sumedia\WinestroApi\Winestro\Response\GetStockFromWinestroResponse" shared="false" public="true" />
+
+        <service id="Sumedia\WinestroApi\Winestro\Request\SendOrderToWinestroRequest" shared="false" public="true" />
+        <service id="Sumedia\WinestroApi\Winestro\Response\SendOrderToWinestroResponse" shared="false" public="true" />
+
+        <service id="Sumedia\WinestroApi\Winestro\Request\GetOrderStatusFromWinestroRequest" shared="false" public="true" />
+        <service id="Sumedia\WinestroApi\Winestro\Response\GetOrderStatusFromWinestroResponse" shared="false" public="true" />
+
+        <service id="Sumedia\WinestroApi\Winestro\Request\GetCustomerGroupsFromWinestroRequest" shared="false" public="true" />
+        <service id="Sumedia\WinestroApi\Winestro\Response\GetCustomerGroupsFromWinestroResponse" shared="false" public="true" />
+
+        <service id="Sumedia\WinestroApi\Winestro\Request\GetCustomersFromWinestroRequest" shared="false" public="true" />
+        <service id="Sumedia\WinestroApi\Winestro\Response\GetCustomersFromWinestroResponse" shared="false" public="true" />
+
+        <!--
+
+            Tasks
+
+        -->
+
+        <service id="Sumedia\WinestroApi\Winestro\TaskManager">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="Sumedia\WinestroApi\Config" />
         </service>
 
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Request\ExportOrders" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
-            <argument type="string"></argument>
-            <argument type="string"></argument>
-            <argument type="string"></argument>
-            <argument type="service" id="product.repository" />
-            <argument type="service" id="wbo_articles.repository" />
-            <argument type="service" id="Sumedia\WinestroAPI\Context" />
+        <service id="Sumedia\WinestroApi\Winestro\Task\ProductImportTask" shared="false" public="true">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="Sumedia\WinestroApi\Config" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\TaskManager" />
+            <argument type="service" id="Sumedia\WinestroApi\RepositoryManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\RequestManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\LogManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\Task\ProductImport\ProductDataBuilder" />
         </service>
 
-        <service id="Sumedia\WinestroAPI\Service\Wbo\Request\CheckOrderStatus" public="true">
-            <argument type="service" id="Sumedia\WinestroAPI\Config\WboConfig" />
+        <service id="Sumedia\WinestroApi\Winestro\Task\ProductImageUpdateTask" shared="false" public="true">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="Sumedia\WinestroApi\Config" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\TaskManager" />
+            <argument type="service" id="Sumedia\WinestroApi\RepositoryManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\RequestManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\LogManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\Task\ProductImageUpdate\ImageUpdater" />
+        </service>
+
+        <service id="Sumedia\WinestroApi\Winestro\Task\ProductStockTask" shared="false" public="true">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="Sumedia\WinestroApi\Config" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\TaskManager" />
+            <argument type="service" id="Sumedia\WinestroApi\RepositoryManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\RequestManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\LogManager" />
+        </service>
+
+        <service id="Sumedia\WinestroApi\Winestro\Task\ProductCategoryAssignmentTask" shared="false" public="true">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="Sumedia\WinestroApi\Config" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\TaskManager" />
+            <argument type="service" id="Sumedia\WinestroApi\RepositoryManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\RequestManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\LogManager" />
+        </service>
+
+        <service id="Sumedia\WinestroApi\Winestro\Task\OrderExportTask" shared="false" public="true">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="Sumedia\WinestroApi\Config" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\TaskManager" />
+            <argument type="service" id="Sumedia\WinestroApi\RepositoryManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\RequestManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\LogManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\Task\OrderExport\OrderExportBuilder" />
+        </service>
+
+        <service id="Sumedia\WinestroApi\Winestro\Task\OrderStatusUpdateTask" shared="false" public="true">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="Sumedia\WinestroApi\Config" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\TaskManager" />
+            <argument type="service" id="Sumedia\WinestroApi\RepositoryManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\RequestManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\LogManager" />
+            <argument type="service" id="Shopware\Core\System\StateMachine\StateMachineRegistry"/>
+            <argument type="service" id="Sumedia\WinestroApi\DefaultContext" />
+        </service>
+
+        <service id="Sumedia\WinestroApi\Winestro\Task\NewsletterReceiverImportTask" shared="false" public="true">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="Sumedia\WinestroApi\Config" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\TaskManager" />
+            <argument type="service" id="Sumedia\WinestroApi\RepositoryManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\RequestManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\LogManager" />
+            <argument type="service" id="Sumedia\WinestroApi\DefaultContext" />
+        </service>
+
+        <service id="Sumedia\WinestroApi\Winestro\Task\Extension\ProductStockAdderExtension" shared="false" public="true">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="Sumedia\WinestroApi\Config" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\RequestManager" />
+        </service>
+
+        <service id="Sumedia\WinestroApi\Winestro\ArticleNumberParser" />
+
+        <service id="Sumedia\WinestroApi\Winestro\Task\ProductImport\ProductDataBuilder">
+            <argument type="service" id="Sumedia\WinestroApi\Config" />
+            <argument type="service" id="Sumedia\WinestroApi\RepositoryManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\LogManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\ArticleNumberParser" />
+            <argument type="service" id="Sumedia\WinestroApi\CustomFieldService" />
+            <argument type="service" id="Sumedia\WinestroApi\DefaultContext" />
+        </service>
+
+        <service id="Sumedia\WinestroApi\Winestro\Task\ProductImageUpdate\ImageUpdater">
+            <argument type="service" id="Sumedia\WinestroApi\RepositoryManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\LogManager" />
+            <argument type="service" id="Shopware\Core\Content\Media\MediaService"/>
+            <argument type="service" id="Shopware\Core\Content\Media\File\FileFetcher" />
+            <argument type="service" id="Sumedia\WinestroApi\DefaultContext" />
+        </service>
+
+        <service id="Sumedia\WinestroApi\Winestro\Task\OrderExport\OrderExportBuilder">
+            <argument type="service" id="Sumedia\WinestroApi\Config" />
+            <argument type="service" id="Sumedia\WinestroApi\RepositoryManager" />
         </service>
 
     </services>

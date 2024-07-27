@@ -1,0 +1,364 @@
+{
+  "sumedia-winestro": {
+    "createAutomatically": "Automatisch anlegen",
+    "save": "Speichern",
+    "add": "Hinzufügen",
+    "edit": "Bearbeiten",
+    "execute": "Ausführen",
+    "delete": "Löschen",
+    "yes": "Ja",
+    "no": "Nein",
+    "title": "Winestro Cloud Integration",
+    "description": "winestro.cloud Integration zur Synchronisierung mit Shopware",
+    "tabs": {
+      "overview": "Übersicht",
+      "installation": "Installation",
+      "connections": "Verbindungen",
+      "measurements": "Maßeinheiten",
+      "properties": "Produkteigenschaften",
+      "saleChannels": "Verkaufskanäle",
+      "tasks": "Aufgaben planen",
+      "tasks-extensions": "Aufgaben erweitern",
+      "cron": "Prozessausführung"
+    },
+    "overview": {
+      "title": "Übersicht",
+      "needInstall": "Ihre Winestro Cloud Integration ist noch nicht betriebsbereit.",
+      "needInstall2": "Bitte führen Sie den Installationsassistenen zur Ersteinrichtung aus.",
+      "installed": "Ihre Winestro Cloud Integration ist betriebsbereit.",
+      "toTheDocumentation": "Zur Dokumentation",
+      "executesTitle": "Wird gerade ausgeführt",
+      "taskLogTitle": "Aufgabenprotokoll",
+      "cronLogTitle": "Prozessausführungsprotokoll",
+      "logDownloadTitle": "Logdateien",
+      "logDownloadButton": "Logfiles herunterladen"
+    },
+    "installation": {
+      "title": "Installation",
+      "description": "Willkommen beim Installationsassistenen für Ihre Winestro Integration.",
+      "loading": "Lade Installationsassistent ...",
+      "done": "Die Erstinstallation ist abgeschlossen und kann nur einmalig gestartet werden.",
+      "connection": {
+        "title": "Verbindung einrichten"
+      },
+      "measurements": {
+        "title": "Maßeinheiten (Einstellungen > Maßeinheiten)",
+        "createAll": "Alle nicht definierten Maßeinheiten automatisch anlegen"
+      },
+      "properties": {
+        "title": "Produkteigenschaften (Kataloge > Eigenschaften)",
+        "createAll": "Alle nicht definierten Eigenschaften automatisch anlegen"
+      },
+      "salesChannel": {
+        "title": "Verkaufskanal"
+      },
+      "payment": {
+        "title": "Zahlungsarten"
+      },
+      "shipping": {
+        "title": "Versandarten"
+      },
+      "tasks": {
+        "title": "Aufgaben anlegen",
+        "description": "In diesem letzten Schritt werden die Aufgaben für das Programm angelegt."
+      }
+    },
+    "connections": {
+      "title": "Verbindungen",
+      "add": "Verbindung hinzufügen",
+      "winestroId": "Winestro ID",
+      "winestroShopName": "Winestro Shop Name",
+      "create": {
+        "title": "Verbindung hinzufügen",
+        "notificationTitle": "Verbindung hinzugefügt",
+        "notificationSuccess": "Die Verbindung wurde erfolgreich hinzugefügt"
+      },
+      "edit": {
+        "title": "Verbindung bearbeiten"
+      },
+      "delete": {
+        "confirm": "Wollen Sie diese Verbindung wirklich entfernen?",
+        "notificationTitle": "Verbindung entfernt",
+        "notificationSuccess": "Die Verbindung wurde erfolgreich entfernt"
+      },
+      "checkConnection": {
+        "title": "API Test",
+        "success": "Verbindung wurde erfolgreich getestet",
+        "error": "Verbindung konnte nicht hergestellt werden. Bitte prüfe die Zugangsdaten",
+        "button": "Verbindung prüfen"
+      },
+      "form": {
+        "name": "Name der Verbindung",
+        "fillsAutomatically": "... leer lassen und es füllt sich automatisch aus",
+        "url": "Winestro URL",
+        "userId": "User ID",
+        "shopId": "Shop ID",
+        "secretId": "API User",
+        "secretCode": "API Code",
+        "checkConnection": "Verbindung testen"
+      }
+    },
+    "measurements": {
+      "title": "Maßeinheiten",
+      "notificationSuccessTitle": "Maßeinheiten speichern",
+      "notificationSuccessMessage": "Die Maßeinheiten wurden erfolgreich gespeichert.",
+      "form": {
+        "litre": "Liter",
+        "kilo": "Kilogramm",
+        "gramperhundret": "Gramm pro 100 ml",
+        "volumepercent": "Volumenprozent"
+      }
+    },
+    "properties": {
+      "title": "Produkteigenschaften",
+      "notificationSuccessTitle": "Produkteigenschaften speichern",
+      "notificationSuccessMessage": "Die Produkteigenschaften wurden erfolgreich gespeichert.",
+      "form": {
+        "country": "Herstellungsland",
+        "year": "Jahrgang",
+        "kind": "Rebsorte",
+        "quality": "Qualität",
+        "taste": "Geschmack",
+        "region": "Region",
+        "articleGroup": "Artikelgruppe",
+        "ingredients": "Zutaten",
+        "sugar": "Zucker",
+        "alcohol": "Alkohol",
+        "acid": "Säure",
+        "sulfits": "Sulfite",
+        "nuances": "Nuancen",
+        "awards": "Auszeichnungen",
+        "bottles": "Flaschenanzahl",
+        "category": "Produktkategorie",
+        "allergens": "Allergene",
+        "calories": "Kalorien",
+        "protein": "Eiweiß",
+        "area": "Anbaugebiet",
+        "location": "Lage",
+        "development": "Ausbau",
+        "drinkingTemperature": "Trinktemperatur",
+        "bestBeforeDate": "Haltbarkeitsdatum",
+        "fat": "Fettsäuren",
+        "unsaturatedFat": "Ungesättigte Fettsäuren",
+        "carbonhydrates": "Kohlenhydrate",
+        "salt": "Salz",
+        "fiber": "Ballaststoffe",
+        "vitamins": "Vitamine"
+      }
+    },
+    "salesChannels": {
+      "title": "Verkaufskanäle",
+      "config": "Verkaufskanäle konfigurieren",
+      "edit": "Verkaufskanal konfigurieren",
+      "notificationSaveSuccessTitle": "Verkaufskanal gespeichert",
+      "notificationSaveSuccessMessage": "Der Verkaufskanal wurde erfolgreich gespeichert",
+      "notificationDeleteSuccessTitle": "Verkaufskanal/Winestro gelöscht",
+      "notificationDeleteSuccessMessage": "Die Verkaufskanal und Winestro Verbindung wurde erfolgreich entfernt.",
+      "delete": {
+        "confirm": "Wollen Sie diese Verkaufskanal und Winestro Shop Verbindung entfernen?"
+      },
+      "form": {
+        "salesChannel": "Verkaufskanal",
+        "winestroConnectionName": "Winestro Shop"
+      }
+    },
+    "payment": {
+      "title": "Zahlungsarten",
+      "paymentMapping": {
+        "payment": "Shopware Zahlungsart",
+        "winestro": "Winestro Zahlungsart"
+      }
+    },
+    "shipping": {
+      "title": "Versandarten",
+      "shippingMapping": {
+        "shipping": "Shopware Versandart",
+        "winestro": "Winestro Versandart"
+      }
+    },
+    "tasks": {
+      "title": "Aufgaben planen",
+      "add": "Aufgabe hinzufügen",
+      "notificationTaskSavedTitle": "Aufgabe gespeichert",
+      "notificationTaskSavedMessage": "Die Aufgabe wurde erfolgreich gespeichert.",
+      "notificationTaskDeletedTitle": "Aufgabe gelöscht",
+      "notificationTaskDeletedMessage": "Die Aufgabe wurde erfolgreich gelöscht.",
+      "notificationTaskExecuteTitle": "Aufgabe ausführen",
+      "notificationTaskExecuteMessage": "Die Aufgabe wird ausgeführt",
+      "notificationTaskExecuteDuplicateTitle": "Aufgabe ausführen",
+      "notificationTaskExecuteDuplicateMessage": "Diese Aufgabe wird bereits ausgeführt",
+      "delete": {
+          "confirm": "Wollen Sie diese Aufgabe wirklich löschen?"
+      },
+      "productImportTask": {
+        "name": "Produkte importieren"
+      },
+      "productImageUpdateTask": {
+        "name": "Produktbilder aktualisieren"
+      },
+      "productStockTask": {
+        "name": "Lagerbestand aktualisieren"
+      },
+      "productCategoryAssignmentTask": {
+        "name": "Produktkategorien zuordnen"
+      },
+      "orderExportTask": {
+        "name": "Bestellungen exportieren"
+      },
+      "orderStatusUpdateTask": {
+        "name": "Bestellstatus aktualisieren"
+      },
+      "newsletterReceiverImportTask": {
+        "name": "Newsletterempfänger importieren"
+      },
+      "listing": {
+        "active": "Aktiv?",
+        "task": "Aufgabe",
+        "name": "Name",
+        "winestroShopName": "Winestro Shop"
+      },
+      "config": {
+        "title": "Aufgabe"
+      },
+      "taskNames": {
+        "productImport": "Produktimport",
+        "productImageUpdate": "Produktbildupdate",
+        "productStock": "Lagerbestand aktualisieren",
+        "productCategoryAssignment": "Kategoriezuordnung zuweisen",
+        "orderExport": "Bestellungsexport",
+        "orderStatusUpdate": "Bestellstatus aktualisieren",
+        "newsletterReceiverImport": "Newsletterempfänger importieren"
+      },
+      "taskDescriptions": {
+        "productImport": "Produkte aus Winestro nach Shopware importieren",
+        "productImageUpdate": "Produktbilder aus Winestro in Shopware aktualisieren",
+        "productStock": "Produkt-Lagerbestand aus Winestro in Shopware übernehmen",
+        "productCategoryAssignment": "Kategoriezuordnung in Shopware zuweisen",
+        "orderExport": "Bestellungen von Shopware zu Winestro senden",
+        "newsletterReceiverImport": "Newsletterempfänger von Winestro nach Shopware importieren"
+      },
+      "form": {
+        "active": "Aufgabe aktiv",
+        "type": "Art der Aufgabe",
+        "name": "Name der Aufgabe",
+        "data": "Datenübermittlung",
+        "winestroShopName": "Winestro Shop",
+        "generalData": "Allgemeine Daten zum Task",
+        "tax": "Standard Steuersatz",
+        "articlenumber": "Artikelnummer",
+        "categoryIdentifier": "winestro.cloud Kategorie-Identifizierer",
+        "articlenumberDescription": "Hier können Sie bestimmen, wie sich Ihre Artikelnummer zusammensetzt. Geben Sie an mit welchem Sonderzeichen sie Artikelnummer, Jahrgang und Abfüllung trennen.",
+        "year": "Jahrgang",
+        "bottling": "Abfüllung",
+        "yearSeparator": "Jahrgangstrennzeichen",
+        "bottlingSeparator": "Abfüllungstrennzeichen",
+        "productsFromSalesChannelsIds": "Bestellungen aus diesen Verkaufskanälen exportieren",
+        "productsFromWinestroConnectionIds": "Bestellungen für Produkte aus diesen winestro.cloud Verbindungen exportieren",
+        "reducedTax": "Reduzierter Steuersatz",
+        "deliveryTime": "Lieferzeit",
+        "mediaFolder": "Medienverzeichnis für Produktbilder",
+        "maxImageWidth": "Maximale Bildbreite",
+        "maxImageHeight": "Maximale Bildhöhe",
+        "sellingLimit": "Abverkaufsgrenze",
+        "devlivery": "Versandarten",
+        "defaultManufacturer": "Standard Hersteller",
+        "productdata": "Produktdaten",
+        "orderdata": "Bestelldaten",
+        "newsletterdata": "Newsletterdaten",
+        "salesChannel": "Verkaufskanal",
+        "executeDescription": "Fügen sie Tasks an diesen Prozess an, so das diese nach ihm ausgeführt werden.",
+        "executeTitle": "Aufgabe anfügen",
+        "suppressEmail": "Keine Emails versenden beim setzen des Status.",
+        "enabled": {
+          "products": {
+            "enabled": "Produktdatenimport aktiv",
+            "activestatus": "Produktstatus aktualisieren",
+            "images": "Produktbilder übernehmen",
+            "description": "Beschreibung übernehmen",
+            "freeshipping": "Kostenlosen Versand übernehmen",
+            "manufacturer": "Hersteller übernehmen",
+            "categories": "Kategorien übernehmen",
+            "stockUpdate": "Lagerbestand übernehmen"
+          },
+          "orders": {
+            "enabled": "Bestellungen übermitteln",
+            "orderstatusupdate": "Bestellstatus von winestro.cloud übernehmen",
+            "sendWinestroEmail": "Winestro Bestellbestätigung senden"
+          },
+          "newsletter": "Newsletterempfänger übernehmen"
+        }
+      }
+    },
+    "tasks-extensions": {
+      "title": "Aufgaben erweitern",
+      "add": "Aufgabe erweitern",
+      "notificationExtensionSavedTitle": "Aufgabe erweitert",
+      "notificationExtensionSavedMessage": "Die Aufgabe wurde erfolgreich erweitert",
+      "notificationExtensionDeletedTitle": "Erweiterung entfernt",
+      "notificationExtensionDeletedMessage": "Die Erweiterung wurde entfernt.",
+      "listing": {
+        "active": "Aktiv?",
+        "task": "Aufgabe",
+        "name": "Erweiterung",
+        "winestroShopName": "Winestro Shop"
+      },
+      "delete": {
+        "confirm": "Soll diese Erweiterung entfernt werden?"
+      },
+      "extensionsNames": {
+        "productStockAdder": "Lagerbestand hinzufügen"
+      },
+      "config": {
+        "title": "Aufgaben erweitern"
+      },
+      "form": {
+        "type": "Art der Erweiterung",
+        "name": "Name",
+        "task": "Aufgabe",
+        "active": "Diese Erweiterung aktivieren"
+      }
+    },
+    "cron": {
+      "title": "Prozessausführung",
+      "add": "Prozess hinzufügen",
+      "delete": {
+        "confirm": "Wollen Sie diesen Prozess wirklich löschen?"
+      },
+      "listing": {
+        "active": "Aktiv?",
+        "times": "Zeitplan",
+        "name": "Prozessname",
+        "task": "Aufgabe"
+      },
+      "form": {
+        "task": "Aufgabe",
+        "times": "Zeitplan",
+        "name": "Prozessname",
+        "enabled": {
+          "enabled": "Prozess aktiviert"
+        }
+      },
+      "names": {
+        "productImport": "Produkte importieren",
+        "orderExport": "Bestellungen exportieren",
+        "orderStatusUpdate": "Bestellstatus aktualisieren",
+        "newsletterReceiverImport": "Newsletterempfänger importieren"
+      },
+      "times": {
+        "5m": "Alle 5 Minuten",
+        "15m": "Alle 15 Minuten",
+        "30m": "Alle 30 Minuten",
+        "1h": "Jede Stunde",
+        "6h": "Alle 6 Stunden",
+        "12h": "Alle 12 Stunden",
+        "1d": "Einmal am Tag",
+        "1w": "Einmal die Woche",
+        "1m": "Einmal im Monat"
+      },
+      "notificationExtensionSavedTitle": "Prozess gespeichert",
+      "notificationExtensionSavedMessage": "Die Prozess wurde erfolgreich gespeichert.",
+      "notificationExtensionDeletedTitle": "Prozess gelöscht",
+      "notificationExtensionDeletedMessage": "Die Prozess wurde erfolgreich gelöscht."
+    }
+  }
+}

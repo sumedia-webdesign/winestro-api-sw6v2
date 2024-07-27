@@ -4,7 +4,7 @@
  * @copyright Sven Ullmann <kontakt@sumedia-webdesign.de>
  */
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Command;
+namespace Sumedia\WinestroApi\Service\Wbo\Command;
 
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Order\Aggregate\OrderDelivery\OrderDeliveryDefinition;
@@ -20,9 +20,9 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\RangeFilter;
 use Shopware\Core\System\StateMachine\StateMachineRegistry;
 use Shopware\Core\System\StateMachine\Transition;
-use Sumedia\WinestroAPI\Config\WboConfig;
-use Sumedia\WinestroAPI\Service\Wbo\ConnectorInterface;
-use Sumedia\WinestroAPI\Service\Wbo\Request\CheckOrderStatus as CheckOrderStatusRequest;
+use Sumedia\WinestroApi\Config\WboConfig;
+use Sumedia\WinestroApi\Service\Wbo\ConnectorInterface;
+use Sumedia\WinestroApi\Service\Wbo\Request\CheckOrderStatus as CheckOrderStatusRequest;
 
 class CheckOrderStatus extends AbstractCommand implements CommandInterface
 {
@@ -142,7 +142,7 @@ class CheckOrderStatus extends AbstractCommand implements CommandInterface
 
         $orderStatus = 'new';
         try {
-            /** @var \Sumedia\WinestroAPI\Service\Wbo\Response\CheckOrderStatus $response */
+            /** @var \Sumedia\WinestroApi\Service\Wbo\Response\CheckOrderStatus $response */
             $response = $this->connector->execute($this->checkOrderStatus);
             if (!$response->isSuccessful()) {
                 $this->log('could not export order (' . $order->getOrderNumber() . '): ' . $response->getError());

@@ -4,7 +4,7 @@
  * @copyright Sven Ullmann <kontakt@sumedia-webdesign.de>
  */
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Command;
+namespace Sumedia\WinestroApi\Service\Wbo\Command;
 
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
@@ -19,12 +19,12 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\RangeFilter;
-use Sumedia\WinestroAPI\Config\WboConfig;
-use Sumedia\WinestroAPI\Service\Wbo\ConnectorInterface;
-use Sumedia\WinestroAPI\Service\Wbo\PaymentMatcher;
-use Sumedia\WinestroAPI\Service\Wbo\Request\ExportOrders as ExportOrdersRequest;
-use Sumedia\WinestroAPI\Service\Wbo\ShippingMatcher;
-use Sumedia\WinestroAPI\Service\WboPayments;
+use Sumedia\WinestroApi\Config\WboConfig;
+use Sumedia\WinestroApi\Service\Wbo\ConnectorInterface;
+use Sumedia\WinestroApi\Service\Wbo\PaymentMatcher;
+use Sumedia\WinestroApi\Service\Wbo\Request\ExportOrders as ExportOrdersRequest;
+use Sumedia\WinestroApi\Service\Wbo\ShippingMatcher;
+use Sumedia\WinestroApi\Service\WboPayments;
 
 class ExportOrders extends AbstractCommand implements CommandInterface
 {
@@ -116,7 +116,7 @@ class ExportOrders extends AbstractCommand implements CommandInterface
     protected function getPluginInstallationDate(): \DateTimeImmutable
     {
         $plugin = $this->pluginRepository->search(
-            (new Criteria())->addFilter(new EqualsFilter('name', 'SumediaWinestroAPI')),
+            (new Criteria())->addFilter(new EqualsFilter('name', 'SumediaWinestroApi')),
             $this->context
         )->first();
         return $plugin->getInstalledAt();

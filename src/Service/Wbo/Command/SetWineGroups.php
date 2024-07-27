@@ -4,16 +4,16 @@
  * @copyright Sven Ullmann <kontakt@sumedia-webdesign.de>
  */
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Command;
+namespace Sumedia\WinestroApi\Service\Wbo\Command;
 
 use Shopware\Core\Framework\Context;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\Uuid\Uuid;
-use Sumedia\WinestroAPI\Config\WboConfig;
-use Sumedia\WinestroAPI\Service\Wbo\ConnectorInterface;
-use Sumedia\WinestroAPI\Service\Wbo\Request\RequestInterface;
+use Sumedia\WinestroApi\Config\WboConfig;
+use Sumedia\WinestroApi\Service\Wbo\ConnectorInterface;
+use Sumedia\WinestroApi\Service\Wbo\Request\RequestInterface;
 
 class SetWineGroups extends AbstractCommand implements CommandInterface
 {
@@ -46,7 +46,7 @@ class SetWineGroups extends AbstractCommand implements CommandInterface
         }
 
         try {
-            /** @var \Sumedia\WinestroAPI\Service\Wbo\Response\GetWineGroups $response */
+            /** @var \Sumedia\WinestroApi\Service\Wbo\Response\GetWineGroups $response */
             $response = $this->connector->execute($this->getWineGroups);
             if (!$response->isSuccessful()) {
                 throw new \RuntimeException('couldn\'t fetch GetWineGroups: ' . $response->getError());

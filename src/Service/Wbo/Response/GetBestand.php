@@ -4,7 +4,7 @@
  * @copyright Sven Ullmann <kontakt@sumedia-webdesign.de>
  */
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Response;
+namespace Sumedia\WinestroApi\Service\Wbo\Response;
 
 class GetBestand extends ResponseAbstract
 {

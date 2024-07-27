@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles;
+namespace Sumedia\WinestroApi\Service\Wbo\Command\SetArticles;
 
 use Shopware\Core\Content\Property\PropertyGroupEntity;
 use Psr\Log\LoggerInterface;
@@ -16,8 +16,8 @@ use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
-use Sumedia\WinestroAPI\Config\WboConfig;
-use Sumedia\WinestroAPI\Service\Wbo\Response\GetArticle\Article;
+use Sumedia\WinestroApi\Config\WboConfig;
+use Sumedia\WinestroApi\Service\Wbo\Response\GetArticle\Article;
 
 class Grape
 {

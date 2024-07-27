@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Response\GetWineGroups;
+namespace Sumedia\WinestroApi\Service\Wbo\Response\GetWineGroups;
 
 class Item
 {

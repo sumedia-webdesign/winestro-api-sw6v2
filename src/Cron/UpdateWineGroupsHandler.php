@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Cron;
+namespace Sumedia\WinestroApi\Cron;
 
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Container;
-use Sumedia\WinestroAPI\Service\Wbo\Command\SetWineGroups;
+use Sumedia\WinestroApi\Service\Wbo\Command\SetWineGroups;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler(handles: UpdateWineGroups::class)]

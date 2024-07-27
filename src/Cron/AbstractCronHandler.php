@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Cron;
+namespace Sumedia\WinestroApi\Cron;
 
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;

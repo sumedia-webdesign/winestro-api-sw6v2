@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Command;
+namespace Sumedia\WinestroApi\Service\Wbo\Command;
 
 use Psr\Log\LoggerInterface;
-use Sumedia\WinestroAPI\Config\WboConfig;
+use Sumedia\WinestroApi\Config\WboConfig;
 use Symfony\Component\Console\Command\Command;
 
 class AbstractCommand

@@ -4,9 +4,9 @@
  * @copyright Sven Ullmann <kontakt@sumedia-webdesign.de>
  */
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Response;
+namespace Sumedia\WinestroApi\Service\Wbo\Response;
 
-use Sumedia\WinestroAPI\Service\Wbo\Response\GetArticle\Article;
+use Sumedia\WinestroApi\Service\Wbo\Response\GetArticle\Article;
 
 class GetArticles extends ResponseAbstract
 {

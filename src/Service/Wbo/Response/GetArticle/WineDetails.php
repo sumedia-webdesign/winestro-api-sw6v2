@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Response\GetArticle;
+namespace Sumedia\WinestroApi\Service\Wbo\Response\GetArticle;
 
 class WineDetails
 {

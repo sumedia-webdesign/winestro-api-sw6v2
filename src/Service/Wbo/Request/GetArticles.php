@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Request;
+namespace Sumedia\WinestroApi\Service\Wbo\Request;
 
-use Sumedia\WinestroAPI\Service\Wbo\Response\GetArticles as GetArticlesResponse;
+use Sumedia\WinestroApi\Service\Wbo\Response\GetArticles as GetArticlesResponse;
 
 class GetArticles extends RequestAbstract
 {

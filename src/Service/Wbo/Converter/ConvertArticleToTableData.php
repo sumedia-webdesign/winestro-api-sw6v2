@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Converter;
+namespace Sumedia\WinestroApi\Service\Wbo\Converter;
 
-use Sumedia\WinestroAPI\Service\Wbo\Response\GetArticle\Article;
+use Sumedia\WinestroApi\Service\Wbo\Response\GetArticle\Article;
 
 class ConvertArticleToTableData
 {

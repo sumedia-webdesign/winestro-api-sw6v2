@@ -4,7 +4,7 @@
  * @copyright Sven Ullmann <kontakt@sumedia-webdesign.de>
  */
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Command;
+namespace Sumedia\WinestroApi\Service\Wbo\Command;
 
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Content\Product\ProductEntity;
@@ -17,16 +17,16 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\NotFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\Tax\TaxEntity;
-use Sumedia\WinestroAPI\Config\WboConfig;
-use Sumedia\WinestroAPI\Service\Wbo\ArticleNumberParser;
-use Sumedia\WinestroAPI\Service\Wbo\Command\Exception\NoRelatedProductIdsException;
-use Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\DeactivateOutOfStockBundles;
-use Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles\FilterCollection;
-use Sumedia\WinestroAPI\Service\Wbo\ConnectorInterface;
-use Sumedia\WinestroAPI\Service\Wbo\Converter\ConvertArticleToTableData;
-use Sumedia\WinestroAPI\Service\Wbo\Request\RequestInterface;
-use Sumedia\WinestroAPI\Service\Wbo\Response\GetArticle\Article;
-use Sumedia\WinestroAPI\Service\Wbo\Response\GetArticles;
+use Sumedia\WinestroApi\Config\WboConfig;
+use Sumedia\WinestroApi\Service\Wbo\ArticleNumberParser;
+use Sumedia\WinestroApi\Service\Wbo\Command\Exception\NoRelatedProductIdsException;
+use Sumedia\WinestroApi\Service\Wbo\Command\SetArticles\DeactivateOutOfStockBundles;
+use Sumedia\WinestroApi\Service\Wbo\Command\SetArticles\FilterCollection;
+use Sumedia\WinestroApi\Service\Wbo\ConnectorInterface;
+use Sumedia\WinestroApi\Service\Wbo\Converter\ConvertArticleToTableData;
+use Sumedia\WinestroApi\Service\Wbo\Request\RequestInterface;
+use Sumedia\WinestroApi\Service\Wbo\Response\GetArticle\Article;
+use Sumedia\WinestroApi\Service\Wbo\Response\GetArticles;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 

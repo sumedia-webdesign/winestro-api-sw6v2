@@ -6,13 +6,13 @@
 
 declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Config;
+namespace Sumedia\WinestroApi\Config;
 
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 
 class WboConfig
 {
-    const CONFIG_DOMAIN                 = 'SumediaWinestroAPI';
+    const CONFIG_DOMAIN                 = 'SumediaWinestroApi';
     const API_URL                       = 'apiUrl';
     const SHOP_ID                       = 'shopId';
     const USER_ID                       = 'userId';

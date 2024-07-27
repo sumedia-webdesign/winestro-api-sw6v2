@@ -1,8 +1,8 @@
 <?php
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles;
+namespace Sumedia\WinestroApi\Service\Wbo\Command\SetArticles;
 
-use Sumedia\WinestroAPI\Service\Wbo\Response\GetArticle\Article;
+use Sumedia\WinestroApi\Service\Wbo\Response\GetArticle\Article;
 
 class FilterCollection
 {

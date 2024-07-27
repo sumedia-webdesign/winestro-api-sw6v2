@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Service\Wbo;
+namespace Sumedia\WinestroApi\Service\Wbo;
 
-use Sumedia\WinestroAPI\Config\WboConfig;
-use Sumedia\WinestroAPI\Service\ShippingConfigMapping;
-use Sumedia\WinestroAPI\Service\WboShippings;
+use Sumedia\WinestroApi\Config\WboConfig;
+use Sumedia\WinestroApi\Service\ShippingConfigMapper;
+use Sumedia\WinestroApi\Service\WboShippings;
 
 class ShippingMatcher
 {
@@ -23,7 +23,7 @@ class ShippingMatcher
     {
         $this->wboConfig = $wboConfig;
 
-        $reflection = new \ReflectionClass(ShippingConfigMapping::class);
+        $reflection = new \ReflectionClass(ShippingConfigMapper::class);
         /** @var \ReflectionClassConstant $constant */
         $this->shippingConfigMappingConstants = $reflection->getConstants();
     }

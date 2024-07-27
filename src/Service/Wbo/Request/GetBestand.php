@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Request;
+namespace Sumedia\WinestroApi\Service\Wbo\Request;
 
-use Sumedia\WinestroAPI\Config\WboConfig;
-use Sumedia\WinestroAPI\Service\Wbo\Response\GetBestand as GetBestandResponse;
+use Sumedia\WinestroApi\Config\WboConfig;
+use Sumedia\WinestroApi\Service\Wbo\Response\GetBestand as GetBestandResponse;
 
 class GetBestand extends RequestAbstract
 {

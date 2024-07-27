@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Command\SetArticles;
+namespace Sumedia\WinestroApi\Service\Wbo\Command\SetArticles;
 
 use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\Framework\Context;

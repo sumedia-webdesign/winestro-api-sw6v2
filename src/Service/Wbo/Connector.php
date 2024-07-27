@@ -6,13 +6,13 @@
 
 declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Service\Wbo;
+namespace Sumedia\WinestroApi\Service\Wbo;
 
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
-use Sumedia\WinestroAPI\Config\WboConfig;
-use Sumedia\WinestroAPI\Service\Wbo\Request\RequestInterface;
-use Sumedia\WinestroAPI\Service\Wbo\Response\ResponseInterface;
+use Sumedia\WinestroApi\Config\WboConfig;
+use Sumedia\WinestroApi\Service\Wbo\Request\RequestInterface;
+use Sumedia\WinestroApi\Service\Wbo\Response\ResponseInterface;
 
 class Connector implements ConnectorInterface {
 

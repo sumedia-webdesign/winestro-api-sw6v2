@@ -6,23 +6,22 @@
 
 declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Url;
+namespace Sumedia\WinestroApi\Service\Wbo\Url;
 
-use Sumedia\WinestroAPI\Config\WboConfig;
+use Sumedia\WinestroApi\Config;
 
 class ShopUrl implements UrlInterface {
 
-    protected string $apiUrl;
-    protected string $endpoint = 'wbo-API.php';
+    protected string $path = 'wbo-API.php';
 
-    public function __construct(WboConfig $wboConfig)
+    public function __construct(private Config $config)
     {
-        $this->apiUrl = $wboConfig->get(WboConfig::API_URL);
+
     }
 
     public function getUrlPath(): string
     {
-        return $this->apiUrl . '/' . $this->endpoint;
+        return $this->path;
     }
 
     public function getUrlParams(): array

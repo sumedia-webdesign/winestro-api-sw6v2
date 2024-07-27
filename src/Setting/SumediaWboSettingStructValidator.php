@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Setting;
+namespace Sumedia\WinestroApi\Setting;
 
-use Sumedia\WinestroAPI\Setting\Exception\WboSettingsInvalidException;
+use Sumedia\WinestroApi\Setting\Exception\WboSettingsInvalidException;
 
 class SumediaWboSettingStructValidator
 {

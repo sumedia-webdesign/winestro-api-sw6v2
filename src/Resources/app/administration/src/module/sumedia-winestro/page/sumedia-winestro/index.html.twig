@@ -1,0 +1,45 @@
+{% block sumedia_winestro_index %}
+
+    <sw-page>
+        <template #content>
+
+            <div class="sumedia-winestro-menu">
+                <sw-tabs :isVertical="true">
+                    <sw-tabs-item :route="{ name: 'sumedia.winestro.configuration.overview' }">
+                        {{ $tc('sumedia-winestro.tabs.overview') }}
+                    </sw-tabs-item>
+                    <sw-tabs-item v-if="isInstallationNeeded" :route="{ name: 'sumedia.winestro.configuration.installation' }">
+                        {{ $tc('sumedia-winestro.tabs.installation') }}
+                    </sw-tabs-item>
+                    <sw-tabs-item :disabled="isInstallationNeeded" :route="{ name: 'sumedia.winestro.configuration.connections' }">
+                        {{ $tc('sumedia-winestro.tabs.connections') }}
+                    </sw-tabs-item>
+                    <sw-tabs-item :disabled="isInstallationNeeded" :route="{ name: 'sumedia.winestro.configuration.measurements' }">
+                        {{ $tc('sumedia-winestro.tabs.measurements') }}
+                    </sw-tabs-item>
+                    <sw-tabs-item :disabled="isInstallationNeeded" :route="{ name: 'sumedia.winestro.configuration.properties' }">
+                        {{ $tc('sumedia-winestro.tabs.properties') }}
+                    </sw-tabs-item>
+                    <sw-tabs-item :disabled="isInstallationNeeded" :route="{ name: 'sumedia.winestro.configuration.salechannels' }">
+                        {{ $tc('sumedia-winestro.tabs.saleChannels') }}
+                    </sw-tabs-item>
+                    <sw-tabs-item :disabled="isInstallationNeeded" :route="{ name: 'sumedia.winestro.configuration.tasks' }">
+                        {{ $tc('sumedia-winestro.tabs.tasks') }}
+                    </sw-tabs-item>
+                    <sw-tabs-item :disabled="isInstallationNeeded" :route="{ name: 'sumedia.winestro.configuration.tasksExtensions' }">
+                        {{ $tc('sumedia-winestro.tabs.tasks-extensions') }}
+                    </sw-tabs-item>
+                    <sw-tabs-item :disabled="isInstallationNeeded" :route="{ name: 'sumedia.winestro.configuration.cron' }">
+                        {{ $tc('sumedia-winestro.tabs.cron') }}
+                    </sw-tabs-item>
+                </sw-tabs>
+            </div>
+
+            <div class="sumedia-winestro-router-view">
+                <router-view></router-view>
+            </div>
+
+        </template>
+    </sw-page>
+
+{% endblock %}

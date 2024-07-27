@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Service\Wbo;
+namespace Sumedia\WinestroApi\Service\Wbo;
 
-use Sumedia\WinestroAPI\Config\WboConfig;
-use Sumedia\WinestroAPI\Service\PaymentConfigMapping;
-use Sumedia\WinestroAPI\Service\WboPayments;
+use Sumedia\WinestroApi\Config\WboConfig;
+use Sumedia\WinestroApi\Service\PaymentConfigMapping;
+use Sumedia\WinestroApi\Service\WboPayments;
 
 class PaymentMatcher
 {

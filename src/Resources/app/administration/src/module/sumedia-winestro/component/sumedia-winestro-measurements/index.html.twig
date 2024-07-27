@@ -1,0 +1,31 @@
+{% block sumedia_winestro_connections %}
+
+    <div class="sumedia-winestro-title">
+        <h2>{{ $tc('sumedia-winestro.measurements.title') }}</h2>
+        <br class="clear" />
+    </div>
+
+    <sw-card :large="true" :isLoading="isLoading" :title="$tc('sumedia-winestro.measurements.title')">
+
+        <template v-for="(item, key) in measurements">
+            <div class="label">
+                {{ $tc('sumedia-winestro.measurements.form.' + key) }}
+                <div class="right">
+                    <sw-internal-link @click="createMeasurement(key)">{{ $tc('sumedia-winestro.createAutomatically') }}</sw-internal-link>
+                </div>
+            </div>
+            <sw-entity-single-select v-model:value="formData[key]" entity="unit" required />
+        </template>
+
+        <div class="right">
+            <sw-button :isLoading="this.isLoading"
+                       :disabled="!isMeasurementsComplete" variant="primary" @click="saveMeasurements">
+                {{ $tc('sumedia-winestro.save')}}
+            </sw-button>
+        </div>
+        <br class="clear" />
+
+    </sw-card>
+
+
+{% endblock %}

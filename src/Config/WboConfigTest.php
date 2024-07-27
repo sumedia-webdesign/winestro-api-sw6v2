@@ -6,6 +6,6 @@
 
 declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Config;
+namespace Sumedia\WinestroApi\Config;
 
 class WboConfigTest extends WboConfig {}

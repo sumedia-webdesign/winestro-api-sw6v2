@@ -4,9 +4,9 @@
  * @copyright Sven Ullmann <kontakt@sumedia-webdesign.de>
  */
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Request;
+namespace Sumedia\WinestroApi\Service\Wbo\Request;
 
-use Sumedia\WinestroAPI\Service\Wbo\Url\UrlInterface;
+use Sumedia\WinestroApi\Service\Wbo\Url\UrlInterface;
 
 interface RequestInterface
 {

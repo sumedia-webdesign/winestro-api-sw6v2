@@ -1,0 +1,77 @@
+"execute": {
+        "startProcessesTitle": "Prozesse manuell auslösen",
+        "importProductsButton": "Produkte importieren",
+        "importProductsCron": "Startet selbstständig alle 15 Minuten.",
+        "importProductsDescription": "Dieser Prozess importiert Ihre Produkte von winestro.cloud nach Shopware.",
+        "importProductsNote": "Die Aufgaben 'Bilder aktualisieren', 'Lagerbestand aktualisieren' und 'Kategorien zuordnen' werden nur mit diesem Prozess zusammen ausgeführt. Daher ist es wichtig, dass diese dort als nachgelagerten 'Auszuführender Task' in der Konfiguration von 'Produkte importieren' hinterlegt sind.",
+        "importProductsNote2": "Für Kunden mit mehreren winestro.cloud Accounts zur Aktualisierung mehrerer Lagerbestände steht die Eweiterung 'Lagerbestand hinzufügen' zur Verfügung.",
+        "exportOrdersButton": "Bestellungen exportieren",
+        "exportOrdersCron": "Startet selbstständig alle 5 Minuten.",
+        "exportOrdersDescription": "Dieser Prozess übermittelt alle offenen Bestellungen an winestro.cloud.",
+        "updateOrderStatusButton": "Bestellstatus aktualisieren",
+        "updateOrderStatusCron": "Startet selbstständig alle 5 Minuten.",
+        "updateOrderStatusDescription": "Dieser Prozess prüft den Bestellstatus in winestro.cloud und aktualisiert ihn in Shopware.",
+        "newsletterReceiverImportButton": "Newsletterempfänger importieren",
+        "newsletterReceiverImportCron": "Startet selbstständig jede Stunde.",
+        "newsletterReceiverImportDescription": "Dieser Prozess überprüft die Newsletterempfänger in winestro.cloud und importiert diese nach Shopware."
+      }
+
+      <sw-card :large="true">
+                  <h3>{{ $tc('sumedia-winestro.overview.startProcessesTitle') }}</h3>
+                  <div class="sumedia-winestro-overview-execute-button">
+                      <div class="left">
+                          <sw-button :isLoading="this.execute.importProducts.isLoading"
+                                     variant="primary" @click="executeImportProducts()">
+                              {{ $tc('sumedia-winestro.overview.execute.importProductsButton')}}
+                          </sw-button><br />
+                          <small> {{ $tc('sumedia-winestro.overview.execute.importProductsCron')}}</small>
+                      </div>
+                      <div class="left">
+                          <p> {{ $tc('sumedia-winestro.overview.execute.importProductsDescription')}}</p>
+                          <br />
+                          <small> {{ $tc('sumedia-winestro.overview.execute.importProductsNote')}}</small><br />
+                          <br />
+                          <small> {{ $tc('sumedia-winestro.overview.execute.importProductsNote2')}}</small>
+                      </div>
+                      <br class="clear" />
+                  </div>
+                  <div class="sumedia-winestro-overview-execute-button">
+                      <div class="left">
+                          <sw-button :isLoading="this.execute.exportOrders.isLoading"
+                                     variant="primary" @click="executeExportOrders()">
+                              {{ $tc('sumedia-winestro.overview.execute.exportOrdersButton')}}
+                          </sw-button><br />
+                          <small> {{ $tc('sumedia-winestro.overview.execute.exportOrdersCron')}}</small>
+                      </div>
+                      <div class="left">
+                          <p> {{ $tc('sumedia-winestro.overview.execute.exportOrdersDescription')}}</p>
+                      </div>
+                      <br class="clear" />
+                  </div>
+                  <div class="sumedia-winestro-overview-execute-button">
+                      <div class="left">
+                          <sw-button :isLoading="this.execute.updateOrderStatus.isLoading"
+                                     variant="primary" @click="updateOrderStatusOrders()">
+                              {{ $tc('sumedia-winestro.overview.execute.updateOrderStatusButton')}}
+                          </sw-button><br />
+                          <small> {{ $tc('sumedia-winestro.overview.execute.updateOrderStatusCron')}}</small>
+                      </div>
+                      <div class="left">
+                          <p> {{ $tc('sumedia-winestro.overview.execute.updateOrderStatusDescription')}}</p>
+                      </div>
+                      <br class="clear" />
+                  </div>
+                  <div class="sumedia-winestro-overview-execute-button">
+                      <div class="left">
+                          <sw-button :isLoading="this.execute.newsletterReceiverImport.isLoading"
+                                     variant="primary" @click="executeNewsletterReceiverImport()">
+                              {{ $tc('sumedia-winestro.overview.execute.newsletterReceiverImportButton')}}
+                          </sw-button><br />
+                          <small> {{ $tc('sumedia-winestro.overview.execute.newsletterReceiverImportCron')}}</small>
+                      </div>
+                      <div class="left">
+                          <p> {{ $tc('sumedia-winestro.overview.execute.newsletterReceiverImportDescription')}}</p>
+                      </div>
+                      <br class="clear" />
+                  </div>
+              </sw-card>

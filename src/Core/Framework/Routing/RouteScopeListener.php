@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Core\Framework\Routing;
+namespace Sumedia\WinestroApi\Core\Framework\Routing;
 
 use Shopware\Core\Framework\Routing\Exception\InvalidRouteScopeException;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;

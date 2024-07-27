@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Setting;
+namespace Sumedia\WinestroApi\Setting;
 
 use Shopware\Core\Framework\Struct\Struct;
 

@@ -1,0 +1,250 @@
+{% block sumedia_winestro_connections %}
+
+    <h2>{{ $tc('sumedia-winestro.tasks.title') }}</h2>
+
+    <sw-button-group class="sumedia-winestro-tasks-actions">
+        <sw-button
+                @click="openCreate()"
+                variant="primary"
+        >
+            {{ $tc('sumedia-winestro.tasks.add') }}
+        </sw-button>
+    </sw-button-group>
+    <br />
+
+    <sw-data-grid :showSelection="false" class="sumedia-winestro-tasks-grid" :dataSource="data" :columns="columns" :full-page="true">
+        <template #actions="{ item }">
+            <sw-context-menu-item
+                    @click="openConfig(item.id)"
+            >
+                {{ $tc('sumedia-winestro.edit') }}
+            </sw-context-menu-item>
+            <sw-context-menu-item
+                    @click="executeTask(item.id)"
+            >
+                {{ $tc('sumedia-winestro.execute') }}
+            </sw-context-menu-item><br />
+            <br />
+            <sw-context-menu-item
+                    variant="danger"
+                    @click="openDelete(item.id)"
+            >
+                {{ $tc('sumedia-winestro.delete') }}
+            </sw-context-menu-item>
+        </template>
+    </sw-data-grid>
+
+    <sw-confirm-modal
+        v-if="this.delete.isOpen"
+        type="delete"
+        :text="$tc('sumedia-winestro.tasks.delete.confirm')"
+        @confirm="deleteTask()"
+        @close="closeDelete()"
+        @cancel="closeDelete()">
+    </sw-confirm-modal>
+
+    <sw-modal v-if="config.isOpen" @modalClose="closeConfig()" :title="$tc('sumedia-winestro.tasks.config.title')">
+
+        <sw-select-field
+                :label="$tc('sumedia-winestro.tasks.form.type')"
+                :disabled="this.formData.type"
+                v-model:value="formData.type"
+                :options="taskOptions"></sw-select-field>
+
+        <div v-if="formData.type === 'productImport'">
+            <sw-select-field
+                    :label="$tc('sumedia-winestro.tasks.form.winestroShopName')"
+                    :disabled="this.formData.productImport.winestroConnectionId"
+                    v-model:value="formData.productImport.winestroConnectionId"
+                    :options="winestroConnectionsOptions"></sw-select-field>
+            <sw-text-field :label="$tc('sumedia-winestro.tasks.form.name')"
+                           v-model:value="formData.productImport.name" required />
+
+            <sw-entity-multi-id-select :label="$tc('sumedia-winestro.tasks.form.visibleInSalesChannelsIds')"
+                                       v-model:value="formData.productImport.visibleInSalesChannelsIds"
+                                       :repository="salesChannelRepository" required />
+
+            <strong>{{ $tc('sumedia-winestro.tasks.form.articlenumber') }}</strong><br />
+            <br />
+            <p>{{ $tc('sumedia-winestro.tasks.form.articlenumberDescription') }}</p>
+            <br />
+            <sw-select-field :label="$tc('sumedia-winestro.tasks.form.articlenumber')"
+                             v-model:value="formData.productImport.articleNumberFormat"
+                             :options="articleNumberFormatOptions"></sw-select-field>
+            <sw-select-field :label="$tc('sumedia-winestro.tasks.form.yearSeparator')"
+                             v-model:value="formData.productImport.articleNumberYearSeparator"
+                             :options="separatorOptions"></sw-select-field>
+            <sw-select-field :label="$tc('sumedia-winestro.tasks.form.bottlingSeparator')"
+                             v-model:value="formData.productImport.articleNumberBottlingSeparator"
+                             :options="separatorOptions"></sw-select-field>
+
+            <strong>{{ $tc('sumedia-winestro.tasks.form.generalData') }}</strong><br />
+            <sw-entity-single-select :label="$tc('sumedia-winestro.tasks.form.defaultManufacturer')"
+                                     v-model:value="formData.productImport.defaultManufacturer"
+                                     entity="product_manufacturer" required />
+            <sw-entity-single-select :label="$tc('sumedia-winestro.tasks.form.tax')"
+                                     v-model:value="formData.productImport.tax"
+                                     entity="tax" required />
+            <sw-entity-single-select :label="$tc('sumedia-winestro.tasks.form.reducedTax')"
+                                     v-model:value="formData.productImport.reducedTax"
+                                     entity="tax" required />
+            <sw-entity-single-select :label="$tc('sumedia-winestro.tasks.form.deliveryTime')"
+                                     v-model:value="formData.productImport.deliveryTime"
+                                     entity="delivery_time" required />
+            <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.active')"
+                             v-model:value="formData.productImport.enabled.enabled" />
+            <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.enabled.products.activestatus')"
+                             v-model:value="formData.productImport.enabled.activestatus" />
+            <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.enabled.products.description')"
+                             v-model:value="formData.productImport.enabled.description" />
+            <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.enabled.products.freeshipping')"
+                             v-model:value="formData.productImport.enabled.freeshipping" />
+            <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.enabled.products.manufacturer')"
+                             v-model:value="formData.productImport.enabled.manufacturer" />
+        </div>
+
+        <div v-if="formData.type === 'productImageUpdate'">
+            <sw-select-field
+                    :label="$tc('sumedia-winestro.tasks.form.winestroShopName')"
+                    :disabled="this.formData.productImageUpdate.winestroConnectionId"
+                    v-model:value="this.formData.productImageUpdate.winestroConnectionId"
+                    :options="winestroConnectionsOptions"></sw-select-field>
+            <sw-text-field :label="$tc('sumedia-winestro.tasks.form.name')"
+                           v-model:value="formData.productImageUpdate.name" required />
+            <sw-entity-single-select :label="$tc('sumedia-winestro.tasks.form.mediaFolder')"
+                                     v-model:value="formData.productImageUpdate.mediaFolder"
+                                     entity="media_folder" required />
+            <sw-number-field :label="$tc('sumedia-winestro.tasks.form.maxImageWidth')"
+                             v-model:value="formData.productImageUpdate.maxImageWidth" required />
+            <sw-number-field :label="$tc('sumedia-winestro.tasks.form.maxImageHeight')"
+                             v-model:value="formData.productImageUpdate.maxImageHeight" required />
+            <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.active')"
+                             v-model:value="formData.productImageUpdate.enabled.enabled" />
+        </div>
+
+        <div v-if="formData.type === 'productStock'">
+            <sw-select-field :label="$tc('sumedia-winestro.tasks.form.winestroShopName')"
+                    :disabled="this.formData.productStock.winestroConnectionId"
+                    v-model:value="this.formData.productStock.winestroConnectionId"
+                    :options="winestroConnectionsOptions"></sw-select-field>
+            <sw-text-field :label="$tc('sumedia-winestro.tasks.form.name')"
+                           v-model:value="formData.productStock.name" required />
+            <sw-number-field :label="$tc('sumedia-winestro.tasks.form.sellingLimit')"
+                             v-model:value="formData.productStock.sellingLimit" required />
+            <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.active')"
+                             v-model:value="formData.productStock.enabled.enabled" />
+        </div>
+
+        <div v-if="formData.type === 'productCategoryAssignment'">
+            <sw-select-field :label="$tc('sumedia-winestro.tasks.form.winestroShopName')"
+                             :disabled="this.formData.productCategoryAssignment.winestroConnectionId"
+                             v-model:value="this.formData.productCategoryAssignment.winestroConnectionId"
+                             :options="winestroConnectionsOptions"></sw-select-field>
+            <sw-text-field :label="$tc('sumedia-winestro.tasks.form.name')"
+                           v-model:value="formData.productCategoryAssignment.name" required />
+            <sw-entity-single-select :label="$tc('sumedia-winestro.tasks.form.salesChannel')"
+                                     v-model:value="formData.productCategoryAssignment.salesChannelId"
+                                     entity="sales_channel" required />
+            <sw-text-field :label="$tc('sumedia-winestro.tasks.form.categoryIdentifier')"
+                           v-model:value="formData.productCategoryAssignment.categoryIdentifier" required />
+            <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.active')"
+                             v-model:value="formData.productCategoryAssignment.enabled.enabled" />
+        </div>
+
+        <div v-if="formData.type === 'orderExport'">
+            <sw-select-field :label="$tc('sumedia-winestro.tasks.form.winestroShopName')"
+                             :disabled="this.formData.orderExport.winestroConnectionId"
+                             v-model:value="this.formData.orderExport.winestroConnectionId"
+                             :options="winestroConnectionsOptions"></sw-select-field>
+            <div v-if="formData.orderExport.winestroConnectionId">
+                <sw-entity-multi-id-select :label="$tc('sumedia-winestro.tasks.form.productsFromSalesChannelsIds')"
+                                           v-model:value="formData.orderExport.productsFromSalesChannelsIds"
+                                           :repository="salesChannelRepository" required />
+                <sw-multi-select :label="$tc('sumedia-winestro.tasks.form.productsFromWinestroConnectionIds')"
+                                 v-model:value="this.formData.orderExport.productsFromWinestroConnectionIds"
+                                 :options="winestroConnectionsOptions"></sw-multi-select>
+                <sw-text-field :label="$tc('sumedia-winestro.tasks.form.name')"
+                               v-model:value="formData.orderExport.name" required />
+                <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.active')"
+                                 v-model:value="formData.orderExport.enabled.enabled" />
+                <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.enabled.orders.sendWinestroEmail')"
+                                 v-model:value="formData.orderExport.enabled.sendWinestroEmail" />
+            </div>
+        </div>
+
+        <div v-if="formData.type === 'orderStatusUpdate'">
+            <sw-select-field :label="$tc('sumedia-winestro.tasks.form.winestroShopName')"
+                             :disabled="this.formData.orderStatusUpdate.winestroConnectionId"
+                             v-model:value="this.formData.orderStatusUpdate.winestroConnectionId"
+                             :options="winestroConnectionsOptions"></sw-select-field>
+            <sw-text-field :label="$tc('sumedia-winestro.tasks.form.name')"
+                           v-model:value="formData.orderStatusUpdate.name" required />
+            <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.suppressEmail')"
+                             v-model:value="formData.orderStatusUpdate.suppressEmail" />
+            <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.active')"
+                             v-model:value="formData.orderStatusUpdate.enabled.enabled" />
+
+        </div>
+
+        <div v-if="formData.type === 'newsletterReceiverImport'">
+            <sw-select-field :label="$tc('sumedia-winestro.tasks.form.winestroShopName')"
+                             :disabled="this.formData.newsletterReceiverImport.winestroConnectionId"
+                             v-model:value="this.formData.newsletterReceiverImport.winestroConnectionId"
+                             :options="winestroConnectionsOptions"></sw-select-field>
+            <sw-entity-single-select :label="$tc('sumedia-winestro.tasks.form.salesChannel')"
+                                     v-model:value="formData.newsletterReceiverImport.salesChannelId"
+                                     entity="sales_channel" required />
+            <sw-text-field :label="$tc('sumedia-winestro.tasks.form.name')"
+                           v-model:value="formData.newsletterReceiverImport.name" required />
+            <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.active')"
+                             v-model:value="formData.newsletterReceiverImport.enabled.enabled" />
+        </div>
+
+        <div v-if="formData.type" class="sumedia-winestro-tasks-execute">
+            <strong>{{ $tc('sumedia-winestro.tasks.form.executeTitle') }}</strong><br />
+            <br />
+            <p>{{ $tc('sumedia-winestro.tasks.form.executeDescription') }}</p>
+
+            <template v-for="(item, key) in this.formData[this.formData.type].execute">
+                <div class="executes">
+                    <div class="left">
+                        {{ this.tasks[item].name }}<br />
+                    </div>
+                    <div class="right">
+                        <sw-button variant="danger" @click="removeExecute(this.formData.type, this.tasks[item].id)">
+                            {{ $tc('sumedia-winestro.delete')}}
+                        </sw-button>
+                    </div>
+                    <br class="clear" />
+                </div>
+            </template>
+
+            <div class="execute-add">
+                <div class="left">
+                    <sw-select-field v-model:value="formData.executeId"
+                            :criteria="executeCriteria"
+                            :options="filteredTasksOptions"></sw-select-field>
+                </div>
+                <div class="right">
+                    <sw-button :disabled="!this.formData.executeId" variant="default" @click="addExecute(this.formData.type, this.formData.executeId)">
+                        {{ $tc('sumedia-winestro.add')}}
+                    </sw-button>
+                </div>
+                <br class="clear" />
+            </div>
+
+        </div>
+
+        <template #modal-footer>
+
+            <sw-button :disabled="!isTaskComplete" variant="primary" @click="saveTask(this.formData.type)">
+                {{ $tc('sumedia-winestro.save')}}
+            </sw-button>
+
+        </template>
+
+    </sw-modal>
+
+
+
+{% endblock %}

@@ -2,7 +2,7 @@
 
 /** @copyright Sven Ullmann <kontakt@sumedia-webdesign.de> */
 
-namespace Sumedia\WinestroAPI;
+namespace Sumedia\WinestroApi;
 
 use Monolog\Logger;
 use Monolog\Handler\RotatingFileHandler;

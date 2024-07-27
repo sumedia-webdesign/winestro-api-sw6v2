@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Command\Cli;
+namespace Sumedia\WinestroApi\Service\Wbo\Command\Cli;
 
-use Sumedia\WinestroAPI\Config\WboConfig;
+use Sumedia\WinestroApi\Config\WboConfig;
 use Psr\Log\LoggerInterface;
-use Sumedia\WinestroAPI\Service\Wbo\Command\CommandInterface;
+use Sumedia\WinestroApi\Service\Wbo\Command\CommandInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

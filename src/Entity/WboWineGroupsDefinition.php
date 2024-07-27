@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Entity;
+namespace Sumedia\WinestroApi\Entity;
 
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\DateTimeField;

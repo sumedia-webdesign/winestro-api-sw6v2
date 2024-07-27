@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Service\Wbo;
+namespace Sumedia\WinestroApi\Service\Wbo;
 
-use Sumedia\WinestroAPI\Config\WboConfig;
+use Sumedia\WinestroApi\Config\WboConfig;
 
 class ArticleNumberParser
 {

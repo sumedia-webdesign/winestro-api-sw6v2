@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Service\Wbo\Url;
+namespace Sumedia\WinestroApi\Service\Wbo\Url;
 
-use Sumedia\WinestroAPI\Config\WboConfig;
+use Sumedia\WinestroApi\Config\WboConfig;
 
 class ImageUrl implements UrlInterface {
 

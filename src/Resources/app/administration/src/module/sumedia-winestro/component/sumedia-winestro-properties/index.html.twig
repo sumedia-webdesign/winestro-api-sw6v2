@@ -1,0 +1,31 @@
+{% block sumedia_winestro_connections %}
+
+    <div class="sumedia-winestro-title">
+        <h2>{{ $tc('sumedia-winestro.properties.title') }}</h2>
+        <br class="clear" />
+    </div>
+
+    <sw-card :large="true" :isLoading="isLoading" :title="$tc('sumedia-winestro.installation.properties.title')">
+
+        <template v-for="(item, key) in properties">
+            <div class="label">
+                {{ $tc('sumedia-winestro.properties.form.' + key) }}
+                <div class="right">
+                    <sw-internal-link @click="createProperty(key)">{{ $tc('sumedia-winestro.createAutomatically') }}</sw-internal-link>
+                </div>
+            </div>
+            <sw-entity-single-select v-model:value="formData[key]" entity="property_group" required />
+        </template>
+
+        <div class="right">
+            <sw-button :isLoading="this.isLoading"
+                       :disabled="!isPropertiesComplete" variant="primary" @click="saveProperties">
+                {{ $tc('sumedia-winestro.save')}}
+            </sw-button>
+        </div>
+        <br class="clear" />
+
+    </sw-card>
+
+
+{% endblock %}

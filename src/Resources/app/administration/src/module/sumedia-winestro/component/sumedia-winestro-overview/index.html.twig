@@ -1,0 +1,59 @@
+{% block sumedia_winestro_overview %}
+
+    <div class="sumedia-winestro-title">
+        <h2>{{ $tc('sumedia-winestro.overview.title') }}</h2>
+        <br class="clear" />
+    </div>
+
+    <div v-if="isInstallationNeeded">
+        <sw-card :large="true">
+            <p>{{ $tc('sumedia-winestro.overview.needInstall') }}</p><br />
+            <p>{{ $tc('sumedia-winestro.overview.needInstall2') }}</p><br />
+            <br />
+            <a target="_blank" href="https://sumedia-webdesign.atlassian.net/wiki/spaces/WINESTRO/pages/1081396/Plugin+in+Version+2.x">
+                {{ $tc('sumedia-winestro.overview.toTheDocumentation') }}
+            </a>
+        </sw-card>
+    </div>
+
+    <div v-if="!isInstallationNeeded">
+        <sw-card :large="true">
+            <a target="_blank" href="https://sumedia-webdesign.atlassian.net/wiki/spaces/WINESTRO/pages/1081396/Winestro+Cloud+Integration">
+                {{ $tc('sumedia-winestro.overview.toTheDocumentation') }}
+            </a>
+        </sw-card>
+
+        <sw-card :large="true">
+            <h3>{{ $tc('sumedia-winestro.overview.executesTitle') }}</h3>
+            <template v-for="item in executes">
+                <div>{{ item }}</div>
+            </template>
+        </sw-card>
+
+        <sw-card :large="true">
+            <h3>{{ $tc('sumedia-winestro.overview.taskLogTitle') }}</h3>
+            <template v-for="item in tasklog">
+                <div :class="['sumedia-winestro-overview-log', item.type]">
+                    {{ item.text }}
+                </div>
+            </template>
+        </sw-card>
+
+        <sw-card :large="true">
+            <h3>{{ $tc('sumedia-winestro.overview.cronLogTitle') }}</h3>
+            <template v-for="item in cronlog">
+                <div :class="['sumedia-winestro-overview-log', item.type]">
+                    {{ item.text }}
+                </div>
+            </template>
+        </sw-card>
+
+        <sw-card :large="true">
+            <h3>{{ $tc('sumedia-winestro.overview.logDownloadTitle') }}</h3>
+            <sw-button variant="primary" @click="downloadLogFiles">
+                {{ $tc('sumedia-winestro.overview.logDownloadButton')}}
+            </sw-button>
+        </sw-card>
+    </div>
+
+{% endblock %}

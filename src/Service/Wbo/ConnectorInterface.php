@@ -4,10 +4,10 @@
  * @copyright Sven Ullmann <kontakt@sumedia-webdesign.de>
  */
 
-namespace Sumedia\WinestroAPI\Service\Wbo;
+namespace Sumedia\WinestroApi\Service\Wbo;
 
-use Sumedia\WinestroAPI\Service\Wbo\Request\RequestInterface;
-use Sumedia\WinestroAPI\Service\Wbo\Response\ResponseInterface;
+use Sumedia\WinestroApi\Service\Wbo\Request\RequestInterface;
+use Sumedia\WinestroApi\Service\Wbo\Response\ResponseInterface;
 
 interface ConnectorInterface
 {

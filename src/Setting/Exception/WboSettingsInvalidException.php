@@ -4,7 +4,7 @@
  * @copyright Sven Ullmann <kontakt@sumedia-webdesign.de>
  */
 
-namespace Sumedia\WinestroAPI\Setting\Exception;
+namespace Sumedia\WinestroApi\Setting\Exception;
 
 use Symfony\Component\HttpFoundation\Response;
 use Shopware\Core\Framework\ShopwareHttpException;

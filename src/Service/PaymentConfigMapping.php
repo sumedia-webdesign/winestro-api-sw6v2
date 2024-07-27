@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Sumedia\WinestroAPI\Service;
+namespace Sumedia\WinestroApi\Service;
 
 class PaymentConfigMapping
 {
