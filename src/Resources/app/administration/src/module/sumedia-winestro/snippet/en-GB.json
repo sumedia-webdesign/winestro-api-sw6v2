@@ -252,6 +252,7 @@
         "bottlingSeparator": "Bottling Separator",
         "productsFromSalesChannelsIds": "Export orders from these sales channels",
         "productsFromWinestroConnectionIds": "Export orders for products from these winestro.cloud connections",
+        "visibleInSalesChannelsIds": "Visible in following Sales Channel",
         "reducedTax": "Reduced Tax Rate",
         "deliveryTime": "Delivery Time",
         "mediaFolder": "Media Folder for Product Images",

@@ -58,6 +58,17 @@ abstract class AbstractTask implements TaskInterface, \ArrayAccess
                 return;
             }
 
+            $running = $this->config->get('running') ?? [];
+            if (isset($running[$this['id']])) {
+                $runningDate = (new \DateTime($running[$this['id']]))->add(\DateInterval::createFromDateString('1 hour'));
+                if (new \DateTime() < $runningDate) {
+                    $this->logManager->logTask('[task running]');
+                    return;
+                }
+            }
+            $running[$this['id']] = date('Y-m-d H:i:s');
+            $this->config->set('running', $running);
+
             $callback();
 
             $this->logManager->logTask('[task execute children]');
@@ -69,6 +80,12 @@ abstract class AbstractTask implements TaskInterface, \ArrayAccess
             if (!$this->parentTask) {
                 $this->taskManager->removeParameter('executedTasks');
             }
+
+            $running = $this->config->get('running') ?? [];
+            if (isset($running[$this['id']])) {
+                unset($running[$this['id']]);
+            }
+            $this->config->set('running', $running);
 
             $this->logManager->logTask('[task successful]');
         } catch (\Exception $e) {

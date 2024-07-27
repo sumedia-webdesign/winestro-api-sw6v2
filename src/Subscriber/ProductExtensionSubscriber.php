@@ -94,10 +94,10 @@ class ProductExtensionSubscriber implements EventSubscriberInterface
             'bigImage3' => null,
             'bigImage4' => null,
             'category' => $this->getOption($product,  'Category', $context),
-            'manufacturer' => $product->getManufacturer()->getName(),
-            'unitId' => $product->getUnit()->getId(),
-            'unit' => $product->getUnit()->getName(),
-            'unitQuantity' => $product->getPurchaseUnit(),
+            'manufacturer' => $this->getManufacturer($product->getManufacturerId(), $context),
+            'unitId' => null,
+            'unit' => null,
+            'unitQuantity' => null,
             'ean' => $product->getEan(),
             'createdAt' => $product->getCreatedAt(),
             'updatedAt' => $product->getUpdatedAt(),
@@ -143,14 +143,31 @@ class ProductExtensionSubscriber implements EventSubscriberInterface
             'Vitamins' => 'Vitamine'
         ];
         $name = 'de-DE' === $isoCode ? $map[$name] : $name;
-
+        foreach ($product->getOptions() as $option) {
+            if ($option->getGroup()->getName() === $name) {
+                return $option->getName();
+            }
+        }
+        return null;
     }
 
     private function getLocale(string $languageId, Context $context): LocaleEntity
     {
-        return $this->repositoryManager->search('locale',
-            (new Criteria())->addFilter(new EqualsFilter('languageId', $languageId)),
+        return $this->repositoryManager->search('language',
+            (new Criteria([$languageId]))->addAssociation('locale'),
+            $context
+        )->first()->getLocale();
+    }
+
+    private function getManufacturer(string $manufacturerId, Context $context): string
+    {
+        $manufacturer = $this->repositoryManager->search('product_manufacturer',
+            (new Criteria([$manufacturerId])),
             $context
         )->first();
+        if ($manufacturer) {
+            return $manufacturer->getName();
+        }
+        return null;
     }
 }

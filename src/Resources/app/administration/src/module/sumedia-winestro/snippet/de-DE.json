@@ -254,6 +254,7 @@
         "bottlingSeparator": "Abfüllungstrennzeichen",
         "productsFromSalesChannelsIds": "Bestellungen aus diesen Verkaufskanälen exportieren",
         "productsFromWinestroConnectionIds": "Bestellungen für Produkte aus diesen winestro.cloud Verbindungen exportieren",
+        "visibleInSalesChannelsIds": "Sichtbar in folgenden Verkaufskanälen",
         "reducedTax": "Reduzierter Steuersatz",
         "deliveryTime": "Lieferzeit",
         "mediaFolder": "Medienverzeichnis für Produktbilder",
