@@ -11,26 +11,35 @@
                     <sw-tabs-item v-if="isInstallationNeeded" :route="{ name: 'sumedia.winestro.configuration.installation' }">
                         {{ $tc('sumedia-winestro.tabs.installation') }}
                     </sw-tabs-item>
-                    <sw-tabs-item :disabled="isInstallationNeeded" :route="{ name: 'sumedia.winestro.configuration.connections' }">
+                    <sw-tabs-item v-if="isMigrationNeeded" :route="{ name: 'sumedia.winestro.configuration.migration' }">
+                        {{ $tc('sumedia-winestro.tabs.migration') }}
+                    </sw-tabs-item>
+                    <sw-tabs-item :disabled="isInstallationNeeded || isMigrationNeeded" :route="{ name: 'sumedia.winestro.configuration.loganalyzer' }">
+                        {{ $tc('sumedia-winestro.tabs.loganalyzer') }}
+                    </sw-tabs-item>
+                    <sw-tabs-item :disabled="isInstallationNeeded || isMigrationNeeded" :route="{ name: 'sumedia.winestro.configuration.connections' }">
                         {{ $tc('sumedia-winestro.tabs.connections') }}
                     </sw-tabs-item>
-                    <sw-tabs-item :disabled="isInstallationNeeded" :route="{ name: 'sumedia.winestro.configuration.measurements' }">
+                    <sw-tabs-item :disabled="isInstallationNeeded || isMigrationNeeded" :route="{ name: 'sumedia.winestro.configuration.measurements' }">
                         {{ $tc('sumedia-winestro.tabs.measurements') }}
                     </sw-tabs-item>
-                    <sw-tabs-item :disabled="isInstallationNeeded" :route="{ name: 'sumedia.winestro.configuration.properties' }">
+                    <sw-tabs-item :disabled="isInstallationNeeded || isMigrationNeeded" :route="{ name: 'sumedia.winestro.configuration.properties' }">
                         {{ $tc('sumedia-winestro.tabs.properties') }}
                     </sw-tabs-item>
-                    <sw-tabs-item :disabled="isInstallationNeeded" :route="{ name: 'sumedia.winestro.configuration.salechannels' }">
+                    <sw-tabs-item :disabled="isInstallationNeeded || isMigrationNeeded" :route="{ name: 'sumedia.winestro.configuration.salechannels' }">
                         {{ $tc('sumedia-winestro.tabs.saleChannels') }}
                     </sw-tabs-item>
-                    <sw-tabs-item :disabled="isInstallationNeeded" :route="{ name: 'sumedia.winestro.configuration.tasks' }">
+                    <sw-tabs-item :disabled="isInstallationNeeded || isMigrationNeeded" :route="{ name: 'sumedia.winestro.configuration.tasks' }">
                         {{ $tc('sumedia-winestro.tabs.tasks') }}
                     </sw-tabs-item>
-                    <sw-tabs-item :disabled="isInstallationNeeded" :route="{ name: 'sumedia.winestro.configuration.tasksExtensions' }">
+                    <sw-tabs-item :disabled="isInstallationNeeded || isMigrationNeeded" :route="{ name: 'sumedia.winestro.configuration.tasksExtensions' }">
                         {{ $tc('sumedia-winestro.tabs.tasks-extensions') }}
                     </sw-tabs-item>
-                    <sw-tabs-item :disabled="isInstallationNeeded" :route="{ name: 'sumedia.winestro.configuration.cron' }">
+                    <sw-tabs-item :disabled="isInstallationNeeded || isMigrationNeeded" :route="{ name: 'sumedia.winestro.configuration.cron' }">
                         {{ $tc('sumedia-winestro.tabs.cron') }}
+                    </sw-tabs-item>
+                    <sw-tabs-item :disabled="isInstallationNeeded || isMigrationNeeded" :route="{ name: 'sumedia.winestro.configuration.logdownload' }">
+                        {{ $tc('sumedia-winestro.tabs.logdownload') }}
                     </sw-tabs-item>
                 </sw-tabs>
             </div>

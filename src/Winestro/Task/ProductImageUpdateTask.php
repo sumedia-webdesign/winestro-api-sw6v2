@@ -60,18 +60,4 @@ class ProductImageUpdateTask extends AbstractTask
 
         $this->imageUpdater->updateImages($this, $products, $articles);
     }
-
-    private function getProductNumber(
-        $articleNumber,
-        $articleNumberFormat,
-        $articleNumberYearSeparator,
-        $bottlingSeparator
-    ): string {
-        return $this->articleNumberParser->WinestroArticleNumberToShopwareProductNumber(
-            $articleNumber,
-            $articleNumberFormat,
-            $articleNumberYearSeparator,
-            $bottlingSeparator
-        );
-    }
 }

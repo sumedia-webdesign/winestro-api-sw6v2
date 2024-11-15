@@ -6,6 +6,7 @@ namespace Sumedia\WinestroApi\Winestro\DataMapper;
 
 interface DataMapperInterface
 {
-    public function mapKey(string $key): string;
+    public function getConstants(): array;
+    public function mapKey(string $key): mixed;
     public function toArray(): array;
 }

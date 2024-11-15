@@ -87,7 +87,12 @@ class WinestroArticleDataMapper implements DataMapperInterface
         'artikel_warengruppen' => 'waregroups'
     ];
 
-    public function mapKey(string $key): string
+    public function getConstants(): array
+    {
+        return [];
+    }
+
+    public function mapKey(string $key): mixed
     {
         if (!isset($this->map[$key])) {
             return $key;

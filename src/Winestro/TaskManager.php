@@ -4,7 +4,7 @@
 
 namespace Sumedia\WinestroApi\Winestro;
 
-use Sumedia\WinestroApi\Config;
+use Sumedia\WinestroApi\ConfigInterface;
 use Sumedia\WinestroApi\Winestro\Task\TaskInterface;
 use Symfony\Component\DependencyInjection\Container;
 
@@ -25,7 +25,8 @@ class TaskManager implements TaskManagerInterface
 
     public function __construct(
         private Container $container,
-        private Config $config
+        private ConfigInterface $config,
+        private LogManagerInterface $logManager
     ){
         $this->taskConfig = $this->config->get('tasks') ?? [];
     }
@@ -62,6 +63,40 @@ class TaskManager implements TaskManagerInterface
     {
         if (isset($this->parameters[$key])) {
             unset($this->parameters[$key]);
+        }
+    }
+
+    public function lockTask(string $taskId): void
+    {
+        if ($this->isLockedTask($taskId)) {
+            $this->logManager->logProcess('[task locked]');
+            throw new \RuntimeException('task locked');
+        }
+
+        $lockedTasks = $this->config->get('tasklock');
+        $lockedTasks[$taskId] = date('Y-m-d H:i:s');
+        $this->config->set('tasklock', $lockedTasks);
+    }
+
+    public function isLockedTask(string $taskId): bool
+    {
+        $lockedTasks = $this->config->get('tasklock');
+        if (isset($lockedTasks[$taskId])) {
+            if (new \DateTime($lockedTasks[$taskId]) < (new \DateTime())->sub(\DateInterval::createFromDateString('1 hour'))) {
+                $this->unlockTask($taskId);
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function unlockTask(string $taskId): void
+    {
+        $lockedTasks = $this->config->get('tasklock');
+        if (isset($lockedTasks[$taskId])) {
+            unset($lockedTasks[$taskId]);
+            $this->config->set('tasklock', $lockedTasks);
         }
     }
 

@@ -42,13 +42,18 @@ class PaymentConfigMapper implements DataMapperInterface
 
     public function __construct()
     {
-        $ref = new \ReflectionClass(self::class);
-        foreach ($ref->getConstants() as $key => $value) {
+        foreach ($this->getConstants() as $key => $value) {
             $this->map[$key] = $value;
         }
     }
 
-    public function mapKey(string $key): string
+    public function getConstants(): array
+    {
+        $ref = new \ReflectionClass(self::class);
+        return (array) $ref->getConstants();
+    }
+
+    public function mapKey(string $key): mixed
     {
         return $this->map[$key];
     }

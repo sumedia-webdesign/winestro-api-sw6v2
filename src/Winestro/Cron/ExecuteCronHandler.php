@@ -2,11 +2,6 @@
 
 namespace Sumedia\WinestroApi\Winestro\Cron;
 
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
-use Sumedia\WinestroApi\ConfigInterface;
-use Sumedia\WinestroApi\Winestro\CronManagerInterface;
-use Sumedia\WinestroApi\Winestro\LogManagerInterface;
-use Sumedia\WinestroApi\Winestro\TaskManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler(handles: ExecuteCron::class)]

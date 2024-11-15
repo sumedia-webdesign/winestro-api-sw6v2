@@ -69,7 +69,7 @@ class GetArticlesFromWinestroResponse extends AbstractResponse
     private function filterStrangeValue(string $key, mixed $value): mixed
     {
         $value = $this->ohLookNeedUnserialize($value);
-        $value = $this->removeUsefulArrayResponse($value);
+        $value = $this->removeUnusefulArrayResponse($value);
 
         switch ($key) {
             case 'artikel_nr': $value = urldecode($value); break;
@@ -106,7 +106,7 @@ class GetArticlesFromWinestroResponse extends AbstractResponse
         return $value;
     }
 
-    private function removeUsefulArrayResponse(mixed $value): mixed
+    private function removeUnusefulArrayResponse(mixed $value): mixed
     {
         return is_array($value) && !count($value) ? null : $value;
     }

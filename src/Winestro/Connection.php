@@ -19,6 +19,8 @@ class Connection implements ConnectionInterface
 
     private Client $client;
 
+    private array $runtimeCache = [];
+
     public function __construct(
         private Container $container,
         private LogManager $logManager
@@ -73,6 +75,12 @@ class Connection implements ConnectionInterface
 
     private function post(): array
     {
+        sort($this->parameters);
+        $runtimeCacheId = md5($this->url . ':' . serialize($this->parameters));
+        if (isset($this->runtimeCache[$runtimeCacheId])) {
+            return $this->runtimeCache[$runtimeCacheId];
+        }
+
         $response = $this->client->post($this->url, [
             'query' => $this->getParameters(),
             'allow_redirects' => [
@@ -80,8 +88,15 @@ class Connection implements ConnectionInterface
                 'protocols' => ['https']
             ]
         ]);
+
+        if ($response->getStatusCode() !== 200) {
+            throw new \RuntimeException('Response status code: ' . $response->getStatusCode());
+        }
+
         $jsonAsString = $response->getBody()->getContents();
-        return json_decode($jsonAsString, true);
+        $responseAsArray = json_decode($jsonAsString, true);
+        $this->runtimeCache[$runtimeCacheId] = $responseAsArray;
+        return $responseAsArray;
     }
 
     private function createResponse(string $responseName, array $response): ResponseInterface

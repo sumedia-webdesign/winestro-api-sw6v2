@@ -18,10 +18,6 @@
             <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService" />
         </service>
 
-        <service id="Sumedia\WinestroApi\CustomFieldService">
-            <argument type="service" id="Sumedia\WinestroApi\RepositoryManager" />
-        </service>
-
         <service id="Sumedia\WinestroApi\RepositoryManager">
             <argument type="service" id="service_container" />
             <argument type="service" id="Sumedia\WinestroApi\DefaultContext" />
@@ -44,13 +40,19 @@
 
         -->
 
-        <service id="Sumedia\Winestro\Controller\ApiTestController" public="true">
+        <service id="Sumedia\WinestroApi\Controller\ApiTestController" public="true">
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
             </call>
         </service>
 
-        <service id="Sumedia\Winestro\Controller\WinestroApiController" public="true">
+        <service id="Sumedia\WinestroApi\Controller\WinestroApiController" public="true">
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
+        <service id="Sumedia\WinestroApi\Controller\LogDownloadController" public="true">
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
             </call>
@@ -69,7 +71,7 @@
 
         <service id="Sumedia\WinestroApi\DebugLogger" class="Monolog\Logger">
             <factory service="Sumedia\WinestroApi\LoggerFactory" method="createRotating"/>
-            <argument type="string">sumedia_winestro</argument>
+            <argument type="string">sumedia_winestro_debug</argument>
         </service>
 
         <service id="Sumedia\WinestroApi\ErrorLogger" class="Monolog\Logger">
@@ -77,26 +79,15 @@
             <argument type="string">sumedia_winestro_error</argument>
         </service>
 
-        <service id="Sumedia\WinestroApi\DebugLogger" class="Monolog\Logger">
+        <service id="Sumedia\WinestroApi\ProcessLogger" class="Monolog\Logger">
             <factory service="Sumedia\WinestroApi\LoggerFactory" method="createRotating"/>
-            <argument type="string">sumedia_winestro_debug</argument>
-        </service>
-
-        <service id="Sumedia\WinestroApi\TaskLogger" class="Monolog\Logger">
-            <factory service="Sumedia\WinestroApi\LoggerFactory" method="createRotating"/>
-            <argument type="string">sumedia_winestro_tasks</argument>
-        </service>
-
-        <service id="Sumedia\WinestroApi\CronLogger" class="Monolog\Logger">
-            <factory service="Sumedia\WinestroApi\LoggerFactory" method="createRotating"/>
-            <argument type="string">sumedia_winestro_crons</argument>
+            <argument type="string">sumedia_winestro_process</argument>
         </service>
 
         <service id="Sumedia\WinestroApi\Winestro\LogManager">
             <argument type="service" id="Sumedia\WinestroApi\DebugLogger" />
             <argument type="service" id="Sumedia\WinestroApi\ErrorLogger" />
-            <argument type="service" id="Sumedia\WinestroApi\TaskLogger" />
-            <argument type="service" id="Sumedia\WinestroApi\CronLogger" />
+            <argument type="service" id="Sumedia\WinestroApi\ProcessLogger" />
         </service>
 
         <!--
@@ -240,6 +231,19 @@
             <tag name="shopware.scheduled.task" />
         </service>
 
+        <service id="Sumedia\WinestroApi\Winestro\Cron\CronHealthCheckHandler">
+            <argument type="service" id="scheduled_task.repository" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\LogManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\CronManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\TaskManager" />
+            <argument type="service" id="Sumedia\WinestroApi\Config" />
+            <argument type="service" id="Sumedia\WinestroApi\DefaultContext" />
+            <tag name="messenger.message_handler" />
+        </service>
+        <service id="Sumedia\WinestroApi\Winestro\Cron\CronHealthCheck">
+            <tag name="shopware.scheduled.task" />
+        </service>
+
         <!--
 
             DataMapper
@@ -379,7 +383,6 @@
             <argument type="service" id="Sumedia\WinestroApi\RepositoryManager" />
             <argument type="service" id="Sumedia\WinestroApi\Winestro\LogManager" />
             <argument type="service" id="Sumedia\WinestroApi\Winestro\ArticleNumberParser" />
-            <argument type="service" id="Sumedia\WinestroApi\CustomFieldService" />
             <argument type="service" id="Sumedia\WinestroApi\DefaultContext" />
         </service>
 

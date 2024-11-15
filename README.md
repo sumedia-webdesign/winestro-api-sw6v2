@@ -2,16 +2,12 @@
 
 ## API URL
 
-Bis Version 1.1.26: https://nephele-s5.de/xml/v16
-
-Ab Version 1.2.0: https://nephele-s5.de/xml/v18.0
+https://weinstore.net/xml/v20.0
 
 ## Dokumentation
 
-[Aktuelle Dokumentation auf meiner Webseite](https://www.sumedia-webdesign.de/sumedia-wbo/artikelnummer.html)
-
-[Neue Dokumentation / in Arbeit](https://sumedia-webdesign.atlassian.net/wiki/spaces/WINESTRO/overview)
+[Winestro Cloud Integration](https://sumedia-webdesign.atlassian.net/wiki/spaces/WINESTRO/pages/1081396/Winestro+Cloud+Integration)
 
 ## Changelog
 
-[Changelog](https://www.sumedia-webdesign.de/sumedia-wbo/changelog.html)
+[Changelog](https://www.sumedia-webdesign.de/sumedia-wbo/changelog.htm)

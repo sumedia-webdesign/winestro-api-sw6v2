@@ -1,6 +1,8 @@
 import './page/sumedia-winestro';
 import './component/sumedia-winestro-overview';
 import './component/sumedia-winestro-installation';
+import './component/sumedia-winestro-migration';
+import './component/sumedia-winestro-loganalyzer';
 import './component/sumedia-winestro-connections';
 import './component/sumedia-winestro-measurements';
 import './component/sumedia-winestro-properties';
@@ -8,6 +10,7 @@ import './component/sumedia-winestro-salechannels';
 import './component/sumedia-winestro-tasks';
 import './component/sumedia-winestro-tasks-extensions';
 import './component/sumedia-winestro-cron';
+import './component/sumedia-winestro-logdownload';
 import deDE from './snippet/de-DE.json';
 import enGB from './snippet/en-GB.json';
 import SumediaWinestroApiService from "./service/sumedia-winestro-api-service";
@@ -72,6 +75,14 @@ Module.register('sumedia-winestro', {
                     component: 'sumedia-winestro-installation',
                     path: 'installation'
                 },
+                migration: {
+                    component: 'sumedia-winestro-migration',
+                    path: 'migration'
+                },
+                loganalyzer: {
+                    component: 'sumedia-winestro-loganalyzer',
+                    path: 'loganalyzer'
+                },
                 connections: {
                     component: 'sumedia-winestro-connections',
                     path: 'connections'
@@ -99,6 +110,10 @@ Module.register('sumedia-winestro', {
                 cron: {
                     component: 'sumedia-winestro-cron',
                     path: 'cron'
+                },
+                logdownload: {
+                    component: 'sumedia-winestro-logdownload',
+                    path: 'logdownload'
                 }
             }
         }

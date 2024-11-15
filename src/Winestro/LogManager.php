@@ -9,29 +9,40 @@ use Psr\Log\LogLevel;
 
 class LogManager implements LogManagerInterface, LoggerInterface
 {
-    private string $taskId = '';
-
+    private string $logId = '';
     private bool $errorHandlerSetted = false;
-
     private bool $voidErrorHandlerSetted = false;
 
     public function __construct(
         private LoggerInterface $debugLogger,
         private LoggerInterface $errorLogger,
-        private LoggerInterface $taskLogger,
-        private LoggerInterface $cronLogger
+        private LoggerInterface $processLogger
     ) {
-        $this->taskId = uniqid();
+        $this->logId = $this->getUniqueId();
     }
 
-    public function setTaskId(string $taskId): void
+    private function getUniqueId($len = 13): string
     {
-        $this->taskId = $taskId;
+        $hex = md5(rand(1,1000) . uniqid((string) time(), true));
+        $pack = pack('H*', $hex);
+        $tmp = base64_encode($pack);
+        $id = preg_replace("#(*UTF8)[^A-Za-z0-9]#", "", $tmp);
+        return substr($id, 0, $len);
     }
 
-    public function getTaskId(): string
+    public function getLogId(): string
     {
-        return $this->taskId;
+        return $this->logId;
+    }
+
+    public function newLogId(): void
+    {
+        $this->logId = $this->logId . '-' .$this->getUniqueId();
+    }
+
+    public function resetLogId(): void
+    {
+        $this->logId = substr($this->logId, 0, strrpos($this->logId, '-'));
     }
 
     public function emergency(\Stringable|string $message, array $context = []): void
@@ -89,20 +100,22 @@ class LogManager implements LogManagerInterface, LoggerInterface
         }
     }
 
-    public function logTask(\Stringable|string $message, array $context = []): void
+    public function logProcess(\Stringable|string|\Throwable $message, array $context = []): void
     {
-        $this->taskLogger->info("[$this->taskId] $message", $context);
-    }
-
-    public function logCron(\Stringable|string $message, array $context = []): void
-    {
-        $this->cronLogger->info("[$this->taskId] $message", $context);
+        if ($message instanceof \Throwable) {
+            $message =
+                "[" . $this->logId . "] ".
+                $message->getMessage() . "\n in " .
+                $message->getFile() . "\n line " .
+                $message->getLine() . "\n" . $message->getTraceAsString();
+        }
+        $this->logger->info("[$this->logId] $message", $context);
     }
 
     public function logException(\Throwable $e): void
     {
         $message =
-            "[" . $this->taskId . "] ".
+            "[" . $this->logId . "] ".
             $e->getMessage() . "\n in " .
             $e->getFile() . "\n line " .
             $e->getLine() . "\n" . $e->getTraceAsString();
@@ -170,12 +183,8 @@ class LogManager implements LogManagerInterface, LoggerInterface
     {
         return $this->debugLogger;
     }
-    public function getTaskLogger(): LoggerInterface
+    public function getProcessLogger(): LoggerInterface
     {
-        return $this->taskLogger;
-    }
-    public function getCronLogger(): LoggerInterface
-    {
-        return $this->cronLogger;
+        return $this->processLogger;
     }
 }

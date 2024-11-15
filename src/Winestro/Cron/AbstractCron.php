@@ -39,20 +39,17 @@ abstract class AbstractCron extends ScheduledTaskHandler
                     $cronId = $cron['id'];
                 }
             }
-            $this->logManager->setTaskId(uniqid());
-            $this->logManager->logCron("[cron run $cronId]");
+            $this->logManager->logProcess("[cron run $cronId]");
 
             foreach ($taskIds as $taskId) {
-                $this->logManager->logCron('[cron task ' . $taskId . ']');
+                $this->logManager->logProcess('[cron task ' . $taskId . ']');
                 $this->taskManager->getTask($taskId)->execute();
             }
-            $this->logManager->logCron('[cron success]');
+            $this->logManager->logProcess('[cron success]');
         } catch (\Exception $e) {
             $this->logManager->logException($e);
-            $this->logManager->logCron('[cron message] ' .
-                $e->getMessage() . ' in ' . $e->getFile() . ' on ' . $e->getLine() . ': ' . $e->getTraceAsString()
-            );
-            $this->logManager->logCron('[cron failed]');
+            $this->logManager->logProcess($e);
+            $this->logManager->logProcess('[cron failed]');
         }
     }
 }

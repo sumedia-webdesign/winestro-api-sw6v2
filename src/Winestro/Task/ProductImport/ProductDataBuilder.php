@@ -14,7 +14,6 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Sumedia\WinestroApi\ConfigInterface;
-use Sumedia\WinestroApi\CustomFieldService;
 use Sumedia\WinestroApi\Winestro\ArticleNumberParser;
 use Sumedia\WinestroApi\Winestro\LogManagerInterface;
 use Sumedia\WinestroApi\RepositoryManagerInterface;
@@ -32,7 +31,6 @@ class ProductDataBuilder
         private RepositoryManagerInterface $repositoryManager,
         private LogManagerInterface $logManager,
         private ArticleNumberParser $articleNumberParser,
-        private CustomFieldService $customFieldService,
         private Context $context
     ){}
 

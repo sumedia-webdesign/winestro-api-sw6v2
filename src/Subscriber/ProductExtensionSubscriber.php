@@ -7,7 +7,6 @@ use Shopware\Core\Content\Product\ProductEvents;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityLoadedEvent;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Struct\ArrayStruct;
 use Shopware\Core\System\Locale\LocaleEntity;
 use Sumedia\WinestroApi\RepositoryManagerInterface;
@@ -94,7 +93,7 @@ class ProductExtensionSubscriber implements EventSubscriberInterface
             'bigImage3' => null,
             'bigImage4' => null,
             'category' => $this->getOption($product,  'Category', $context),
-            'manufacturer' => $this->getManufacturer($product->getManufacturerId(), $context),
+            'manufacturer' => $this->getManufacturer((string) $product->getManufacturerId(), $context),
             'unitId' => null,
             'unit' => null,
             'unitQuantity' => null,
@@ -143,7 +142,7 @@ class ProductExtensionSubscriber implements EventSubscriberInterface
             'Vitamins' => 'Vitamine'
         ];
         $name = 'de-DE' === $isoCode ? $map[$name] : $name;
-        foreach ($product->getOptions() as $option) {
+        foreach ($product->getOptions() ?: [] as $option) {
             if ($option->getGroup()->getName() === $name) {
                 return $option->getName();
             }
@@ -161,6 +160,10 @@ class ProductExtensionSubscriber implements EventSubscriberInterface
 
     private function getManufacturer(string $manufacturerId, Context $context): mixed
     {
+        if (empty($manufacturerId)) {
+            return null;
+        }
+
         $manufacturer = $this->repositoryManager->search('product_manufacturer',
             (new Criteria([$manufacturerId])),
             $context

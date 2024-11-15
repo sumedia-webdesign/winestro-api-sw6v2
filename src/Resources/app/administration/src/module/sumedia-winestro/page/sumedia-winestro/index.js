@@ -10,18 +10,23 @@ Component.register('sumedia-winestro', {
 
     data() {
         return {
-            isInstallationNeeded: true
+            isInstallationNeeded: true,
+            isMigrationNeeded: false,
         }
     },
 
     mounted() {
         this.checkInstallationIsNeeded();
+        this.checkMigrationIsNeeded();
     },
 
     methods: {
         async checkInstallationIsNeeded() {
             this.isInstallationNeeded = !(true === await this.sumediaWinestro.configService.get('installationDone'));
-        }
+        },
 
+        async checkMigrationIsNeeded() {
+            this.isMigrationNeeded = false === await this.sumediaWinestro.configService.get('migrationDone');
+        }
     }
 });

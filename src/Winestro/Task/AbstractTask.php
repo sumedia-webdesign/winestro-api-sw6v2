@@ -37,61 +37,37 @@ abstract class AbstractTask implements TaskInterface, \ArrayAccess
         }
     }
 
-    protected function _execute(TaskInterface $parentTask = null, callable $callback): void
+    protected function _execute(?TaskInterface $parentTask, callable $callback): void
     {
         try {
-            $this->parentTask = $parentTask;
+            $this->setParentTask($parentTask);
 
-            $lastLogTaskId = $this->logManager->getTaskId();
-            $this->logManager->setTaskId($lastLogTaskId . '-' . uniqid());
-
-            $this->logManager->logTask('[task run: ' . $this['id'] . ']');
-
+            $this->logManager->newLogId();
+            $this->logManager->logProcess('[task run ' . $this['id'] . ']');
             if (!$this['enabled']['enabled']) {
-                $this->logManager->logTask('[task deactivated]');
+                $this->logManager->logProcess('[task deactivated]');
                 return;
             }
 
-            $executedTasks = $this->taskManager->getParameter('executedTasks') ?? [];
-            if (in_array($this['id'], $executedTasks)) {
-                $this->logManager->logTask('[task recursion]');
-                return;
-            }
-
-            $running = $this->config->get('running') ?? [];
-            if (isset($running[$this['id']])) {
-                $runningDate = (new \DateTime($running[$this['id']]))->add(\DateInterval::createFromDateString('1 hour'));
-                if (new \DateTime() < $runningDate) {
-                    $this->logManager->logTask('[task running]');
-                    return;
-                }
-            }
-            $running[$this['id']] = date('Y-m-d H:i:s');
-            $this->config->set('running', $running);
+            $this->lockTask($this['id']);
 
             $callback();
 
-            $this->logManager->logTask('[task execute children]');
+            $this->logManager->logProcess('[task execute children]');
 
+            $executedTasks = $parentTask->getParameter('executedTasks') ?? [];
             $executedTasks[] = $this['id'];
-            $this->taskManager->setParameter('executedTasks', $executedTasks);
+            $this->setParameter('executedTasks', $executedTasks);
             $this->executeChildTasks($this);
 
-            if (!$this->parentTask) {
-                $this->taskManager->removeParameter('executedTasks');
-            }
-
-            $this->logManager->logTask('[task successful]');
+            $this->logManager->logProcess('[task successful]');
         } catch (\Exception $e) {
-            $this->logManager->logTask('[task failed]');
+            $this->logManager->logProcess('[task failed]');
+            $this->logManager->logProcess($e);
             throw $e;
         } finally {
-            $running = $this->config->get('running') ?? [];
-            if (isset($running[$this['id']])) {
-                unset($running[$this['id']]);
-            }
-            $this->config->set('running', $running);
-            $this->logManager->setTaskId($lastLogTaskId);
+            $this->unlockTask($this['id']);
+            $this->logManager->resetLogId();
         }
     }
 
@@ -151,10 +127,61 @@ abstract class AbstractTask implements TaskInterface, \ArrayAccess
         return $this->extensions;
     }
 
-    public function executeChildTasks(TaskInterface $parentTask): void
+    private function setParentTask(?TaskInterface $parentTask = null): void
+    {
+        if (null !== $parentTask) {
+            $this->setParameter('executedTasks', $parentTask->getParameter('executedTasks'));
+            $this->parentTask = $parentTask;
+        }
+    }
+
+    private function lockTask(string $taskId): void
+    {
+        $this->taskManager->lockTask($taskId);
+        $this->lockExecutedTask($taskId);
+    }
+
+    private function unlockTask(string $taskId): void
+    {
+        $this->taskManager->unlockTask($taskId);
+    }
+
+    private function isExecutedTask($taskId): bool
+    {
+        $executedTasks = $this->getParameter('executedTasks');
+        if (isset($executedTasks[$taskId])) {
+            if (new \DateTime($executedTasks[$taskId]) < (new \DateTime())->sub(\DateInterval::createFromDateString('1 hour'))) {
+                return true;
+            }
+            $this->unlockExecutedTasks($taskId);
+        }
+        return false;
+    }
+
+    private function lockExecutedTask(string $taskId): void
+    {
+        if ($this->isExecutedTask($taskId)) {
+            $this->logManager->logProcess('[task recursion]');
+            throw new \RuntimeException("task recursion $taskId");
+        }
+        $executedTasks = $this->getParameter('executedTasks');
+        $executedTasks[] = $taskId;
+        $this->setParameter('executedTasks', $executedTasks);
+    }
+
+    private function unlockExecutedTasks(string $taskId): void
+    {
+        $executedTasks = $this->getParameter('executedTasks');
+        if (false !== $key = array_search($taskId, $executedTasks)) {
+            unset($executedTasks[$key]);
+            $this->setParameter('executedTasks', $executedTasks);
+        }
+    }
+
+    private function executeChildTasks(TaskInterface $parentTask): void
     {
         foreach ($this['execute'] as $taskId) {
-            if (!in_array($taskId, $this->taskManager->getParameter('executedTasks'))) {
+            if (!$this->isExecutedTask($taskId)) {
                 $task = $this->taskManager->getTask($taskId);
                 $task->execute($this);
             }

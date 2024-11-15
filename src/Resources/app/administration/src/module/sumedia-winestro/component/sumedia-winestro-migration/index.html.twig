@@ -1,0 +1,354 @@
+{% block sumedia_winestro_installation %}
+
+    <h2>{{ $tc('sumedia-winestro.installation.title') }}</h2>
+    <br class="clear" />
+
+    <p>{{ $tc('sumedia-winestro.installation.description') }}</p><br />
+
+    <template v-if="isLoading">
+        <div class="sumedia-winestro-installation-loading">
+            <p>{{ $tc('sumedia-winestro.installation.loading') }}</p>
+            <div class="loader">
+                <sw-loader></sw-loader>
+            </div>
+        </div>
+    </template>
+
+    <template v-else>
+        <div v-if="!connection.successful">
+            <sw-card :large="true" :isLoading="isLoading" :title="$tc('sumedia-winestro.installation.connection.title')">
+
+                <sw-text-field :label="$tc('sumedia-winestro.connections.form.name')"
+                               :placeholder="$tc('sumedia-winestro.connections.form.fillsAutomatically')"
+                               v-model:value="connection.formData.name" required />
+
+                <sw-url-field :label="$tc('sumedia-winestro.connectionss.form.url')"
+                              v-model:value="connection.formData.url" required />
+
+                <sw-number-field :label="$tc('sumedia-winestro.connections.form.userId')"
+                                 v-model:value="connection.formData.userId" required />
+
+                <sw-number-field :label="$tc('sumedia-winestro.connections.form.shopId')"
+                                 v-model:value="connection.formData.shopId" required />
+
+                <sw-text-field :label="$tc('sumedia-winestro.connections.form.secretId')"
+                               v-model:value="connection.formData.secretId" required />
+
+                <sw-password-field :label="$tc('sumedia-winestro.connections.form.secretCode')"
+                                   v-model:value="connection.formData.secretCode" required />
+
+                <sw-button :isLoading="this.connection.isLoading" @click="checkConnection">
+                    {{ $tc('sumedia-winestro.connections.checkConnection.button') }}
+                </sw-button>
+
+                <sw-button :isLoading="this.connection.isLoading"
+                           :disabled="!connectionCheckSuccessful" variant="primary" @click="createConnection">
+                    {{ $tc('sumedia-winestro.save')}}
+                </sw-button>
+
+            </sw-card>
+        </div>
+
+        <div v-else-if="!measurements.successful">
+
+            <sw-card :large="true" :isLoading="isLoading" :title="$tc('sumedia-winestro.measurements.title')">
+
+                <div class="right">
+                    <sw-internal-link @click="createAllMeasurements()">{{ $tc('sumedia-winestro.installation.measurements.createAll') }}</sw-internal-link>
+                </div>
+                <br class="clear" />
+                <br />
+                <br />
+
+                <template v-for="(item, key) in measurements.measurements">
+                    <div class="label">
+                        {{ $tc('sumedia-winestro.measurements.form.' + key) }}
+                        <div class="right">
+                            <sw-internal-link @click="createMeasurement(key)">{{ $tc('sumedia-winestro.createAutomatically') }}</sw-internal-link>
+                        </div>
+                    </div>
+                    <sw-entity-single-select v-model:value="measurements.formData[key]" entity="unit" required />
+                </template>
+
+                <div class="right">
+                    <sw-button :isLoading="this.measurements.isLoading"
+                               :disabled="!isMeasurementsComplete" variant="primary" @click="saveMeasurements">
+                        {{ $tc('sumedia-winestro.save')}}
+                    </sw-button>
+                </div>
+                <br class="clear" />
+
+            </sw-card>
+
+        </div>
+
+        <div v-else-if="!properties.successful">
+
+            <sw-card :large="true" :isLoading="isLoading" :title="$tc('sumedia-winestro.installation.properties.title')">
+
+                <div class="right">
+                    <sw-internal-link @click="createAllProperties()">{{ $tc('sumedia-winestro.installation.properties.createAll') }}</sw-internal-link>
+                </div>
+                <br class="clear" />
+                <br />
+                <br />
+
+                <template v-for="(item, key) in properties.properties">
+                    <div class="label">
+                        {{ $tc('sumedia-winestro.properties.form.' + key) }}
+                        <div class="right">
+                            <sw-internal-link @click="createProperty(key)">{{ $tc('sumedia-winestro.createAutomatically') }}</sw-internal-link>
+                        </div>
+                    </div>
+                    <sw-entity-single-select v-model:value="properties.formData[key]" entity="property_group" required />
+                </template>
+
+                <div class="right">
+                    <sw-button :isLoading="this.properties.isLoading"
+                               :disabled="!isPropertiesComplete" variant="primary" @click="saveProperties">
+                        {{ $tc('sumedia-winestro.save')}}
+                    </sw-button>
+                </div>
+                <br class="clear" />
+
+            </sw-card>
+
+        </div>
+
+        <div v-else-if="!salesChannel.successful">
+
+            <sw-card :large="true" :isLoading="isLoading" :title="$tc('sumedia-winestro.installation.salesChannel.title')">
+
+                <sw-entity-single-select :label="$tc('sumedia-winestro.salesChannels.form.salesChannel')"
+                                        v-model:value="salesChannel.formData.salesChannelId" entity="sales_channel" required />
+
+                <div class="right">
+                    <br />
+                    <sw-button :isLoading="this.salesChannel.isLoading"
+                               :disabled="!this.salesChannel.formData.salesChannelId" variant="primary" @click="saveSalesChannel">
+                        {{ $tc('sumedia-winestro.save')}}
+                    </sw-button>
+                </div>
+                <br class="clear" />
+
+            </sw-card>
+
+        </div>
+
+        <div v-else-if="!payment.successful">
+
+            <sw-card :large="true" :isLoading="isLoading" :title="$tc('sumedia-winestro.installation.payment.title')">
+
+                <table class="sumedia-winestro-table">
+                    <tr>
+                        <th>{{ $tc('sumedia-winestro.payment.paymentMapping.payment') }}</th>
+                        <th>{{ $tc('sumedia-winestro.payment.paymentMapping.winestro') }}</th>
+                    </tr>
+                    <template v-for="(payment, id) in this.paymentMapping">
+                        <tr>
+                            <td>{{ payment.name }}</td>
+                            <td>
+                                <sw-select-field
+                                    v-model:value="this.payment.formData[payment.id]"
+                                    :options="winestroPaymentMappingOptions"></sw-select-field>
+                            </td>
+                        </tr>
+                    </template>
+                </table>
+
+                <div class="right">
+                    <br />
+                    <sw-button :isLoading="payment.isLoading"
+                               :disabled="!isPaymentComplete" variant="primary" @click="savePayment()">
+                        {{ $tc('sumedia-winestro.save')}}
+                    </sw-button>
+                </div>
+                <br class="clear" />
+
+            </sw-card>
+
+        </div>
+
+        <div v-else-if="!shipping.successful">
+
+            <sw-card :large="true" :isLoading="isLoading" :title="$tc('sumedia-winestro.installation.shipping.title')">
+
+                <table class="sumedia-winestro-table">
+                    <tr>
+                        <th>{{ $tc('sumedia-winestro.shipping.shippingMapping.shipping') }}</th>
+                        <th>{{ $tc('sumedia-winestro.shipping.shippingMapping.winestro') }}</th>
+                    </tr>
+                    <template v-for="(shipping, id) in this.shippingMapping">
+                        <tr>
+                            <td>{{ shipping.name }}</td>
+                            <td>
+                                <sw-select-field v-model:value="this.shipping.formData[shipping.id]"
+                                                 :options="winestroShippingMappingOptions"></sw-select-field>
+                            </td>
+                        </tr>
+                    </template>
+                </table>
+
+                <div class="right">
+                    <br />
+                    <sw-button :isLoading="shipping.isLoading"
+                               :disabled="!isShippingComplete" variant="primary" @click="saveShipping">
+                        {{ $tc('sumedia-winestro.save')}}
+                    </sw-button>
+                </div>
+                <br class="clear" />
+
+            </sw-card>
+
+        </div>
+
+        <div v-else-if="!tasks.successful">
+
+            <sw-card :large="true" :isLoading="isLoading" :title="$tc('sumedia-winestro.installation.tasks.title')">
+
+                <p>{{ $tc('sumedia-winestro.installation.tasks.description') }}</p>
+                <br />
+                <br />
+
+                <sw-entity-single-select :label="$tc('sumedia-winestro.tasks.form.tax')"
+                                         v-model:value="tasks.formData.tax" entity="tax" required />
+
+                <sw-entity-single-select :label="$tc('sumedia-winestro.tasks.form.reducedTax')"
+                                         v-model:value="tasks.formData.reducedTax" entity="tax" required />
+
+                <sw-entity-single-select :label="$tc('sumedia-winestro.tasks.form.deliveryTime')"
+                                         v-model:value="tasks.formData.deliveryTime" entity="delivery_time" required />
+
+                <sw-entity-single-select :label="$tc('sumedia-winestro.tasks.form.mediaFolder')"
+                                         v-model:value="tasks.formData.mediaFolder" entity="media_folder" required />
+
+                <sw-number-field :label="$tc('sumedia-winestro.tasks.form.maxImageWidth')"
+                                 v-model:value="tasks.formData.maxImageWidth" required />
+
+                <sw-number-field :label="$tc('sumedia-winestro.tasks.form.maxImageHeight')"
+                                 v-model:value="tasks.formData.maxImageHeight" required />
+
+                <sw-number-field :label="$tc('sumedia-winestro.tasks.form.sellingLimit')"
+                                 v-model:value="tasks.formData.sellingLimit" required />
+
+                <sw-entity-single-select :label="$tc('sumedia-winestro.tasks.form.defaultManufacturer')"
+                                         v-model:value="tasks.formData.defaultManufacturer" entity="product_manufacturer" required />
+
+                <sw-text-field :label="$tc('sumedia-winestro.tasks.form.categoryIdentifier')"
+                               v-model:value="tasks.formData.categoryIdentifier" required />
+
+                <strong>{{ $tc('sumedia-winestro.tasks.form.articlenumber') }}</strong><br />
+                <br />
+                <p>{{ $tc('sumedia-winestro.tasks.form.articlenumberDescription') }}</p>
+                <br />
+                <sw-select-field :label="$tc('sumedia-winestro.tasks.form.articlenumber')"
+                                 v-model:value="tasks.formData.articleNumberFormat"
+                                 :options="articleNumberFormatOptions"></sw-select-field>
+                <sw-select-field :label="$tc('sumedia-winestro.tasks.form.yearSeparator')"
+                                 v-model:value="tasks.formData.articleNumberYearSeparator"
+                                 :options="separatorOptions"></sw-select-field>
+                <sw-select-field :label="$tc('sumedia-winestro.tasks.form.bottlingSeparator')"
+                                 v-model:value="tasks.formData.articleNumberBottlingSeparator"
+                                 :options="separatorOptions"></sw-select-field>
+
+                <div>
+                    <div class="sumedia-winestro-task-switches">
+
+                        <strong>{{ $tc('sumedia-winestro.tasks.productImportTask.name') }}</strong>
+
+                        <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.enabled.products.enabled')"
+                                         v-model:value="tasks.formData.productimport" />
+
+                        <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.enabled.products.activestatus')"
+                                         v-model:value="tasks.formData.activestatus" />
+
+                        <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.enabled.products.description')"
+                                         v-model:value="tasks.formData.description" />
+
+                        <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.enabled.products.freeshipping')"
+                                         v-model:value="tasks.formData.freeshipping" />
+
+                        <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.enabled.products.manufacturer')"
+                                         v-model:value="tasks.formData.manufacturer" />
+
+                    </div>
+
+                    <div class="sumedia-winestro-task-switches">
+
+                        <strong>{{ $tc('sumedia-winestro.tasks.productImageUpdateTask.name') }}</strong>
+
+                        <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.enabled.products.images')"
+                                         v-model:value="tasks.formData.productimages" />
+
+                    </div>
+
+                    <div class="sumedia-winestro-task-switches">
+
+                        <strong>{{ $tc('sumedia-winestro.tasks.productStockTask.name') }}</strong>
+
+                        <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.enabled.products.stockUpdate')"
+                                         v-model:value="tasks.formData.productstock" />
+
+                    </div>
+
+                    <div class="sumedia-winestro-task-switches">
+
+                        <strong>{{ $tc('sumedia-winestro.tasks.productCategoryAssignmentTask.name') }}</strong>
+
+                        <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.enabled.products.categories')"
+                                         v-model:value="tasks.formData.categories" />
+
+                    </div>
+                    <br class="clear" />
+                </div>
+
+                <div>
+
+                    <div class="sumedia-winestro-tasks-switches">
+
+                        <strong>{{ $tc('sumedia-winestro.tasks.form.orderdata') }}</strong>
+
+                        <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.enabled.orders.enabled')"
+                                         v-model:value="tasks.formData.orderexport" />
+
+                        <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.enabled.orders.orderstatusupdate')"
+                                         v-model:value="tasks.formData.orderstatusupdate" />
+
+                        <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.enabled.orders.sendWinestroEmail')"
+                                         v-model:value="tasks.formData.sendWinestroEmail" />
+
+                    </div>
+
+                    <div class="sumedia-winestro-tasks-switches">
+
+                        <strong>{{ $tc('sumedia-winestro.tasks.form.newsletterdata') }}</strong>
+
+                        <sw-switch-field :label="$tc('sumedia-winestro.tasks.form.enabled.newsletter')"
+                                         v-model:value="tasks.formData.newsletterReceiver" />
+                    </div>
+                    <br class="clear" />
+                </div>
+
+            </sw-card>
+
+            <sw-card :large="true">
+                <div class="right">
+                    <sw-button :isLoading="this.tasks.isLoading"
+                               :disabled="!isTasksComplete" variant="primary" @click="saveTasks">
+                        {{ $tc('sumedia-winestro.save')}}
+                    </sw-button>
+                </div>
+                <br class="clear" />
+            </sw-card>
+
+        </div>
+
+        <div v-else>
+            <div class="sumedia-winestro-installation-loading">
+                <p>{{ $tc('sumedia-winestro.installation.done') }}</p>
+            </div>
+        </div>
+
+    </template>
+
+{% endblock %}
