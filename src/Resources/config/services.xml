@@ -299,6 +299,7 @@
         <service id="Sumedia\WinestroApi\Winestro\TaskManager">
             <argument type="service" id="service_container" />
             <argument type="service" id="Sumedia\WinestroApi\Config" />
+            <argument type="service" id="Sumedia\WinestroApi\Winestro\LogManager" />
         </service>
 
         <service id="Sumedia\WinestroApi\Winestro\Task\ProductImportTask" shared="false" public="true">

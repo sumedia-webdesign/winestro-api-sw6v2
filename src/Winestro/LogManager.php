@@ -109,7 +109,7 @@ class LogManager implements LogManagerInterface, LoggerInterface
                 $message->getFile() . "\n line " .
                 $message->getLine() . "\n" . $message->getTraceAsString();
         }
-        $this->logger->info("[$this->logId] $message", $context);
+        $this->processLogger->info("[$this->logId] $message", $context);
     }
 
     public function logException(\Throwable $e): void

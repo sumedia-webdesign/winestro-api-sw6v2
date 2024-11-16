@@ -35,7 +35,7 @@ Component.register('sumedia-winestro-loganalyzer', {
         },
 
         async loadTaskLog() {
-            let response = await this.sumediaWinestro.apiService.post('sumedia-winestro/log')
+            let response = await this.sumediaWinestro.apiService.post('sumedia-winestro/processlog')
             if (response.success) {
                 this.log = [];
 
@@ -76,7 +76,7 @@ Component.register('sumedia-winestro-loganalyzer', {
                 let maxCount = 30;
                 let count = 0;
                 for (let logId in dates) {
-                    this.tasklog.push({
+                    this.log.push({
                         text: dates[logId] + ' ' + runs[logId],
                         type: success[logId]
                     });
@@ -89,7 +89,7 @@ Component.register('sumedia-winestro-loganalyzer', {
         },
 
         async loadCronLog() {
-            let response = await this.sumediaWinestro.apiService.post('sumedia-winestro/cronlog')
+            let response = await this.sumediaWinestro.apiService.post('sumedia-winestro/processlog')
             if (response.success) {
                 this.cronlog = [];
                 let dates = [];
@@ -112,7 +112,7 @@ Component.register('sumedia-winestro-loganalyzer', {
                             }
 
                             let cronMatch = line.match(/\[cron run ([a-z0-9]{32})\]/);
-                            if (null !== cronMatch) {
+                            if (null !== cronMatch && 'undefined' !== typeof this.crons[cronMatch[1]]) {
                                 cron[logId] = this.crons[cronMatch[1]].name;
                             }
 

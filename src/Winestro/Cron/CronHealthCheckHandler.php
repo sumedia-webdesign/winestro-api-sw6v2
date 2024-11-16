@@ -38,16 +38,16 @@ class CronHealthCheckHandler extends AbstractCron
     {
         $this->logManager->newLogId();
         try {
-            $this->logManager->logCron("[cron health check]");
+            $this->logManager->logProcess("[cron health check]");
             $tasks = $this->getScheduledTasks();
             $this->checkHealth($tasks);
-            $this->logManager->logCron('[cron success]');
+            $this->logManager->logProcess('[cron success]');
         } catch (\Exception $e) {
             $this->logManager->logException($e);
-            $this->logManager->logCron('[cron message] ' .
+            $this->logManager->logProcess('[cron message] ' .
                 $e->getMessage() . ' in ' . $e->getFile() . ' on ' . $e->getLine() . ': ' . $e->getTraceAsString()
             );
-            $this->logManager->logCron('[cron failed]');
+            $this->logManager->logProcess('[cron failed]');
         } finally {
             $this->logManager->resetLogId();
         }
