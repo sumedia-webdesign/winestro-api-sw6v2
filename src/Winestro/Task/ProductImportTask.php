@@ -37,23 +37,17 @@ class ProductImportTask extends AbstractTask
 
     public function productImport(): void
     {
-        if ($this->parentTask !== null &&
-            $this->parentTask->hasParameter($this['winestroConnectionId'] . '-' . RequestManager::GET_ARTICLES_FROM_WINESTRO_RESPONSE)
-        ) {
-            $response = $this->parentTask->getParameter($this['winestroConnectionId'] . '-' . RequestManager::GET_ARTICLES_FROM_WINESTRO_RESPONSE);
-        } else {
-            $connection = $this->getWinestroConnection();
-            $request = $this->requestManager->createRequest(RequestManager::GET_ARTICLES_FROM_WINESTRO_REQUEST);
-            $response = $connection->executeRequest($request);
-            $this->setParameter($this['winestroConnectionId'] . '-' . RequestManager::GET_ARTICLES_FROM_WINESTRO_RESPONSE, $response);
-        }
+        $connection = $this->getWinestroConnection();
+        $request = $this->requestManager->createRequest(RequestManager::GET_ARTICLES_FROM_WINESTRO_REQUEST);
+        $response = $connection->executeRequest($request);
+        $this->setParameter($this['winestroConnectionId'] . '-' . RequestManager::GET_ARTICLES_FROM_WINESTRO_RESPONSE, $response);
 
         $articles = $response->toArray();
-        $this->logManager->logTask('[task] fetched ' . count($articles) . ' from winestro.cloud');
+        $this->logManager->logProcess('[task] fetched ' . count($articles) . ' from winestro.cloud');
 
         $this->productDataBuilder->build($this, $articles);
         $products = $this->productDataBuilder->getProducts();
-        $this->logManager->logTask('[task] got ' . count($products) . ' valid products');
+        $this->logManager->logProcess('[task] got ' . count($products) . ' valid products');
 
         $productsImportedCount = 0;
         $newProducts = 0;
@@ -74,7 +68,7 @@ class ProductImportTask extends AbstractTask
             }
         }
 
-        $this->logManager->logTask('[task] imported ' . $productsImportedCount . ' products, ' . $newProducts . ' new and ' . $editedProducts . ' edited, successfully');
+        $this->logManager->logProcess('[task] imported ' . $productsImportedCount . ' products, ' . $newProducts . ' new and ' . $editedProducts . ' edited, successfully');
 
         if ($this['enabled']['activestatus']) {
             $products = $this->repositoryManager->search('product',
@@ -101,6 +95,6 @@ class ProductImportTask extends AbstractTask
             }
         }
 
-        $this->logManager->logTask("[task] deactivated $deactivated outdated products");
+        $this->logManager->logProcess("[task] deactivated $deactivated outdated products");
     }
 }

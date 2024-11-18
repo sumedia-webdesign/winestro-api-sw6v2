@@ -63,7 +63,7 @@ class OrderExportTask extends AbstractTask
 
         if (!count($connectionIds) || !count($salesChannelsIds)) {
             $this->logManager->debug('there is no valid config for order export "' . $this['name'] . '" "' . $this['id'] . '"');
-            $this->logManager->logTask('[task invalid]');
+            $this->logManager->logProcess('[task invalid]');
             return;
         }
 

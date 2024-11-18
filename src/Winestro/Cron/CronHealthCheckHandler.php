@@ -75,10 +75,21 @@ class CronHealthCheckHandler extends AbstractCron
     {
         /** @var ScheduledTaskEntity $task */
         foreach ($tasks as $task) {
-            if ($task->getStatus() == ScheduledTaskDefinition::STATUS_FAILED) {
+            if ($task->getStatus() === ScheduledTaskDefinition::STATUS_FAILED) {
                 $this->scheduledTaskRepository->update([[
                     'id' => $task->getId(),
-                    'status' => ScheduledTaskDefinition::STATUS_QUEUED
+                    'status' => ScheduledTaskDefinition::STATUS_SCHEDULED
+                ]], $this->context);
+            }
+            if ($task->getStatus() === ScheduledTaskDefinition::STATUS_QUEUED &&
+                (
+                    $task->getLastExecutionTime()->format('Y') === 3000 ||
+                    $task->getLastExecutionTime()->format('u') <= time()-60*30
+                )
+            ) {
+                $this->scheduledTaskRepository->update([[
+                    'id' => $task->getId(),
+                    'status' => ScheduledTaskDefinition::STATUS_SCHEDULED
                 ]], $this->context);
             }
         }
