@@ -38,13 +38,12 @@ class ProductStockTask extends AbstractTask
 
             $stock = $product->getStock();
 
-            $now = new \DateTime();
+            $now = (new \DateTime())->format('u');
+            $stockDateTime = $now;
             if (null !== $stockDate) {
-                $stockDateTime = (new \DateTime($stockDate))->sub(\DateInterval::createFromDateString('12 hours'));
-            } else {
-                $stockDateTime = (new \DateTime())->sub(\DateInterval::createFromDateString('12 hours'));
+                $stockDateTime = ((new \DateTime($stockDate))->sub(\DateInterval::createFromDateString('12 hours')))->format('u');
             }
-            if (null === $stockDate || $stockDateTime > $now) {
+            if (null === $stockDate || $stockDateTime >= $now) {
                 $connection = $this->getWinestroConnection();
                 $request = $this->requestManager->createRequest(RequestManager::GET_STOCK_FROM_WINESTRO_REQUEST);
                 $request->setParameter('artikelnr', $articleNumber);

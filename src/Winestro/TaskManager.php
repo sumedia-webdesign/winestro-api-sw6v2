@@ -70,7 +70,7 @@ class TaskManager implements TaskManagerInterface
     {
         if ($this->isLockedTask($taskId)) {
             $this->logManager->logProcess('[task locked]');
-            throw new \RuntimeException('task locked');
+            throw new Exception\TaskLockedException('task locked');
         }
 
         $lockedTasks = $this->config->get('tasklock');

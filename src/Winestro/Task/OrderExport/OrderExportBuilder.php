@@ -48,7 +48,7 @@ class OrderExportBuilder
                 'referenz' => $order->getCustomerComment() ? substr($order->getCustomerComment(), 0, 255) : ''
             ];
             if (!$task['enabled']['sendWinestroEmail']) {
-                $orderData['keine_mail'] = 1;
+                $orderData['keine_mail'] = 'keine_mail';
             }
             $orderItems[] = [
                 'order' => $order,

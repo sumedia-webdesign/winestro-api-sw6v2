@@ -90,7 +90,7 @@ class OrderExportTask extends AbstractTask
                 ]))
         )->getElements());
 
-        $orders = $this->orderExportBuilder->build($this, $ordersCollection, $connectionIds);
+        $orders = $this->orderExportBuilder->build($this, $ordersCollection);
 
         foreach ($orders as $buildedOrder) {
             $orderData = $buildedOrder['orderData'];

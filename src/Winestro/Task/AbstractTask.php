@@ -7,6 +7,7 @@ namespace Sumedia\WinestroApi\Winestro\Task;
 use Sumedia\WinestroApi\Config;
 use Sumedia\WinestroApi\RepositoryManager;
 use Sumedia\WinestroApi\Winestro\ConnectionInterface;
+use Sumedia\WinestroApi\Winestro\Exception\TaskLockerException;
 use Sumedia\WinestroApi\Winestro\LogManagerInterface;
 use Sumedia\WinestroApi\Winestro\RequestManager;
 use Sumedia\WinestroApi\Winestro\Task\Extension\ExtensionInterface;
@@ -39,6 +40,7 @@ abstract class AbstractTask implements TaskInterface, \ArrayAccess
 
     protected function _execute(?TaskInterface $parentTask, callable $callback): void
     {
+        $taskLocked = false;
         try {
             $this->setParentTask($parentTask);
 
@@ -61,12 +63,19 @@ abstract class AbstractTask implements TaskInterface, \ArrayAccess
             $this->executeChildTasks($this);
 
             $this->logManager->logProcess('[task successful]');
+        } catch (TaskLockerException $e) {
+            $taskLocked = true;
+            $this->logManager->logProcess('[task locked]');
+            $this->logManager->logProcess($e);
+            throw $e;
         } catch (\Exception $e) {
             $this->logManager->logProcess('[task failed]');
             $this->logManager->logProcess($e);
             throw $e;
         } finally {
-            $this->unlockTask($this['id']);
+            if (!$taskLocked) {
+                $this->unlockTask($this['id']);
+            }
             $this->logManager->resetLogId();
         }
     }
