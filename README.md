@@ -14,7 +14,7 @@ Dies ändert sich sobald die technischen Schulden abgebaut sind.
 
 ## API URL
 
-https://weinstore.net/xml/v20.0
+https://weinstore.net/xml/v21.0
 
 ## Dokumentation
 

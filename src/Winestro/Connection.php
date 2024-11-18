@@ -75,7 +75,7 @@ class Connection implements ConnectionInterface
 
     private function post(): array
     {
-        sort($this->parameters);
+        krsort($this->parameters);
         $runtimeCacheId = md5($this->url . ':' . serialize($this->parameters));
         if (isset($this->runtimeCache[$runtimeCacheId])) {
             return $this->runtimeCache[$runtimeCacheId];
