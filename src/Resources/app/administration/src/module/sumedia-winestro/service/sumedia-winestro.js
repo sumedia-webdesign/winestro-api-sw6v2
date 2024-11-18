@@ -48,7 +48,7 @@ export default class SumediaWinestro {
     }
 
     async requestWinestroConnection(url, userId, shopId, secretId, secretCode) {
-        return await this.apiService.post('sumedia-winestro/check',
+        return await this.apiService.post('sumedia-winestro/check-connection',
             {url, userId, shopId, secretId, secretCode})
             .then((response) => {
                 if (!response.success) {
