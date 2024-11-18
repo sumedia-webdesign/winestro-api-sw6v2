@@ -47,42 +47,42 @@ class LogManager implements LogManagerInterface, LoggerInterface
 
     public function emergency(\Stringable|string $message, array $context = []): void
     {
-        $this->errorLogger->emergency("[$this->taskId] $message", $context);
+        $this->errorLogger->emergency("[{$this->getLogId()}] $message", $context);
     }
 
     public function alert(\Stringable|string $message, array $context = []): void
     {
-        $this->errorLogger->alert("[$this->taskId] $message", $context);
+        $this->errorLogger->alert("[{$this->getLogId()}] $message", $context);
     }
 
     public function critical(\Stringable|string $message, array $context = []): void
     {
-        $this->errorLogger->critical("[$this->taskId] $message", $context);
+        $this->errorLogger->critical("[{$this->getLogId()}] $message", $context);
     }
 
     public function error(\Stringable|string $message, array $context = []): void
     {
-        $this->errorLogger->error("[$this->taskId] $message", $context);
+        $this->errorLogger->error("[{$this->getLogId()}] $message", $context);
     }
 
     public function warning(\Stringable|string $message, array $context = []): void
     {
-        $this->debugLogger->warning("[$this->taskId] $message", $context);
+        $this->debugLogger->warning("[{$this->getLogId()}] $message", $context);
     }
 
     public function notice(\Stringable|string $message, array $context = []): void
     {
-        $this->debugLogger->notice("[$this->taskId] $message", $context);
+        $this->debugLogger->notice("[{$this->getLogId()}] $message", $context);
     }
 
     public function info(\Stringable|string $message, array $context = []): void
     {
-        $this->debugLogger->info("[$this->taskId] $message", $context);
+        $this->debugLogger->info("[{$this->getLogId()}] $message", $context);
     }
 
     public function debug(\Stringable|string $message, array $context = []): void
     {
-        $this->debugLogger->debug("[$this->taskId] $message", $context);
+        $this->debugLogger->debug("[{$this->getLogId()}] $message", $context);
     }
 
     public function log($level, \Stringable|string $message, array $context = []): void
@@ -96,7 +96,7 @@ class LogManager implements LogManagerInterface, LoggerInterface
             case LogLevel::NOTICE: $this->notice($message, $context); break;
             case LogLevel::INFO: $this->info($message, $context); break;
             case LogLevel::DEBUG: $this->debug($message, $context); break;
-            default: $this->errorLogger->error("[$this->taskId] $message", $context);
+            default: $this->errorLogger->error("[$this->logId] $message", $context);
         }
     }
 

@@ -46,7 +46,7 @@ Component.register('sumedia-winestro-loganalyzer', {
                     let line = response.lines[i];
                     let dateMatch = line.match(/\d{4}-(\d{2})-(\d{2})T(\d{2}:\d{2})/);
                     if ('undefined' !== typeof dateMatch[3]) {
-                        let logIdMatch = line.match(/([a-z0-9]{13})\]/);
+                        let logIdMatch = line.match(/([a-zA-Z0-9]{13})\]/);
                         if (null !== logIdMatch) {
                             let logId = logIdMatch[1];
                             dates[logId] = dateMatch[2] + '.' + dateMatch[1] + ' ' + dateMatch[3];
@@ -112,7 +112,7 @@ Component.register('sumedia-winestro-loganalyzer', {
                             }
 
                             let cronMatch = line.match(/\[cron run ([a-z0-9]{32})\]/);
-                            if (null !== cronMatch && 'undefined' !== typeof this.crons[cronMatch[1]]) {
+                            if (null !== cronMatch) {
                                 cron[logId] = this.crons[cronMatch[1]].name;
                             }
 
