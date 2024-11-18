@@ -127,12 +127,16 @@ class OrderExportBuilder
         foreach ($order->getLineItems() as $lineItem) {
             $product = $lineItem->getProduct();
             if (
+                null !== $product &&
                 $product->getCustomFieldsValue('sumedia_winestro_product_details_article_number') !== null &&
                 in_array(
                     $product->getCustomFieldsValue('sumedia_winestro_product_details_winestro_connection_id'),
                     $this->winestroConnectionIds
                 )
             ) {
+                $items[] = $lineItem;
+            }
+            if ($this->isArticleDiscount($lineItem)) {
                 $items[] = $lineItem;
             }
         }
@@ -229,13 +233,6 @@ class OrderExportBuilder
             }
             switch ($winestroPaymentId) {
                 case PaymentConfigMapper::PAYMENT_DEBIT:
-                    // return ... need payment details
-                    /*
-                     * ktoInh 	Name des Kontoinhabers
-                    iban
-                    bic
-                    gebuehr
-                     */
                     $paymentDetails['zahlungsart'] = $this->getWinestroPaymentIdFromPaymentId($order->getSalesChannelId(), $paymentMethodId);
                     break;
                 case PaymentConfigMapper::PAYMENT_PAYPAL:
