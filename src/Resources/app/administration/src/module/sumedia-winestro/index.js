@@ -10,7 +10,6 @@ import './component/sumedia-winestro-salechannels';
 import './component/sumedia-winestro-tasks';
 import './component/sumedia-winestro-tasks-extensions';
 import './component/sumedia-winestro-cron';
-import './component/sumedia-winestro-logdownload';
 import deDE from './snippet/de-DE.json';
 import enGB from './snippet/en-GB.json';
 import SumediaWinestroApiService from "./service/sumedia-winestro-api-service";
@@ -110,10 +109,6 @@ Module.register('sumedia-winestro', {
                 cron: {
                     component: 'sumedia-winestro-cron',
                     path: 'cron'
-                },
-                logdownload: {
-                    component: 'sumedia-winestro-logdownload',
-                    path: 'logdownload'
                 }
             }
         }
