@@ -81,17 +81,6 @@ class CronHealthCheckHandler extends AbstractCron
                     'status' => ScheduledTaskDefinition::STATUS_SCHEDULED
                 ]], $this->context);
             }
-            if ($task->getStatus() === ScheduledTaskDefinition::STATUS_QUEUED &&
-                (
-                    $task->getLastExecutionTime()->format('Y') === 3000 ||
-                    $task->getLastExecutionTime()->format('u') <= time()-60*30
-                )
-            ) {
-                $this->scheduledTaskRepository->update([[
-                    'id' => $task->getId(),
-                    'status' => ScheduledTaskDefinition::STATUS_SCHEDULED
-                ]], $this->context);
-            }
         }
     }
 }

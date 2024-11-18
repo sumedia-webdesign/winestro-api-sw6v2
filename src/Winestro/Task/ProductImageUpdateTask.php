@@ -37,16 +37,10 @@ class ProductImageUpdateTask extends AbstractTask
 
     public function productImageUpdate(): void
     {
-        if ($this->parentTask !== null &&
-            $this->parentTask->hasParameter($this['winestroConnectionId'] . '-' . RequestManager::GET_ARTICLES_FROM_WINESTRO_RESPONSE)
-        ) {
-            $response = $this->parentTask->getParameter($this['winestroConnectionId'] . '-' . RequestManager::GET_ARTICLES_FROM_WINESTRO_RESPONSE);
-        } else {
-            $connection = $this->getWinestroConnection();
-            $request = $this->requestManager->createRequest(RequestManager::GET_ARTICLES_FROM_WINESTRO_REQUEST);
-            $response = $connection->executeRequest($request);
-            $this->setParameter($this['winestroConnectionId'] . '-' . RequestManager::GET_ARTICLES_FROM_WINESTRO_RESPONSE, $response);
-        }
+        $connection = $this->getWinestroConnection();
+        $request = $this->requestManager->createRequest(RequestManager::GET_ARTICLES_FROM_WINESTRO_REQUEST);
+        $response = $connection->executeRequest($request);
+        $this->setParameter($this['winestroConnectionId'] . '-' . RequestManager::GET_ARTICLES_FROM_WINESTRO_RESPONSE, $response);
 
         $articles = $response->toArray();
         $products = new ProductCollection($this->repositoryManager->search('product',

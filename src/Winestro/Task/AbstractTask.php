@@ -55,7 +55,7 @@ abstract class AbstractTask implements TaskInterface, \ArrayAccess
 
             $this->logManager->logProcess('[task execute children]');
 
-            $executedTasks = $parentTask->getParameter('executedTasks') ?? [];
+            $executedTasks = null === $parentTask ? [] : $parentTask->getParameter('executedTasks');
             $executedTasks[] = $this['id'];
             $this->setParameter('executedTasks', $executedTasks);
             $this->executeChildTasks($this);
