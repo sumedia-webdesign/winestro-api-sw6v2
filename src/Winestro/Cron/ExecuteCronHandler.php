@@ -19,21 +19,21 @@ class ExecuteCronHandler extends AbstractCron
             return;
         }
         $this->config->set('execute', []);
-        $this->logManager->setTaskId(uniqid());
+        $this->logManager->newLogId();
         try {
-            $this->logManager->logCron("[cron run execute]");
-            $this->logManager->logCron('[cron] tasks ' . implode(',', $taskIds));
+            $this->logManager->logProcess("[cron run execute]");
+            $this->logManager->logProcess('[cron] tasks ' . implode(',', $taskIds));
             foreach ($taskIds as $taskId) {
-                $this->logManager->logCron('[cron] run task ' . $taskId);
+                $this->logManager->logProcess('[cron] run task ' . $taskId);
                 $this->taskManager->getTask($taskId)->execute();
             }
-            $this->logManager->logCron('[cron success]');
+            $this->logManager->logProcess('[cron success]');
         } catch (\Exception $e) {
             $this->logManager->logException($e);
-            $this->logManager->logCron('[cron message] ' .
+            $this->logManager->logProcess('[cron message] ' .
                 $e->getMessage() . ' in ' . $e->getFile() . ' on ' . $e->getLine() . ': ' . $e->getTraceAsString()
             );
-            $this->logManager->logCron('[cron failed]');
+            $this->logManager->logProcess('[cron failed]');
         }
     }
 }
