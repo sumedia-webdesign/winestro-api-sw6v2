@@ -46,8 +46,10 @@ Component.register('sumedia-winestro-loganalyzer', {
                     let line = response.lines[i];
                     let dateMatch = line.match(/\d{4}-(\d{2})-(\d{2})T(\d{2}:\d{2})/);
                     if ('undefined' !== typeof dateMatch[3]) {
-                        let logIdMatch = line.match(/([a-zA-Z0-9]{13})\]/);
-                        if (null !== logIdMatch) {
+                        let cronMatch = null;
+                        let logIdMatch = line.match(/((?:[a-zA-Z0-9]{13}-?)+)\]/);
+                        let isTask = line.match(/task/);
+                        if (null !== logIdMatch && null !== isTask) {
                             let logId = logIdMatch[1];
                             dates[logId] = dateMatch[2] + '.' + dateMatch[1] + ' ' + dateMatch[3];
 
@@ -58,7 +60,7 @@ Component.register('sumedia-winestro-loganalyzer', {
                                 success[logId] = 'unknown';
                             }
 
-                            let runMatch = line.match(/\[task run:.*?([a-z0-9]{32})\]/);
+                            let runMatch = line.match(/\[task run ([a-z0-9]{32})\]/);
                             if (null !== runMatch) {
                                 runs[logId] = this.tasks[runMatch[1]].name;
                             }
@@ -98,9 +100,11 @@ Component.register('sumedia-winestro-loganalyzer', {
                 for (let i in response.lines) {
                     let line = response.lines[i];
                     let dateMatch = line.match(/\d{4}-(\d{2})-(\d{2})T(\d{2}:\d{2})/);
-                    if ('undefined' !== typeof dateMatch[3]) {
-                        let logIdMatch = line.match(/\[([a-z0-9]{13})\]/);
+                    let isCron = line.match(/cron/);
+                    if ('undefined' !== typeof dateMatch[3] && null !== isCron) {
+                        let logIdMatch = line.match(/\[((?:[a-zA-Z0-9]{13}-?)+)\]/);
                         if (null !== logIdMatch) {
+                            let cronMatch = null;
                             let logId = logIdMatch[1];
                             dates[logId] = dateMatch[2] + '.' + dateMatch[1] + ' ' + dateMatch[3];
 
@@ -111,9 +115,14 @@ Component.register('sumedia-winestro-loganalyzer', {
                                 success[logId] = 'unknown';
                             }
 
-                            let cronMatch = line.match(/\[cron run ([a-z0-9]{32})\]/);
+                            cronMatch = line.match(/\[cron run ([a-z0-9]{32})\]/);
                             if (null !== cronMatch) {
                                 cron[logId] = this.crons[cronMatch[1]].name;
+                            }
+
+                            cronMatch = line.match(/\[cron health check\]/);
+                            if (null !== cronMatch) {
+                                cron[logId] = 'Health Check';
                             }
 
                             if (line.match(/\[cron success\]/)) {

@@ -4,6 +4,8 @@ Wichtiger Hinweis.
 
 Bitte warten Sie mit der Installation noch 
 bis der erste Release veröffentlicht wird.
+Solange keine Gewähr.
+Die Lizenz ändert sich erst, wenn das Release da ist.
 
 ## API URL
 

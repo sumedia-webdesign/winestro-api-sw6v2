@@ -32,7 +32,7 @@
 
         <sw-card :large="true">
             <h3>{{ $tc('sumedia-winestro.overview.taskLogTitle') }}</h3>
-            <template v-for="item in tasklog">
+            <template v-for="item in log">
                 <div :class="['sumedia-winestro-overview-log', item.type]">
                     {{ item.text }}
                 </div>
