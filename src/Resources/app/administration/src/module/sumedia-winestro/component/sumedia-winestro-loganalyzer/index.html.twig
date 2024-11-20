@@ -24,15 +24,8 @@
         </sw-card>
 
         <sw-card :large="true">
-            <h3>{{ $tc('sumedia-winestro.overview.executesTitle') }}</h3>
-            <template v-for="item in executes">
-                <div>{{ item }}</div>
-            </template>
-        </sw-card>
-
-        <sw-card :large="true">
             <h3>{{ $tc('sumedia-winestro.overview.taskLogTitle') }}</h3>
-            <template v-for="item in log">
+            <template v-for="item in tasklog">
                 <div :class="['sumedia-winestro-overview-log', item.type]">
                     {{ item.text }}
                 </div>
@@ -46,13 +39,6 @@
                     {{ item.text }}
                 </div>
             </template>
-        </sw-card>
-
-        <sw-card :large="true">
-            <h3>{{ $tc('sumedia-winestro.overview.logDownloadTitle') }}</h3>
-            <sw-button variant="primary" @click="downloadLogFiles">
-                {{ $tc('sumedia-winestro.overview.logDownloadButton')}}
-            </sw-button>
         </sw-card>
     </div>
 

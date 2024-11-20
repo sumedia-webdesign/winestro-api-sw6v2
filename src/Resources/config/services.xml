@@ -23,7 +23,6 @@
             <argument type="service" id="Sumedia\WinestroApi\DefaultContext" />
         </service>
 
-
         <service id="Sumedia\WinestroApi\Winestro\Subscriber\DisableEmailsSubscriber">
             <argument type="service" id="Sumedia\WinestroApi\Winestro\TaskManager" />
             <tag name="kernel.event_subscriber"/>
@@ -250,10 +249,10 @@
 
         -->
 
-            <service id="Sumedia\WinestroApi\Winestro\DataMapper\ConfigMapper" />
-            <service id="Sumedia\WinestroApi\Winestro\DataMapper\PaymentConfigMapper" />
-            <service id="Sumedia\WinestroApi\Winestro\DataMapper\ShippingConfigMapper" />
-            <service id="Sumedia\WinestroApi\Winestro\DataMapper\WinestroArticleDataMapper" />
+            <service id="Sumedia\WinestroApi\Winestro\DataMapper\ConfigMapper" public="true"/>
+            <service id="Sumedia\WinestroApi\Winestro\DataMapper\PaymentConfigMapper" public="true"/>
+            <service id="Sumedia\WinestroApi\Winestro\DataMapper\ShippingConfigMapper" public="true"/>
+            <service id="Sumedia\WinestroApi\Winestro\DataMapper\WinestroArticleDataMapper" public="true"/>
 
         <!--
 

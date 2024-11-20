@@ -8,8 +8,6 @@ declare(strict_types=1);
 
 namespace Sumedia\WinestroApi\Winestro\DataMapper;
 
-use Sumedia\WinestroApi\Winestro\DataMapper\DataMapperInterface;
-
 class PaymentConfigMapper implements DataMapperInterface
 {
     const PAYMENT_INVOICE               = 1;

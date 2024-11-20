@@ -75,11 +75,9 @@ class WinestroApiController extends AbstractController
         $fileList = array_slice(array_reverse($fileList), 0, 2);
         $lines = [];
         $count = 0;
-        $limit = (int) $dataBag->get('limit') ?? 0;
-        $max = $limit <= 1000 && $limit >= 150 ? $limit : 150;
         foreach ($fileList as $file) {
             $fileLines = array_map(function($item) { return trim($item); },
-                array_slice(array_reverse(file($file)), 0, $max - $count > 0 ? $max - $count : 0)
+                array_reverse(file($file))
             );
             $count += count($fileLines);
             $lines = array_merge($lines, $fileLines);

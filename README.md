@@ -9,7 +9,7 @@ Die Lizenz ändert sich erst, wenn das Release da ist.
 
 ## API URL
 
-https://weinstore.net/xml/v21.0
+https://weinstore.net/xml/v20.0
 
 ## Dokumentation
 

@@ -12,7 +12,8 @@ Component.register('sumedia-winestro-loganalyzer', {
         return {
             tasks: {},
             crons: {},
-            log: []
+            cronlog: [],
+            tasklog: []
         }
     },
 
@@ -37,7 +38,7 @@ Component.register('sumedia-winestro-loganalyzer', {
         async loadTaskLog() {
             let response = await this.sumediaWinestro.apiService.post('sumedia-winestro/processlog')
             if (response.success) {
-                this.log = [];
+                this.tasklog = [];
 
                 let dates = [];
                 let runs = [];
@@ -78,7 +79,10 @@ Component.register('sumedia-winestro-loganalyzer', {
                 let maxCount = 30;
                 let count = 0;
                 for (let logId in dates) {
-                    this.log.push({
+                    if (runs[logId] === 'Health Check' || runs[logId] === 'unknown') {
+                        continue;
+                    }
+                    this.tasklog.push({
                         text: dates[logId] + ' ' + runs[logId],
                         type: success[logId]
                     });
@@ -138,6 +142,9 @@ Component.register('sumedia-winestro-loganalyzer', {
                 let maxCount = 20;
                 let count = 0;
                 for (let logId in dates) {
+                    if (cron[logId] === 'Health Check' || cron[logId] === 'unknown') {
+                        continue;
+                    }
                     this.cronlog.push({
                         text: dates[logId] + ' ' + cron[logId],
                         type: success[logId]
