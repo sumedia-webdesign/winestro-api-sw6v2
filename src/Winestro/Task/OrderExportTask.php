@@ -5,6 +5,7 @@
 namespace Sumedia\WinestroApi\Winestro\Task;
 
 use Shopware\Core\Checkout\Order\OrderCollection;
+use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
@@ -67,28 +68,7 @@ class OrderExportTask extends AbstractTask
             return;
         }
 
-        $ordersCollection = new OrderCollection($this->repositoryManager->search('order',
-            (new Criteria())
-                ->addAssociation('addresses')
-                ->addAssociation('deliveries')
-                ->addAssociation('lineItems')
-                ->addAssociation('lineItems.product')
-                ->addAssociation('transactions')
-                ->addFilter(new EqualsFilter('customFields.sumedia_winestro_order_details_order_number', null ))
-                ->addFilter(new EqualsAnyFilter('salesChannelId', $salesChannelsIds))
-                ->addFilter(new MultiFilter('or', [
-                    new RangeFilter('customFields.sumedia_winestro_order_details_export_tries', [RangeFilter::LT => 4]),
-                    new EqualsFilter('customFields.sumedia_winestro_order_details_export_tries', null)
-                ]))
-                ->addFilter(new RangeFilter('createdAt', [
-                    RangeFilter::GT => $this->getPluginInstallationDate()->format('Y-m-d H:i:s')
-                ]))
-                ->addFilter(new RangeFilter('createdAt', [
-                    RangeFilter::GT => ((new \DateTime())
-                        ->sub(\DateInterval::createFromDateString('5 days'))
-                    )->format('Y-m-d H:i:s')
-                ]))
-        )->getElements());
+        $ordersCollection = $this->getOrdersCollection($salesChannelsIds);
 
         $orders = $this->orderExportBuilder->build($this, $ordersCollection);
 
@@ -96,18 +76,10 @@ class OrderExportTask extends AbstractTask
             $orderData = $buildedOrder['orderData'];
             $orderItem = $buildedOrder['order'];
 
-            $tries = $orderItem->getCustomFieldsValue('sumedia_winestro_order_details_export_tries') ?? 0;
-            $date = (new \DateTime())->sub(\DateInterval::createFromDateString(
-                (6 * $tries) . ' hours')
-            );
-            if ($orderItem->getCreatedAt() < $date) {
+            $date = $this->getLoginTriesDate($orderItem);
+            $this->incrementLoginTries($orderItem, $date);
 
-                $this->repositoryManager->update('order', [[
-                    'id' => $orderItem->getId(),
-                    'customFields' => [
-                        'sumedia_winestro_order_details_export_tries' => $tries + 1
-                    ]
-                ]]);
+            if ($orderItem->getCreatedAt()->format('u') < $date->format('u')) {
 
                 $connection = $this->getWinestroConnection();
                 $request = $this->requestManager->createRequest(RequestManager::SEND_ORDER_TO_WINESTRO_REQUEST);
@@ -141,5 +113,57 @@ class OrderExportTask extends AbstractTask
             (new Criteria())->addFilter(new EqualsFilter('name', 'SumediaWinestroApi'))
         )->first();
         return $plugin->getInstalledAt();
+    }
+
+    private function getOrdersCollection(array $salesChannelsIds): OrderCollection
+    {
+        return new OrderCollection($this->repositoryManager->search('order',
+            (new Criteria())
+                ->addAssociation('addresses')
+                ->addAssociation('deliveries')
+                ->addAssociation('lineItems')
+                ->addAssociation('lineItems.product')
+                ->addAssociation('transactions')
+                ->addFilter(new EqualsFilter('customFields.sumedia_winestro_order_details_order_number', null ))
+                ->addFilter(new EqualsAnyFilter('salesChannelId', $salesChannelsIds))
+                ->addFilter(new MultiFilter('and', [
+                    new RangeFilter('createdAt', [
+                        RangeFilter::GTE => $this->getPluginInstallationDate()->format('Y-m-d H:i:s')
+                    ]),
+                    new RangeFilter('createdAt', [
+                        RangeFilter::GTE =>
+                            (new \DateTime())->sub(\DateInterval::createFromDateString('5 days'))
+                            ->format('Y-m-d H:i:s')
+                    ])
+                ]))
+                ->addFilter(new MultiFilter('or', [
+                    new RangeFilter('customFields.sumedia_winestro_order_details_export_tries', [RangeFilter::LT => 4]),
+                    new EqualsFilter('customFields.sumedia_winestro_order_details_export_tries', null)
+                ]))
+        )->getElements());
+    }
+
+    private function getLoginTriesDate(OrderEntity $orderItem): \DateTime
+    {
+        $tries = $orderItem->getCustomFieldsValue('sumedia_winestro_order_details_export_tries') ?? 0;
+        if ($tries === 0) {
+            return new \DateTime();
+        }
+        return (new \DateTime())->sub(\DateInterval::createFromDateString(
+            (6 * $tries) . ' hours')
+        );
+    }
+
+    private function incrementLoginTries(OrderEntity $orderItem, \DateTime $date)
+    {
+        if ($orderItem->getCreatedAt()->format('u') < $date->format('u')) {
+            $tries = $orderItem->getCustomFieldsValue('sumedia_winestro_order_details_export_tries') ?? 0;
+            $this->repositoryManager->update('order', [[
+                'id' => $orderItem->getId(),
+                'customFields' => [
+                    'sumedia_winestro_order_details_export_tries' => $tries + 1
+                ]
+            ]]);
+        }
     }
 }

@@ -35,6 +35,15 @@ class PaymentConfigMapper implements DataMapperInterface
     const PAYMENT_SHOPIFY_PAYMENTS      = 24;
     const PAYMENT_WINEESTRAO_PREPAYED   = 25;
     const PAYMENT_ELOPAGE               = 26;
+    const PAYMENT_KLARNA                = 27;
+    const PAYMENT_SUMUP                 = 28;
+    const PAYMENT_SIXSAFERPAYED          = 29;
+    const PAYMENT_POSTFINANCE            = 30;
+    CONST PAYMENT_STRIPE                 = 31;
+    const PAYMENT_CARD4VENT              = 32;
+    const PAYMENT_BARKASSEA              = 33;
+    const PAYMENT_BARKASSEB              = 34;
+    const PAYMENT_BARKASSEC              = 35;
 
     private array $map = [];
 

@@ -258,7 +258,7 @@ Component.register('sumedia-winestro-installation', {
                 data.push({
                     id,
                     value: id,
-                    name
+                    name: this.$tc("sumedia-winestro.payment-names." + name)
                 })
             }
             this.winestroPaymentMappingOptions = data;
@@ -270,7 +270,7 @@ Component.register('sumedia-winestro-installation', {
                 data.push({
                     id,
                     value: id,
-                    name
+                    name: this.$tc("sumedia-winestro.shipping-names." + name)
                 })
             }
             this.winestroShippingMappingOptions = data;

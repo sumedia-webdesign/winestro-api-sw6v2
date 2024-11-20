@@ -19,6 +19,7 @@ Component.register('sumedia-winestro-salechannels', {
             isMappingLoaded: false,
             paymentMapping: [],
             winestroPaymentMapping: [],
+            winestrpPaymentNameMapping: [],
             winestroPaymentMappingOptions: [],
             shippingMapping: [],
             winestroShippingMapping: [],
@@ -86,7 +87,7 @@ Component.register('sumedia-winestro-salechannels', {
                 data.push({
                     id,
                     value: id,
-                    name
+                    name: this.$tc("sumedia-winestro.payment-names." + name)
                 })
             }
             this.winestroPaymentMappingOptions = data;
@@ -98,7 +99,7 @@ Component.register('sumedia-winestro-salechannels', {
                 data.push({
                     id,
                     value: id,
-                    name
+                    name: this.$tc("sumedia-winestro.shipping-names." + name)
                 })
             }
             this.winestroShippingMappingOptions = data;
@@ -148,9 +149,9 @@ Component.register('sumedia-winestro-salechannels', {
                 });
             }
 
-            this.sumediaWinestro.apiService.post('sumedia-winestro/mapping').then((result) => {
+            this.sumediaWinestro.apiService.post('sumedia-winestro/mapping', {'mapper': 'PaymentConfigMapper'}).then((result) => {
                 if (result.success) {
-                    this.winestroPaymentMapping = result.mapping.paymentMapping;
+                    this.winestroPaymentMapping = result.mapping;
                 }
             });
         },
@@ -180,9 +181,9 @@ Component.register('sumedia-winestro-salechannels', {
                 });
             }
 
-            this.sumediaWinestro.apiService.post('sumedia-winestro/mapping').then((result) => {
+            this.sumediaWinestro.apiService.post('sumedia-winestro/mapping', {'mapper': 'ShippingConfigMapper'}).then((result) => {
                 if (result.success) {
-                    this.winestroShippingMapping = result.mapping.shippingMapping;
+                    this.winestroShippingMapping = result.mapping;
                 }
             });
         },

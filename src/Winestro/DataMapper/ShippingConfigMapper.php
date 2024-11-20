@@ -8,8 +8,6 @@ declare(strict_types=1);
 
 namespace Sumedia\WinestroApi\Winestro\DataMapper;
 
-use Sumedia\WinestroApi\Winestro\DataMapper\DataMapperInterface;
-
 class ShippingConfigMapper implements DataMapperInterface
 {
     const SHIPPING_COLLECT = 3;
@@ -20,7 +18,12 @@ class ShippingConfigMapper implements DataMapperInterface
     const SHIPPING_TOPLOGISTIK = 18;
     const SHIPPING_GLS = 21;
     const SHIPPING_HAULAGE = 24;
+    const SHIPPING_NONE = 27;
+    const SHIPPING_BY_CONTACT = 29;
     const SHIPPING_HERMES = 28;
+    const SHIPPING_EXW_MERTESDORF = 32;
+    const SHIPPING_FCA_MERTESDORF = 33;
+    const SHIPPING_IHV_SPEDITION = 31;
 
     private array $map = [];
 
