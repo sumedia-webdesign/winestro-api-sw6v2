@@ -5,6 +5,7 @@
 namespace Sumedia\WinestroApi\Winestro\Task;
 
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\NotFilter;
 use Sumedia\WinestroApi\Winestro\RequestManager;
@@ -21,30 +22,26 @@ class ProductCategoryAssignmentTask extends AbstractTask
         $connection = $this->getWinestroConnection();
         $request = $this->requestManager->createRequest(RequestManager::GET_ARTICLES_FROM_WINESTRO_REQUEST);
         $response = $connection->executeRequest($request);
-        $this->setParameter($this['winestroConnectionId'] . '-' . RequestManager::GET_ARTICLES_FROM_WINESTRO_RESPONSE, $response);
 
         $articles = $response->toArray();
-        $products = $this->repositoryManager->search('product',
-            (new Criteria())
-                ->addFilter(new NotFilter('or', [
-                    new EqualsFilter('customFields.sumedia_winestro_product_details_article_number', null),
-                    new EqualsFilter('customFields.sumedia_winestro_product_details_article_number', '')
-                ]))
-        );
 
         /** @var \Shopware\Core\Content\Product\ProductEntity $product */
-        foreach ($products as $product) {
-            $articleNumber = $product->getCustomFieldsValue('sumedia_winestro_product_details_article_number');
-            if (null === $articleNumber) {
+        foreach ($articles as $article) {
+            $product = $this->repositoryManager->search('product',
+                (new Criteria())
+                    ->addAssociation('categories')
+                    ->addFilter(new EqualsFilter('customFields.sumedia_winestro_product_details_article_number', $article['articleNumber']))
+            )->first();
+            if (null === $product) {
                 continue;
             }
 
-            $article = $this->getArticleByArticleNumber($articles, $articleNumber);
-            if (null === $article) {
-                continue;
-            }
-
-            $categoryIds = $this->getCategoryIdsByWaregroups($article['waregroups']);
+            $categoryIds = $this->repositoryManager->search('category',
+                (new Criteria())->addFilter(new EqualsAnyFilter(
+                    'customFields.sumedia_winestro_category_details_category_identifier',
+                    $article['waregroups']
+                ))
+            )->getIds();
 
             foreach ($product->getCategories() as $productCategory) {
                 if (!in_array($productCategory->getId(), $categoryIds)) {
@@ -52,7 +49,7 @@ class ProductCategoryAssignmentTask extends AbstractTask
                 }
             }
 
-            $categoryIds = array_map(function($item) { return ['id' => $item]; }, $categoryIds);
+            $categoryIds = array_map(function($item) { return ['id' => $item]; }, (array) $categoryIds);
 
             $this->repositoryManager->update('product', [[
                 'id' => $product->getId(),
@@ -69,32 +66,5 @@ class ProductCategoryAssignmentTask extends AbstractTask
             }
         }
         return null;
-    }
-
-    private function getCategoryIdsByWaregroups(array $waregroups): array
-    {
-        $categories = $this->repositoryManager->search('category', (new Criteria()));
-        $categoryIds = [];
-        foreach ($waregroups as $categoryString) {
-            if (!str_contains($categoryString, '>')) {
-                continue;
-            }
-
-            $parts = array_map(function($item) { return trim($item); }, explode('>', $categoryString));
-            $identifier = $parts[0];
-            if ($identifier !== $this['categoryIdentifier']) {
-                continue;
-            }
-
-            foreach ($categories as $category) {
-                $matchString = implode(' > ', array_values($category->getBreadcrumb()));
-                if ($matchString === implode(' > ', array_slice($parts, 1))) {
-                    if (!in_array($category->getId(), $categoryIds)) {
-                        $categoryIds[] = $category->getId();
-                    }
-                }
-            }
-        }
-        return $categoryIds;
     }
 }
