@@ -79,7 +79,7 @@ class OrderExportTask extends AbstractTask
             $date = $this->getLoginTriesDate($orderItem);
             $this->incrementLoginTries($orderItem, $date);
 
-            if ($orderItem->getCreatedAt()->format('u') < $date->format('u')) {
+            if ($orderItem->getCreatedAt()->format('U') < $date->format('U')) {
 
                 $connection = $this->getWinestroConnection();
                 $request = $this->requestManager->createRequest(RequestManager::SEND_ORDER_TO_WINESTRO_REQUEST);
@@ -156,7 +156,7 @@ class OrderExportTask extends AbstractTask
 
     private function incrementLoginTries(OrderEntity $orderItem, \DateTime $date)
     {
-        if ($orderItem->getCreatedAt()->format('u') < $date->format('u')) {
+        if ($orderItem->getCreatedAt()->format('U') < $date->format('U')) {
             $tries = $orderItem->getCustomFieldsValue('sumedia_winestro_order_details_export_tries') ?? 0;
             $this->repositoryManager->update('order', [[
                 'id' => $orderItem->getId(),
