@@ -12,6 +12,9 @@ use Shopware\Core\System\Locale\LocaleEntity;
 use Sumedia\WinestroApi\RepositoryManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * @deprecated
+ */
 class ProductExtensionSubscriber implements EventSubscriberInterface
 {
     public function __construct(
