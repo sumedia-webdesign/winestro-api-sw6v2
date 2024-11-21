@@ -62,7 +62,7 @@ Component.register('sumedia-winestro-loganalyzer', {
                             }
 
                             let runMatch = line.match(/\[task run ([a-z0-9]{32})\]/);
-                            if (null !== runMatch) {
+                            if (null !== runMatch && 'undefined' !== typeof $this.tasks[runMatch[1]]) {
                                 runs[logId] = this.tasks[runMatch[1]].name;
                             }
 
@@ -120,7 +120,7 @@ Component.register('sumedia-winestro-loganalyzer', {
                             }
 
                             cronMatch = line.match(/\[cron run ([a-z0-9]{32})\]/);
-                            if (null !== cronMatch) {
+                            if (null !== cronMatch && 'undefined' !== typeof this.crons[cronMatch[1]]) {
                                 cron[logId] = this.crons[cronMatch[1]].name;
                             }
 

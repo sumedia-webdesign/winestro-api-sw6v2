@@ -7,7 +7,6 @@ namespace Sumedia\WinestroApi\Winestro\Task;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\NotFilter;
 use Sumedia\WinestroApi\Winestro\RequestManager;
 
 class ProductCategoryAssignmentTask extends AbstractTask
