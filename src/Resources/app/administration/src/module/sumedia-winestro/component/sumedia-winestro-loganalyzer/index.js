@@ -12,17 +12,15 @@ Component.register('sumedia-winestro-loganalyzer', {
         return {
             tasks: {},
             crons: {},
-            cronlog: [],
-            tasklog: []
+            log: []
         }
     },
 
     mounted() {
         this.loadTasks().then(() => {
-            this.loadTaskLog();
-        });
-        this.loadCrons().then(() => {
-            this.loadCronLog();
+            this.loadCrons().then(() => {
+                this.loadLog();
+            });
         });
     },
 
@@ -35,122 +33,68 @@ Component.register('sumedia-winestro-loganalyzer', {
             this.crons = await this.sumediaWinestro.configService.get('cron');
         },
 
-        async loadTaskLog() {
+        async loadLog() {
             let response = await this.sumediaWinestro.apiService.post('sumedia-winestro/processlog')
             if (response.success) {
-                this.tasklog = [];
-
-                let dates = [];
-                let runs = [];
-                let success = [];
+                let log = [];
                 for (let i in response.lines) {
                     let line = response.lines[i];
                     let dateMatch = line.match(/\d{4}-(\d{2})-(\d{2})T(\d{2}:\d{2})/);
                     if ('undefined' !== typeof dateMatch[3]) {
-                        let cronMatch = null;
-                        let logIdMatch = line.match(/((?:[a-zA-Z0-9]{13}-?)+)\]/);
-                        let isTask = line.match(/task/);
-                        if (null !== logIdMatch && null !== isTask) {
-                            let logId = logIdMatch[1];
-                            dates[logId] = dateMatch[2] + '.' + dateMatch[1] + ' ' + dateMatch[3];
 
-                            if ('undefined' === typeof runs[logId]) {
-                                runs[logId] = 'unknown';
-                            }
-                            if ('undefined' === typeof success[logId]) {
-                                success[logId] = 'unknown';
-                            }
+                        let logId = line.match(/((?:[a-zA-Z0-9]{13}-?)+)\]/);
+                        if (null !== logId) {
+                            logId = logId[1];
+                        }
+                        let logType = line.match(/(cron|task)/);
+                        if (null !== logType) {
+                            logType = logType[1];
+                        }
+                        let runMatch = line.match(/run ([a-z0-9]{32})\]/);
+                        if (null !== runMatch) {
+                            runMatch = runMatch[1];
+                        }
+                        let isSuccess = line.match('success');
+                        if (null !== isSuccess) {
+                            isSuccess = true;
+                        }
+                        let isFailed = line.match('failed');
+                        if (null !== isFailed) {
+                            isSuccess = false;
+                        }
 
-                            let runMatch = line.match(/\[task run ([a-z0-9]{32})\]/);
-                            if (null !== runMatch && 'undefined' !== typeof $this.tasks[runMatch[1]]) {
-                                runs[logId] = this.tasks[runMatch[1]].name;
+                        if (null !== logId && null !== logType) {
+                            if ('undefined' === typeof log[logId]) {
+                                log[logId] = [];
                             }
-
-                            if (line.match(/\[task successful\]/)) {
-                                success[logId] = 'success';
+                            log[logId]['type'] = logType;
+                            log[logId]['date'] = dateMatch[2] + '.' + dateMatch[1] + ' ' + dateMatch[3];
+                            if (null !== runMatch) {
+                                log[logId]['id'] = runMatch;
                             }
-                            if (line.match(/\[task failed\]/)) {
-                                success[logId] = 'failed';
+                            if (null !== isSuccess) {
+                                log[logId]['success'] = isSuccess;
                             }
                         }
                     }
                 }
 
-                let maxCount = 30;
+                let maxCount = 50;
                 let count = 0;
-                for (let logId in dates) {
-                    if (runs[logId] === 'Health Check' || runs[logId] === 'unknown') {
-                        continue;
-                    }
-                    this.tasklog.push({
-                        text: dates[logId] + ' ' + runs[logId],
-                        type: success[logId]
-                    });
-                    if (count++ > maxCount) {
-                        break;
-                    }
-                }
-
-            }
-        },
-
-        async loadCronLog() {
-            let response = await this.sumediaWinestro.apiService.post('sumedia-winestro/processlog')
-            if (response.success) {
-                this.cronlog = [];
-                let dates = [];
-                let cron = [];
-                let success = [];
-                for (let i in response.lines) {
-                    let line = response.lines[i];
-                    let dateMatch = line.match(/\d{4}-(\d{2})-(\d{2})T(\d{2}:\d{2})/);
-                    let isCron = line.match(/cron/);
-                    if ('undefined' !== typeof dateMatch[3] && null !== isCron) {
-                        let logIdMatch = line.match(/\[((?:[a-zA-Z0-9]{13}-?)+)\]/);
-                        if (null !== logIdMatch) {
-                            let cronMatch = null;
-                            let logId = logIdMatch[1];
-                            dates[logId] = dateMatch[2] + '.' + dateMatch[1] + ' ' + dateMatch[3];
-
-                            if ('undefined' === typeof cron[logId]) {
-                                cron[logId] = 'manually';
-                            }
-                            if ('undefined' === typeof success[logId]) {
-                                success[logId] = 'unknown';
-                            }
-
-                            cronMatch = line.match(/\[cron run ([a-z0-9]{32})\]/);
-                            if (null !== cronMatch && 'undefined' !== typeof this.crons[cronMatch[1]]) {
-                                cron[logId] = this.crons[cronMatch[1]].name;
-                            }
-
-                            cronMatch = line.match(/\[cron health check\]/);
-                            if (null !== cronMatch) {
-                                cron[logId] = 'Health Check';
-                            }
-
-                            if (line.match(/\[cron success\]/)) {
-                                success[logId] = 'success';
-                            }
-                            if (line.match(/\[cron failed\]/)) {
-                                success[logId] = 'failed';
+                for (let logId in log) {
+                    if (log[logId].id) {
+                        if (
+                            (log[logId].type === 'cron' && 'undefined' !== this.crons[logId] ) ||
+                            (log[logId].type === 'task' && 'undefined' !== this.tasks[logId] )
+                        ) {
+                            this.log.push({
+                                text: log[logId].date + ' ' + (log[logId].type === 'cron' ? this.crons[log[logId].id].name : this.tasks[log[logId].id].name) + ' (' + (log[logId].type === 'cron' ? 'Start' : 'Aufgabe') + ')',
+                                type: log[logId].success ? 'success' : 'failed'
+                            });
+                            if (count++ > maxCount) {
+                                break;
                             }
                         }
-                    }
-                }
-
-                let maxCount = 20;
-                let count = 0;
-                for (let logId in dates) {
-                    if (cron[logId] === 'Health Check' || cron[logId] === 'unknown') {
-                        continue;
-                    }
-                    this.cronlog.push({
-                        text: dates[logId] + ' ' + cron[logId],
-                        type: success[logId]
-                    });
-                    if (count++ > maxCount) {
-                        break;
                     }
                 }
             }

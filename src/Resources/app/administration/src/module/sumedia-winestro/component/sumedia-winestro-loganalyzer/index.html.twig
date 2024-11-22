@@ -25,21 +25,13 @@
 
         <sw-card :large="true">
             <h3>{{ $tc('sumedia-winestro.overview.taskLogTitle') }}</h3>
-            <template v-for="item in tasklog">
+            <template v-for="item in log">
                 <div :class="['sumedia-winestro-overview-log', item.type]">
                     {{ item.text }}
                 </div>
             </template>
         </sw-card>
 
-        <sw-card :large="true">
-            <h3>{{ $tc('sumedia-winestro.overview.cronLogTitle') }}</h3>
-            <template v-for="item in cronlog">
-                <div :class="['sumedia-winestro-overview-log', item.type]">
-                    {{ item.text }}
-                </div>
-            </template>
-        </sw-card>
     </div>
 
 {% endblock %}
