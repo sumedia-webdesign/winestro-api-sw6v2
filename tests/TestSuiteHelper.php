@@ -307,7 +307,7 @@ class TestSuiteHelper
             'deliveries' => [
                 [
                     'id' => Uuid::randomHex(),
-                    'stateId' => '0190ad41a7ec72ef8a321f9e81884b31',
+                    'stateId' => '0190ad41e03e71eb8d5d42f4dba2f98b',
                     'shippingDateEarliest' => (new \DateTime())->format('Y-m-d H:i:s'),
                     'shippingDateLatest' => (new \DateTime())->format('Y-m-d H:i:s'),
                     'shippingMethodId' => $this->defaultShippingMethodId,
