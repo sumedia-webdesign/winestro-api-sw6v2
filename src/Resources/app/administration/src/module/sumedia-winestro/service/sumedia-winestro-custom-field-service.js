@@ -61,6 +61,18 @@ export default class SumediaWinestroCustomFieldService {
                 type: 'html',
                 visible: true
             },
+            e_label_link: {
+                nameEN: 'E-Label Link',
+                nameDE: 'E-Label Link',
+                type: 'text',
+                visible: true
+            },
+            e_label_external_link: {
+                nameEN: 'E-Label external link',
+                nameDE: 'E-Label externer Link',
+                type: 'text',
+                visible: true
+            },
             description: {
                 nameEN: 'Productdescription',
                 nameDE: 'Produktbeschreibung',

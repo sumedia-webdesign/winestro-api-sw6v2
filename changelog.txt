@@ -1,0 +1,7 @@
+2.0.4
+- Init
+
+2.0.5
+- Fehler in Kategoriezuordnung entfernt.
+- Neue Datenfelder ergänzt.
+- Fehler in Custom Fields zuordnung nach Sprache behoben.

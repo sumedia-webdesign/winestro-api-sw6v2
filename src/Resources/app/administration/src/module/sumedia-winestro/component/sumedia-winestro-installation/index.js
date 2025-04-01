@@ -66,7 +66,7 @@ Component.register('sumedia-winestro-installation', {
                 formData: {
                     id: null,
                     name: null,
-                    url: 'https://weinstore.net/xml/v20.0',
+                    url: 'https://weinstore.net/xml/v21.0',
                     userId: null,
                     shopId: 1,
                     secretId: 'api-usr',

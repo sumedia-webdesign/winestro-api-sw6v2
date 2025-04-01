@@ -18,6 +18,9 @@ class CustomFieldsMapper implements DataMapperInterface
     const FIELD_PRODUCT_DETAILS_BEST_BEFORE_DATE = 'sumedia_winestro_product_details.best_before_date';
     const FIELD_PRODUCT_DETAILS_SHELF_LIFE = 'sumedia_winestro_product_details.shelf_life';
     const FIELD_PRODUCT_DETAILS_E_LABEL_FREE_TEXT = 'sumedia_winestro_product_details.e_label_free_text';
+    const FIELD_PRODUCT_DETAILS_E_LABEL_LINK = 'sumedia_winestro_product_details.e_label_link';
+    const FIELD_PRODUCT_DETAILS_E_LABEL_EXTERNAL_LINK = 'sumedia_winestro_product_details.e_label_external_link';
+
     const FIELD_PRODUCT_DETAILS_DESCRIPTION = 'sumedia_winestro_product_details.description';
     const FIELD_PRODUCT_DETAILS_SHOP_DESCRIPTION = 'sumedia_winestro_product_details.shop_description';
     const FIELD_PRODUCT_DETAILS_PRODUCT_NOTE = 'sumedia_winestro_product_details.product_note';
@@ -142,7 +145,33 @@ class CustomFieldsMapper implements DataMapperInterface
                 'customFieldType' => 'html'
             ],
             'type' => 'html',
-            'customFielPosition' => 6,
+            'customFieldPosition' => 6,
+            'allowCustomerWrite' => false,
+            'allowCartExpose' => false
+        ],
+        'sumedia_winestro_product_details.e_label_link' => [
+            'id' => '1068cab96e66c92d2415e94f71ffab09',
+            'customFieldSetId' => '0190ec5441017d8a99f9a69ce5415d6b',
+            'name' => 'sumedia_winestro_product_details_e_label_link',
+            'config' => [
+                'en-GB' => 'E-Label Link',
+                'de-DE' => 'E-Label Link'
+            ],
+            'type' => 'text',
+            'customFieldPosition' => 7,
+            'allowCustomerWrite' => false,
+            'allowCartExpose' => false
+        ],
+        'sumedia_winestro_product_details.e_label_external_link' => [
+            'id' => '39c5bec99ccb6c8e6a95168233406b0c',
+            'customFieldSetId' => '0190ec5441017d8a99f9a69ce5415d6b',
+            'name' => 'sumedia_winestro_product_details_e_label_external_link',
+            'config' => [
+                'en-GB' => 'E-Label external link',
+                'de-DE' => 'E-Label externer Link'
+            ],
+            'type' => 'text',
+            'customFieldPosition' => 8,
             'allowCustomerWrite' => false,
             'allowCartExpose' => false
         ],
@@ -157,7 +186,7 @@ class CustomFieldsMapper implements DataMapperInterface
                 'customFieldType' => 'html'
             ],
             'type' => 'html',
-            'customFieldPosition' => 7,
+            'customFieldPosition' => 9,
             'allowCustomerWrite' => false,
             'allowCartExpose' => false
         ],
@@ -172,7 +201,7 @@ class CustomFieldsMapper implements DataMapperInterface
                 'customFieldType' => 'html'
             ],
             'type' => 'html',
-            'customFieldPosition' => 8,
+            'customFieldPosition' => 10,
             'allowCustomerWrite' => false,
             'allowCartExpose' => false
         ],
@@ -187,7 +216,7 @@ class CustomFieldsMapper implements DataMapperInterface
                 'customFieldType' => 'html'
             ],
             'type' => 'html',
-            'customFieldPosition' => 9,
+            'customFieldPosition' => 11,
             'allowCustomerWrite' => false,
             'allowCartExpose' => false
         ],
@@ -200,7 +229,7 @@ class CustomFieldsMapper implements DataMapperInterface
                 'de-DE' => 'Sammelpaket Artikel'
             ],
             'type' => 'text',
-            'customFieldPosition' => 10,
+            'customFieldPosition' => 12,
             'allowCustomerWrite' => false,
             'allowCartExpose' => false
         ],
@@ -213,7 +242,7 @@ class CustomFieldsMapper implements DataMapperInterface
                 'de-DE' => 'Letzte Lagerbestandsaktualisierung'
             ],
             'type' => 'datetime',
-            'customFieldPosition' => 11,
+            'customFieldPosition' => 13,
             'allowCustomerWrite' => true,
             'allowCartExpose' => false
         ],
@@ -227,7 +256,7 @@ class CustomFieldsMapper implements DataMapperInterface
                 'de-DE' => 'Winestro Connection ID'
             ],
             'type' => 'text',
-            'customFieldPosition' => 12,
+            'customFieldPosition' => 14,
             'allowCustomerWrite' => false,
             'allowCartExpose' => false
         ],

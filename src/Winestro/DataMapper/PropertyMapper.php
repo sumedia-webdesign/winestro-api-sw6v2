@@ -41,6 +41,10 @@ class PropertyMapper implements DataMapperInterface
     const SALT = 'salt';
     const FIBER = 'fiber';
     const VITAMINS = 'vitamins';
+    const FREE_ACID = 'freeAcid';
+    const TOTAL_ACID = 'totalAcid';
+    const HISTAMIN = 'histamin';
+    const GLYCERIN = 'glycerin';
 
     private array $properties = [
         'country' => [
@@ -187,6 +191,26 @@ class PropertyMapper implements DataMapperInterface
             'id' => '0190ec4e279f7d78967f6115bd8161a8',
             'en-GB' => 'Vitamins',
             'de-DE' => 'Vitamine'
+        ],
+        'freeAcid' => [
+            'id' => '2285a58304d571113eadc68ab8545b0b',
+            'en-GB' => 'Free Acid',
+            'de-DE' => 'Freie Schwefelsäure'
+        ],
+        'totalAcid' => [
+            'id' => '5401bb10a0ff50e6605f4e68a31a2b10',
+            'en-GB' => 'Total Acid',
+            'de-DE' => 'Schwefelsäure gesamt'
+        ],
+        'histamin' => [
+            'id' => 'e96ce21b0b00f11d8e60c0800ed5abea',
+            'en-GB' => 'Histamin',
+            'de-DE' => 'Histamin'
+        ],
+        'glycerin' => [
+            'id' => '7ce0bc4905c2d1b593618f6c0f08fd03',
+            'en-GB' => 'Glycerin',
+            'de-DE' => 'Glycerin'
         ]
     ];
 

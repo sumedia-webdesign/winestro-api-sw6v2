@@ -158,7 +158,14 @@
         "carbonhydrates": "Kohlenhydrate",
         "salt": "Salz",
         "fiber": "Ballaststoffe",
-        "vitamins": "Vitamine"
+        "vitamins": "Vitamine",
+        "freeAcid": "Freie Schwefelsäure",
+        "totalAcid": "Schwefelsäure gesamt",
+        "histamin": "Histamin",
+        "glycerin": "Glycerin",
+        "labelText": "E-Label Freitext",
+        "labelLink": "E-Label Link",
+        "labelExtern": "E-Label externer Link"
       }
     },
     "salesChannels": {

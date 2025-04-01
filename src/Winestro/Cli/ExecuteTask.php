@@ -49,6 +49,10 @@ class ExecuteTask extends Command
             $tasks = [$this->taskManager->getTask($taskId)];
         }
 
+        if (empty($tasks)) {
+            throw new \RuntimeException('Task not found');
+        }
+
         foreach ($tasks as $task) {
             $task->execute();
         }

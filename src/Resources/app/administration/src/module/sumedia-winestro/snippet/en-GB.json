@@ -158,7 +158,14 @@
         "carbonhydrates": "Carbohydrates",
         "salt": "Salt",
         "fiber": "Fiber",
-        "vitamins": "Vitamins"
+        "vitamins": "Vitamins",
+        "freeAcid": "Free acids",
+        "totalAcid": "Total acid",
+        "histamin": "Histamin",
+        "glycerin": "Glycerin",
+        "labelText": "E-Label free text",
+        "labelLink": "E-Label link",
+        "labelExtern": "E-Label extern link"
       }
     },
     "salesChannels": {

@@ -4,6 +4,7 @@
 
 namespace Sumedia\WinestroApi\Winestro\Task;
 
+use Shopware\Core\Defaults;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
@@ -35,12 +36,15 @@ class ProductCategoryAssignmentTask extends AbstractTask
                 continue;
             }
 
-            $categoryIds = $this->repositoryManager->search('category',
-                (new Criteria())->addFilter(new EqualsAnyFilter(
-                    'customFields.sumedia_winestro_category_details_category_identifier',
-                    $article['waregroups']
-                ))
-            )->getIds();
+            $categoryIds = array_map(function($item) { return $item->getCategoryId(); },
+                $this->repositoryManager->search('category_translation',
+                    (new Criteria())
+                        ->addFilter(new EqualsAnyFilter(
+                            'customFields.sumedia_winestro_category_details_category_identifier',
+                            $article['waregroups']
+                    ))
+                )->getElements()
+            );
 
             foreach ($product->getCategories() as $productCategory) {
                 if (!in_array($productCategory->getId(), $categoryIds)) {

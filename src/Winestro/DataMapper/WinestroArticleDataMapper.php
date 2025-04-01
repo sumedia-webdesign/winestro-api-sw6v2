@@ -84,7 +84,13 @@ class WinestroArticleDataMapper implements DataMapperInterface
         'artikel_ballast' => 'fiber',
         'artikel_vitamine' => 'vitamins',
         'artikel_labeltext' => 'eLabelFreeText',
-        'artikel_warengruppen' => 'waregroups'
+        'artikel_warengruppen' => 'waregroups',
+        'artikel_frei_schwefelsaeure' => 'freeAcid',
+        'artikel_gesamt_schwefelsaeure' => 'totalAcid',
+        'artikel_histamin' => 'histamin',
+        'artikel_glycerin' => 'glycerin',
+        'artikel_labellink' => 'labelLink',
+        'artikel_elabel_extern' => 'labelExtern'
     ];
 
     public function getConstants(): array

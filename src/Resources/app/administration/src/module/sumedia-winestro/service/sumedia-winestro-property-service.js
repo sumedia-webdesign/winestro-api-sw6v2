@@ -33,7 +33,11 @@ export default class SumediaWinestroPropertyService {
         carbonhydrates: ['Carbonhydrates', 'Kohlenhydrate'],
         salt: ['Salt', 'Salz'],
         fiber: ['Fiber', 'Ballaststoffe'],
-        vitamins: ['Vitamins', 'Vitamine']
+        vitamins: ['Vitamins', 'Vitamine'],
+        freeAcid: ['Free acid', 'Freie Schwefelsäure'],
+        totalAcid: ['Total acid', 'Schwefelsäure Gesamt'],
+        histamin: ['Histamin', 'Histamin'],
+        glycerin: ['Glycerin', 'Glycerin']
     }
 
     constructor(repositoryFactory) {

@@ -77,7 +77,7 @@ class ProductDataBuilder
 
                 $productData['properties'] = [... $this->getProperties($article)];
 
-                $productData['customFields'] = [... $this->getCustomFields($task, $product, $article)];
+                $productData['translations'] = [... $this->getCustomFields($task, $product, $article)];
 
                 if (null !== $product) {
                     $this->products[$productData['id']] = $productData;
@@ -377,6 +377,10 @@ class ProductDataBuilder
             ... $this->getProperty('salt', $article),
             ... $this->getProperty('fiber', $article),
             ... $this->getProperty('vitamins', $article),
+            ... $this->getProperty('freeAcid', $article),
+            ... $this->getProperty('totalAcid', $article),
+            ... $this->getProperty('histamin', $article),
+            ... $this->getProperty('glycerin', $article)
         ];
     }
 
@@ -474,6 +478,8 @@ class ProductDataBuilder
                     ? date('Y-m-d', strtotime($article['bestBeforeDate'])) : null],
             ['sumedia_winestro_product_details_shelf_life', $article['shelfLife']],
             ['sumedia_winestro_product_details_e_label_free_text', $article['eLabelFreeText']],
+            ['sumedia_winestro_product_details_e_label_link', $article['labelLink']],
+            ['sumedia_winestro_product_details_e_label_external_link', $article['labelExternalLink']],
             ['sumedia_winestro_product_details_description', $article['description']],
             ['sumedia_winestro_product_details_shop_description', $article['shopDescription']],
             ['sumedia_winestro_product_details_product_note', $article['productNote']],
@@ -489,6 +495,6 @@ class ProductDataBuilder
                 $return[$params[0]] = $params[1];
             }
         }
-        return $return;
+        return ['en-GB' => ['customFields' => $return], 'de-DE' => ['customFields' => $return]];
     }
 }
