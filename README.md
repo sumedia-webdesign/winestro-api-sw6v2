@@ -26,7 +26,7 @@ Bei weiteren Fragen stehe ich Ihnen gerne zur Verfügung: [kontakt@sumedia-webde
 
 ## API URL
 
-https://weinstore.net/xml/v20.0
+https://weinstore.net/xml/v21.0
 
 ## Dokumentation
 
